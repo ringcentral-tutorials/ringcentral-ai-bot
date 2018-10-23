@@ -1,10 +1,29 @@
 module.exports = {
-  //dev related
-  //devCPUCount: os.cpus().length,
 
-  //build options
-  minimize: false,
+  //test server related
+  testServer: {
+    host: '0.0.0.0',
+    port: 7867
+  },
 
-  // aws api url
-  url: 'https://lblcnvx5d9.execute-api.us-east-1.amazonaws.com/default/poc-rc-ai-bot-dev-hello'
+  ngrok: {
+    // if you have paid ngrok account, you can set your reserved subdomain name here
+    name: ''
+  },
+
+  // your ringcentral bot app config
+  botAppConfig: {
+    clientID: '',
+    clientSecret: '',
+    APIServerURL: '',
+    OAuthRedirectURI: ''
+  },
+
+  // your ringcentral user app config
+  userAppConfig: {
+    clientID: '',
+    clientSecret: '',
+    APIServerURL: '',
+    OAuthRedirectURI: ''
+  }
 }

@@ -7,7 +7,8 @@ exports.bot = async (event) => {
     body: JSON.stringify({
       message: 'Go Serverless v1.0! Your function executed successfully!',
       input: event,
-      r: r()
+      r: r(),
+      env: process.env
     })
   }
 }

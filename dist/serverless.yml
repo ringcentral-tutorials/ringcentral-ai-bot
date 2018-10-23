@@ -42,8 +42,16 @@ provider:
 #            - "/*"
 
 # you can define service wide environment variables here
-#  environment:
-#    variable1: value1
+  environment:
+    NODE_ENV: production
+    botAppConfig_clientID: botAppConfig.clientID
+    botAppConfig_clientSecret: botAppConfig.clientSecret
+    botAppConfig_APIServerURL: botAppConfig.APIServerURL
+    botAppConfig_OAuthRedirectURI: botAppConfig.OAuthRedirectURI
+    userAppConfig_clientID: userAppConfig.clientID
+    userAppConfig_clientSecret: userAppConfig.clientSecret
+    userAppConfig_APIServerURL: userAppConfig.APIServerURL
+    userAppConfig_OAuthRedirectURI: userAppConfig.OAuthRedirectURI
 
 # you can add packaging information here
 # package:

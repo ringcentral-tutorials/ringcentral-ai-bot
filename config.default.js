@@ -1,9 +1,5 @@
-const os = require('os')
 const extend = require('recursive-assign')
 let config = {
-
-  //dev related
-  devCPUCount: os.cpus().length,
 
   //test server related
   testServer: {
@@ -15,11 +11,19 @@ let config = {
     name: ''
   },
 
-  //build options
-  minimize: false,
+  botAppConfig: {
+    clientID: '',
+    clientSecret: '',
+    APIServerURL: '',
+    OAuthRedirectURI: ''
+  },
 
-  // aws api url
-  url: 'https://xxxxx.execute-api.us-east-1.amazonaws.com/default/poc-rc-ai-bot-dev-hello'
+  userAppConfig: {
+    clientID: '',
+    clientSecret: '',
+    APIServerURL: '',
+    OAuthRedirectURI: ''
+  }
 
 }
 
