@@ -4,12 +4,12 @@
 
 const botauth = require('./bot-auth')
 const userauth = require('./user-auth')
-const voicemail = require('./voice-mail')
+const glip = require('./glip')
 const alien = require('./handle-alien-event')
 const mapper = {
   botauth,
   userauth,
-  voicemail,
+  glip,
   alien
 }
 

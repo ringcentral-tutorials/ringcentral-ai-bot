@@ -1,5 +1,5 @@
 /**
- * voice mail reader
+ * glip event handler
  */
 
 module.exports = async event => {
