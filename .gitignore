@@ -25,7 +25,7 @@ test/e2e/reports
 /pm2
 /package-bak.json
 package-lock.json
-
+/dist/config.js
 # Runtime data
 #pids
 

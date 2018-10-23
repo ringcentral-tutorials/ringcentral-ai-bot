@@ -13,10 +13,14 @@ aws_secret_access_key = <your aws_secret_access_key>
 refer to https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
 
 ## dev
-```
+```bash
 git clone git@github.com:zxdong262/rc-ai-bot.git
 cd rc-ai-bot
 npm i
+
+# create config
+cp config.sample.js config.js
+# then edit config.js, fill ringcentral app configs
 
 ## start local lamda server
 npm run dev
@@ -26,6 +30,18 @@ npm run ngrok
 # https://xxxxxx.ngrok.io ---> http://localhost:7867
 
 ## deploy to aws lamda
+## make sure you edit dist/serverless.yml for proper name and required env
+
+# botAppConfig_clientID: botAppConfig.clientID
+# botAppConfig_clientSecret: botAppConfig.clientSecret
+# botAppConfig_APIServerURL: botAppConfig.APIServerURL
+# botAppConfig_OAuthRedirectURI: botAppConfig.OAuthRedirectURI
+# userAppConfig_clientID: userAppConfig.clientID
+# userAppConfig_clientSecret: userAppConfig.clientSecret
+# userAppConfig_APIServerURL: userAppConfig.APIServerURL
+# userAppConfig_OAuthRedirectURI: userAppConfig.OAuthRedirectURI
+
+# then run this cmd to deploy to aws lamda
 npm run deploy
 
 ## update function
