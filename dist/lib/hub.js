@@ -2,25 +2,19 @@
  * check event type, send event to different event handler
  */
 
-const {subscribe, isSubscribe} = require('./subscribe')
-const {userauth, isUserauth} = require('./user-auth')
-const {handleVoicemail, isVoicemail} = require('./voice-mail-reader')
-const handleAlienEvent = require('./handle-alien-event')
+const subscribe = require('./subscribe')
+const userauth = require('./user-auth')
+const voicemail = require('./voice-mail')
+const alien = require('./handle-alien-event')
+const mapper = {
+  subscribe,
+  userauth,
+  voicemail,
+  alien
+}
 
 module.exports = event => {
-  if (
-    isSubscribe(event)
-  ) {
-    return subscribe(event)
-  } else if (
-    isUserauth(event)
-  ) {
-    return userauth(event)
-  } else if (
-    isVoicemail(event)
-  ) {
-    return handleVoicemail(event)
-  } else {
-    return handleAlienEvent(event)
-  }
+  let {action = 'alien'} = event.pathParameters || {}
+  let handler = mapper[action]
+  return handler(event)
 }

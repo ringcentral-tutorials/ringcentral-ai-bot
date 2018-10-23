@@ -1,3 +1,0 @@
-/**
- * voice mail reader
- */

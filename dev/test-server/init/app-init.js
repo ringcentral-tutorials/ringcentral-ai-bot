@@ -86,15 +86,18 @@ export default function init() {
   app.use(commonMiddleware)
 
   let router = new Router()
-  router.get('/', async (ctx) => {
+  let handler = async (ctx) => {
     let event = {
       headers: ctx.headers,
       queryStringParameters: ctx.query,
       body: ctx.request.body,
-      path: ctx.path
+      path: ctx.path,
+      pathParameters: ctx.params
     }
     ctx.body = JSON.stringify(await bot(event))
-  })
+  }
+  router.get('/', handler)
+  router.get('/:action', handler)
   app
     .use(router.routes())
     .use(router.allowedMethods())

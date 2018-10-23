@@ -11,6 +11,10 @@ let config = {
     port: 7867
   },
 
+  ngrok: {
+    name: ''
+  },
+
   //build options
   minimize: false,
 

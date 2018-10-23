@@ -46,12 +46,12 @@ provider:
 #    variable1: value1
 
 # you can add packaging information here
-package:
- include:
-   - lib/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
+# package:
+#  include:
+#    - lib/**
+#    -
+exclude:
+  - package-lock*
 
 functions:
   bot:
