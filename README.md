@@ -21,6 +21,10 @@ npm i
 ## start local lamda server
 npm run dev
 
+## start a ngrok proxy to local port
+npm run ngrok
+# https://xxxxxx.ngrok.io ---> http://localhost:7867
+
 ## deploy to aws lamda
 npm run deploy
 

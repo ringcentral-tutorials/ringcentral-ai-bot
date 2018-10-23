@@ -16,6 +16,7 @@
   "watch": [
     "dist/handler.js",
     "dist/lib/*",
+    "dev/test-server/**",
     "config.default.js",
     "config.js"
   ],

@@ -1,5 +1,5 @@
 /**
- * user auth actions
+ * voice mail reader
  */
 
 module.exports = async event => {
