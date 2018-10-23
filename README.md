@@ -35,11 +35,11 @@ npm run ngrok
 # botAppConfig_clientID: botAppConfig.clientID
 # botAppConfig_clientSecret: botAppConfig.clientSecret
 # botAppConfig_APIServerURL: botAppConfig.APIServerURL
-# botAppConfig_OAuthRedirectURI: botAppConfig.OAuthRedirectURI
+# botAppConfig_botServerURI: botAppConfig.botServerURI
 # userAppConfig_clientID: userAppConfig.clientID
 # userAppConfig_clientSecret: userAppConfig.clientSecret
 # userAppConfig_APIServerURL: userAppConfig.APIServerURL
-# userAppConfig_OAuthRedirectURI: userAppConfig.OAuthRedirectURI
+# userAppConfig_botServerURI: userAppConfig.botServerURI
 
 # then run this cmd to deploy to aws lamda
 npm run deploy
