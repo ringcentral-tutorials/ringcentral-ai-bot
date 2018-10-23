@@ -16,7 +16,7 @@ module.exports = {
     clientID: '',
     clientSecret: '',
     APIServerURL: '',
-    OAuthRedirectURI: ''
+    botServerURI: ''
   },
 
   // your ringcentral user app config
@@ -24,6 +24,6 @@ module.exports = {
     clientID: '',
     clientSecret: '',
     APIServerURL: '',
-    OAuthRedirectURI: ''
+    botServerURI: ''
   }
 }

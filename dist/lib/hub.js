@@ -15,6 +15,6 @@ const mapper = {
 
 module.exports = event => {
   let {action = 'alien'} = event.pathParameters || {}
-  let handler = mapper[action]
+  let handler = mapper[action] || alien
   return handler(event)
 }
