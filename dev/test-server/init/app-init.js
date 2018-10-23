@@ -94,10 +94,16 @@ export default function init() {
       path: ctx.path,
       pathParameters: ctx.params
     }
-    ctx.body = JSON.stringify(await bot(event))
+    let res = await bot(event)
+    if (res.headers) {
+      ctx.set(res.headers)
+    }
+    ctx.status = res.statusCode
+    console.log(res, 'res')
+    ctx.body = res.message
   }
   router.get('/', handler)
-  router.get('/:action', handler)
+  router.all('/:action', handler)
   app
     .use(router.routes())
     .use(router.allowedMethods())

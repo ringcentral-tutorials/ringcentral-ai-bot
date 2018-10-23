@@ -15,14 +15,14 @@ let config = {
     clientID: '',
     clientSecret: '',
     APIServerURL: '',
-    OAuthRedirectURI: ''
+    botServerURI: ''
   },
 
   userAppConfig: {
     clientID: '',
     clientSecret: '',
     APIServerURL: '',
-    OAuthRedirectURI: ''
+    botServerURI: ''
   }
 
 }

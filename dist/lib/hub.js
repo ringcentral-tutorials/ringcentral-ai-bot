@@ -4,17 +4,17 @@
 
 const botauth = require('./bot-auth')
 const userauth = require('./user-auth')
-const voicemail = require('./voice-mail')
+const glip = require('./glip')
 const alien = require('./handle-alien-event')
 const mapper = {
   botauth,
   userauth,
-  voicemail,
+  glip,
   alien
 }
 
 module.exports = event => {
   let {action = 'alien'} = event.pathParameters || {}
-  let handler = mapper[action]
+  let handler = mapper[action] || alien
   return handler(event)
 }
