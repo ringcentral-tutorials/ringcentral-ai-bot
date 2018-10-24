@@ -44,14 +44,22 @@ provider:
 # you can define service wide environment variables here
   environment:
     NODE_ENV: production
-    botAppConfig_clientID: botAppConfig.clientID
-    botAppConfig_clientSecret: botAppConfig.clientSecret
-    botAppConfig_APIServerURL: botAppConfig.APIServerURL
-    botAppConfig_botServerURI: botAppConfig.botServerURI
-    userAppConfig_clientID: userAppConfig.clientID
-    userAppConfig_clientSecret: userAppConfig.clientSecret
-    userAppConfig_APIServerURL: userAppConfig.APIServerURL
-    userAppConfig_botServerURI: userAppConfig.botServerURI
+    # ringcentral apps
+
+    ## bots
+    RINGCENTRAL_BOT_CLIENT_ID:
+    RINGCENTRAL_BOT_CLIENT_SECRET:
+
+    ## user
+    RINGCENTRAL_USER_CLIENT_ID:
+    RINGCENTRAL_USER_CLIENT_SECRET:
+
+    ## common
+    RINGCENTRAL_SERVER:https://platform.devtest.ringcentral.com
+    RINGCENTRAL_BOT_SERVER:https://xxx.ngrok.io
+
+    ## for google cloud api crendential path
+    GOOGLE_APPLICATION_CREDENTIALS:
 
 # you can add packaging information here
 # package:

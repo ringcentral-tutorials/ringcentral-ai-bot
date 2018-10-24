@@ -1,7 +1,7 @@
 /**
  * handle subscribe action
  */
-const {botAppConfig} = require('../config.default')
+const {botAppConfig = {}} = require('../config.default')
 const {
   clientID,
   clientSecret,

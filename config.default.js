@@ -9,20 +9,6 @@ let config = {
 
   ngrok: {
     name: ''
-  },
-
-  botAppConfig: {
-    clientID: '',
-    clientSecret: '',
-    APIServerURL: '',
-    botServerURI: ''
-  },
-
-  userAppConfig: {
-    clientID: '',
-    clientSecret: '',
-    APIServerURL: '',
-    botServerURI: ''
   }
 
 }

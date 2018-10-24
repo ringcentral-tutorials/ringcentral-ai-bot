@@ -19,8 +19,8 @@ cd rc-ai-bot
 npm i
 
 # create config
-cp config.sample.js config.js
-# then edit config.js, fill ringcentral app configs
+cp .sample.env .env
+# then edit .env, fill ringcentral app configs
 
 ## start local lamda server
 npm run dev

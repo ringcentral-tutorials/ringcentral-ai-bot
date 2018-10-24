@@ -14,6 +14,9 @@ const mapper = {
 }
 
 module.exports = event => {
+  console.log('------------------------')
+  console.log(event)
+  console.log('------------------------')
   let {action = 'alien'} = event.pathParameters || {}
   let handler = mapper[action] || alien
   return handler(event)

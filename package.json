@@ -49,6 +49,7 @@
     "classnames": "2.2.5",
     "concat-loader": "0.1.0",
     "cross-env": "5.1.6",
+    "dotenv": "6.1.0",
     "electron": "2.0.8",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "16.1.0",
@@ -86,7 +87,13 @@
     "webpack-extraneous-file-cleanup-plugin": "2.0.0"
   },
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "1.0.16",
+    "@google-cloud/language": "2.0.0",
+    "@google-cloud/speech": "2.1.1",
+    "audio-format": "2.3.2",
+    "fluent-ffmpeg": "2.1.2",
     "lodash": "4.17.11",
+    "node-fetch": "2.2.0",
     "ringcentral": "3.2.0"
   }
 }
