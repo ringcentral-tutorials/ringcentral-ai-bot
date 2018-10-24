@@ -5,6 +5,7 @@
 const speech = require('@google-cloud/speech')
 const fetch = require('node-fetch')
 const handleError = require('../common/error-handler')
+const {toFlac} = require('./voicemail-to-flac')
 const _ = require('lodash')
 const {resolve} = require('path')
 const fs = require('fs')
@@ -26,16 +27,9 @@ function getVoiceRaw(url, id) {
     })
 }
 
-async function speech2text(voiceMailUrl, id, raw) {
-  let str = raw
-  if (!raw) {
-    let {bin, base64} = await getVoiceRaw(voiceMailUrl, id)
-    str = base64
-    await fss.writeFileAsync(
-      resolve(__dirname, `../../${id}.ogg`), bin
-    )
-  }
+async function speech2text(voiceMailUrl) {
 
+  let str = await toFlac(voiceMailUrl)
   const audio = {
     content: str
   }

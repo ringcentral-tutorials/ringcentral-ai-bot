@@ -85,6 +85,5 @@ async function toFlac(url) {
 }
 
 module.exports = {
-  handleResponse,
   toFlac
 }

@@ -18,7 +18,8 @@
     "dist/lib/*",
     "dev/test-server/**",
     "config.default.js",
-    "config.js"
+    "config.js",
+    ".env"
   ],
   "ext": "js json"
 }
