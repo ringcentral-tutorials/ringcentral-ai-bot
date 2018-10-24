@@ -117,12 +117,23 @@ app.post('/bot-webhook', async (req, res) => {
     switch (body.eventType) {
       case 'GroupJoined':
         if (body.type === 'PrivateChat') {
-          const token = store.botTokens[botId]
-          const rc = new RingCentral('', '', process.env.RINGCENTRAL_SERVER)
-          rc.token(token)
-          await rc.post('/restapi/v1.0/glip/posts', {
+          const botToken = store.botTokens[botId]
+          const botRc = new RingCentral('', '', process.env.RINGCENTRAL_SERVER)
+          botRc.token(botToken)
+          await botRc.post(`/restapi/v1.0/glip/groups/${body.groupId}/posts`, {
             text: 'Hello, you just started a new conversation with the bot!'
           })
+          const userToken = store.userTokens[body.creatorId]
+          if(!userToken) {
+            const userRc = new RingCentral(process.env.RINGCENTRAL_USER_CLIENT_ID, '', process.env.RINGCENTRAL_SERVER)
+            const authorizeUri = userRc.authorizeUri(process.env.RINGCENTRAL_BOT_SERVER + '/user-oauth', {
+              state: body.groupId + ':' + botId,
+              responseType: 'code'
+            })
+            await botRc.post(`/restapi/v1.0/glip/groups/${body.groupId}/posts`, {
+              text: `Please [click here](${authorizeUri}) to authorize me to access your RingCentral data`
+            })
+          }
         }
         break
       case 'PostAdded':
