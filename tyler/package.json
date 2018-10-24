@@ -1,0 +1,19 @@
+{
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "ngrok": "^3.1.0",
+    "standard": "^12.0.1",
+    "yarn-upgrade-all": "^0.5.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "ramda": "^0.25.0",
+    "ringcentral-js-concise": "^0.6.2",
+    "subx": "^0.6.9"
+  }
+}
