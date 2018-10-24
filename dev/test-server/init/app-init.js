@@ -99,11 +99,12 @@ export default function init() {
       ctx.set(res.headers)
     }
     ctx.status = res.statusCode
-    console.log(res, 'res')
     ctx.body = res.message
   }
   router.get('/', handler)
+  router.get('/favicon.ico', async ctx => ctx.body = '')
   router.all('/:action', handler)
+
   app
     .use(router.routes())
     .use(router.allowedMethods())
