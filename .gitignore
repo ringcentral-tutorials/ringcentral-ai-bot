@@ -60,4 +60,4 @@ tests/e2e/reports/
 docs/esdoc
 yarn.lock
 
-*-tokens.json
+fakeDB/

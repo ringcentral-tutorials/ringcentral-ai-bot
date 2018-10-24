@@ -1,25 +1,27 @@
-const fs = require('fs')
-const R = require('ramda')
-const dotenv = require('dotenv')
-const express = require('express')
-const bodyParser = require('body-parser')
-const RingCentral = require('ringcentral-js-concise').default
-const botTokens = require('./bot-tokens.json')
-const userTokens = require('./user-tokens.json')
+import fs from 'fs'
+import R from 'ramda'
+import dotenv from 'dotenv'
+import express from 'express'
+import bodyParser from 'body-parser'
+import RingCentral from 'ringcentral-js-concise'
+import SubX from 'subx'
+import path from 'path'
+
+import botTokens from '../fakeDb/bot-tokens.json'
+import userTokens from '../fakeDb/user-tokens.json'
 
 dotenv.config()
 
 // Use SubX to auto save tokens
-const SubX = require('subx')
 const store = SubX.create({
   botTokens,
   userTokens
 })
 SubX.autoRun(store, () => {
-  fs.writeFileSync('./bot-tokens.json', JSON.stringify(store.botTokens, null, 2))
+  fs.writeFileSync(path.join(__dirname, '../fakeDb/bot-tokens.json'), JSON.stringify(store.botTokens, null, 2))
 })
 SubX.autoRun(store, () => {
-  fs.writeFileSync('./user-tokens.json', JSON.stringify(store.userTokens, null, 2))
+  fs.writeFileSync(path.join(__dirname, '../fakeDb/user-tokens.json'), JSON.stringify(store.userTokens, null, 2))
 })
 
 // remove existing bot WebHooks
@@ -124,7 +126,7 @@ app.post('/bot-webhook', async (req, res) => {
             text: 'Hello, you just started a new conversation with the bot!'
           })
           const userToken = store.userTokens[body.creatorId]
-          if(!userToken) {
+          if (!userToken) {
             const userRc = new RingCentral(process.env.RINGCENTRAL_USER_CLIENT_ID, '', process.env.RINGCENTRAL_SERVER)
             const authorizeUri = userRc.authorizeUri(process.env.RINGCENTRAL_BOT_SERVER + '/user-oauth', {
               state: body.groupId + ':' + botId,
