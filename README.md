@@ -2,7 +2,6 @@
 ringcentral ai bot POC.
 
 ## Prerequisites
-- latest Chrome browser
 - nodejs >= 10.9
 - Get a aws account, create aws_access_key_id and aws_secret_access_key, put it in `~/.aws/credentials`, like this:
 ```bash
@@ -11,6 +10,7 @@ aws_access_key_id = <your aws_access_key_id>
 aws_secret_access_key = <your aws_secret_access_key>
 ```
 refer to https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+- register google cloud account and set payment method, download your credential json
 
 ## dev
 ```bash
@@ -31,15 +31,22 @@ npm run ngrok
 
 ## deploy to aws lamda
 ## make sure you edit dist/serverless.yml for proper name and required env
+# # ringcentral apps
 
-# botAppConfig_clientID: botAppConfig.clientID
-# botAppConfig_clientSecret: botAppConfig.clientSecret
-# botAppConfig_APIServerURL: botAppConfig.APIServerURL
-# botAppConfig_botServerURI: botAppConfig.botServerURI
-# userAppConfig_clientID: userAppConfig.clientID
-# userAppConfig_clientSecret: userAppConfig.clientSecret
-# userAppConfig_APIServerURL: userAppConfig.APIServerURL
-# userAppConfig_botServerURI: userAppConfig.botServerURI
+# ## bots
+# RINGCENTRAL_BOT_CLIENT_ID:
+# RINGCENTRAL_BOT_CLIENT_SECRET:
+
+# ## user
+# RINGCENTRAL_USER_CLIENT_ID:
+# RINGCENTRAL_USER_CLIENT_SECRET:
+
+# ## common
+# RINGCENTRAL_SERVER:https://platform.devtest.ringcentral.com
+# RINGCENTRAL_BOT_SERVER:https://xxx.ngrok.io
+
+# ## for google cloud api crendential path
+# GOOGLE_APPLICATION_CREDENTIALS: path-to-your-google-credential.json
 
 # then run this cmd to deploy to aws lamda
 npm run deploy
