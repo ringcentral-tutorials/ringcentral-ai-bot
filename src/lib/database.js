@@ -18,7 +18,7 @@ export const read = () => new Promise((resolve, reject) => {
 })
 
 export const write = json => new Promise((resolve, reject) => {
-  s3.putObject({ Bucket, Key, Body: JSON.stringify(json, null, 2) }, (err, data) => {
+  s3.putObject({ Bucket, Key, Body: JSON.stringify(json, null, 2) }, (err) => {
     if (err) {
       console.log(err)
       return reject(err)
