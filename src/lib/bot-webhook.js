@@ -8,10 +8,19 @@ import store, { User } from './store'
 export default async (event) => {
   const message = event.body
   console.log('Message received via bot WebHook:', JSON.stringify(message, null, 2))
-  const botId = message.ownerId
-  const body = message.body
-  console.log(botId, 'botId')
+
+  let {body} = message
+
   if (body) {
+    let botIds = Object.keys(store.bots)
+    let botId = message.ownerId
+    let isFromUser = !botIds.includes(botId)
+    if (isFromUser) {
+      let {groupId} = body
+      let user = store.getUser(botId)
+      botId = user.groups[groupId]
+    }
+    console.log(botId, 'botId')
     switch (body.eventType) {
       case 'GroupJoined':
         if (body.type === 'PrivateChat') {
