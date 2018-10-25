@@ -1,30 +1,23 @@
 /**
  * do sync message
  */
-import parseJSON from '../common/json-parse'
+import R from 'ramda'
 import handleError from '../common/error-handler'
+import RingCentral from 'ringcentral-js-concise'
 import _ from 'lodash'
 import {processVoiceMails} from './voicemail-reader'
 
-function doOneSync (platform, {
-  accountId = '~',
-  extensionId = '~',
-  recordCount = 10,
-  messageType = 'VoiceMail',
-  syncType = 'ISync'
-}) {
-  let url = `/account/${accountId}/extension/${extensionId}/message-store` +
-    `?recordCount=${recordCount}` +
-    `&messageType=${messageType}` +
-    '&perPage=3' +
-    //`&syncToken=${syncToken}` +
-    `&syncType=${syncType}`
-  return platform.get(url)
-    .then(parseJSON)
+const {store} = global.bot
+
+function doOneSync (platform, opts) {
+  let url = '/restapi/v1.0/account/~/extension/~/message-sync'
+  return platform.get(url, {
+    queryParam: opts
+  })
     .catch(handleError)
 }
 
-function shouldSyncVoiceMail(event) {
+export function shouldSyncVoiceMail(event) {
   let isStoreMsg = /\/account\/[\d~]+\/extension\/[\d~]+\/message-store/.test(
     _.get(event, 'body.event') || ''
   )
@@ -43,26 +36,31 @@ function shouldSyncVoiceMail(event) {
   }
 }
 
-async function syncVocieMail() {
+export async function syncVocieMail(event) {
   console.log('start fetch sync voice mail')
+  let token = store.userTokens[event.body.owner_id]
+  const rc = new RingCentral('', '', process.env.RINGCENTRAL_SERVER)
+  rc.token(token)
   let count = 100
   let syncRes = await doOneSync(
-    global.bot.platform,
+    rc,
     {
       accountId: '~',
       extensionId: '~',
       messageType: 'VoiceMail',
       recordCount: count,
-      syncToken: global.bot.syncToken || '',
       syncType: 'FSync'
     }
   )
-  console.log(syncRes, 'syncRes')
-  if (syncRes && syncRes.records) {
-    processVoiceMails(syncRes.records)
+  if (syncRes && syncRes.data.records) {
+    processVoiceMails(syncRes.data.records, rc)
   }
 }
 
-export default {
-  syncVocieMail
-}
+// R.keys(store.userTokens).forEach(async id => {
+//   await syncVocieMail({
+//     body: {
+//       owner_id: id
+//     }
+//   })
+// })

@@ -8,7 +8,7 @@ import language from '@google-cloud/language'
 // Instantiates a client
 const client = new language.LanguageServiceClient()
 
-function textAnalysis(text) {
+export function textAnalysis(text) {
 
   const document = {
     content: text,
@@ -16,7 +16,7 @@ function textAnalysis(text) {
   }
 
   // Detects the sentiment of the text
-  client
+  return client
     .analyzeSentiment({document: document})
     .then(results => {
       const sentiment = results[0].documentSentiment
@@ -32,8 +32,4 @@ function textAnalysis(text) {
     .catch(err => {
       console.error('ERROR:', err)
     })
-}
-
-export default {
-  textAnalysis
 }

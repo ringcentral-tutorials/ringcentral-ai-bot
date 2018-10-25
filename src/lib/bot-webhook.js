@@ -39,14 +39,7 @@ export default async (event) => {
           const botRc = new RingCentral('', '', RINGCENTRAL_SERVER)
           botRc.token(botToken)
           const userToken = store.userTokens[body.creatorId]
-          if (userToken) {
-            await botRc.post(
-              `/restapi/v1.0/glip/groups/${body.groupId}/posts`,
-              {
-                text: 'Got it!'
-              }
-            )
-          } else {
+          if (!userToken) {
             const userRc = new RingCentral(
               RINGCENTRAL_USER_CLIENT_ID,
               '',

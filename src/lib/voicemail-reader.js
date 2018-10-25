@@ -18,11 +18,12 @@ async function filterVoiceMail(mails) {
   })
 }
 
-async function processVoiceMails(mails) {
+export async function processVoiceMails(mails, rc) {
   let filtered = await filterVoiceMail(mails)
   console.log('filtered', filtered)
   for (let evt of filtered) {
     let text = await speech2text(
+      rc,
       _.get(evt, 'attachments[0].uri'),
       _.get(evt, 'attachments[0].id')
     )
@@ -35,6 +36,3 @@ async function processVoiceMails(mails) {
   }
 }
 
-export default {
-  processVoiceMails
-}
