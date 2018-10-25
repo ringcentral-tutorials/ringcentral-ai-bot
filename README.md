@@ -32,8 +32,11 @@ npm run ngrok
 ```
 
 ## Build and deploy to aws lamda
-
-edit `dist/serverless.yml`, make sure you edit dist/serverless.yml for proper name and required env
+```bash
+# create serverless.yml
+cp dist/serverless.sample.yml dist/serverless.yml
+```
+edit `dist/serverless.yml`, make sure you set proper name and required env
 ```yml
 # you can define service wide environment variables here
   environment:

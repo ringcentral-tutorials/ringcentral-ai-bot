@@ -34,6 +34,8 @@ package-lock.json
 /dist/config.js
 /dist/lib/
 /dist/common/
+/dist/serverless.yml
+
 # Runtime data
 #pids
 
