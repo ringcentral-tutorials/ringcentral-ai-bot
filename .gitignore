@@ -75,3 +75,4 @@ docs/esdoc
 yarn.lock
 
 fakeDB/
+google.json
