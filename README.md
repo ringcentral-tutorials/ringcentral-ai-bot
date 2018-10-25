@@ -29,25 +29,34 @@ npm run dev
 npm run ngrok
 # https://xxxxxx.ngrok.io ---> http://localhost:7867
 
-## deploy to aws lamda
-## make sure you edit dist/serverless.yml for proper name and required env
-# # ringcentral apps
+```
 
-# ## bots
-# RINGCENTRAL_BOT_CLIENT_ID:
-# RINGCENTRAL_BOT_CLIENT_SECRET:
+## Build and deployto aws lamda
 
-# ## user
-# RINGCENTRAL_USER_CLIENT_ID:
-# RINGCENTRAL_USER_CLIENT_SECRET:
+edit `dist/serverless.yml`, make sure you edit dist/serverless.yml for proper name and required env
+```yml
+# you can define service wide environment variables here
+  environment:
+    NODE_ENV: production
+    # ringcentral apps
 
-# ## common
-# RINGCENTRAL_SERVER:https://platform.devtest.ringcentral.com
-# RINGCENTRAL_BOT_SERVER:https://xxx.ngrok.io
+    ## bots
+    RINGCENTRAL_BOT_CLIENT_ID:
+    RINGCENTRAL_BOT_CLIENT_SECRET:
 
-# ## for google cloud api crendential path
-# GOOGLE_APPLICATION_CREDENTIALS: path-to-your-google-credential.json
+    ## user
+    RINGCENTRAL_USER_CLIENT_ID:
+    RINGCENTRAL_USER_CLIENT_SECRET:
 
+    ## common
+    RINGCENTRAL_SERVER:https://platform.devtest.ringcentral.com
+    RINGCENTRAL_BOT_SERVER:https://xxx.ngrok.io
+
+    ## for google cloud api crendential path
+    GOOGLE_APPLICATION_CREDENTIALS:
+```
+
+```bash
 # then run this cmd to deploy to aws lamda
 npm run deploy
 
@@ -56,5 +65,5 @@ npm run update
 
 ## update without build
 npm run u
-
 ```
+
