@@ -17,13 +17,12 @@ export default async (event) => {
       }
     }
   }
-  if (test || shouldSyncVoiceMail(event)) {
+  let newMailCount = shouldSyncVoiceMail(event)
+  if (test || newMailCount) {
     const userId = message.body.extensionId
-    console.log(userId, 'userId')
     const user = store.getUser(userId)
-    console.log(user, 'user')
     if (user) {
-      user.processVoiceMail()
+      user.processVoiceMail(newMailCount)
     }
   }
   return result('WebHook got', 200, {
