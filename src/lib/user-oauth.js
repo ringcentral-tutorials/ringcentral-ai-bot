@@ -1,60 +1,19 @@
 /**
  * user oauth by tyler
  */
-import RingCentral from 'ringcentral-js-concise'
-import result from './response'
-const {
-  RINGCENTRAL_USER_CLIENT_ID,
-  RINGCENTRAL_USER_CLIENT_SECRET,
-  RINGCENTRAL_SERVER,
-  RINGCENTRAL_BOT_SERVER
-} = process.env
 
-const {store} = global.bot
+import result from './response'
+import store, { User } from './store'
 
 export default async (event) => {
-  const userRc = new RingCentral(
-    RINGCENTRAL_USER_CLIENT_ID,
-    RINGCENTRAL_USER_CLIENT_SECRET,
-    RINGCENTRAL_SERVER
-  )
-  const {code} = event.queryStringParameters
-  const [groupId, botId] = event.queryStringParameters.state.split(':')
-  console.log(code, 'code')
-  console.log(`User tried to authorize from Glip group ${groupId} for bot ${botId}`)
-  try {
-    await userRc.authorize({
-      code,
-      redirectUri: RINGCENTRAL_BOT_SERVER + '/user-oauth'
-    })
-  } catch (e) {
-    console.log(JSON.stringify(e.response.data, null, 2))
-  }
-  const token = userRc.token()
-  console.log('userRc', token)
-  store.userTokens[token.owner_id] = token
-  userRc.post('/restapi/v1.0/subscription', {
-    eventFilters: [
-      '/restapi/v1.0/account/~/extension/~/message-store'
-    ],
-    deliveryMode: {
-      transportType: 'WebHook',
-      address: RINGCENTRAL_BOT_SERVER + '/user-webhook'
-    }
-  })
 
-  const botRc = new RingCentral(
-    '',
-    '',
-    RINGCENTRAL_SERVER
-  )
-  botRc.token(store.botTokens[botId])
-  await botRc.post(
-    `/restapi/v1.0/glip/groups/${groupId}/posts`,
-    {
-      text: 'You have successfully authorized me to access your RingCentral data!'
-    }
-  )
+  const user = new User()
+  await user.authorize(event.queryStringParameters.code)
+  store.addUser(user)
+  const [groupId, botId] = event.queryStringParameters.state.split(':')
+  const bot = store.getBot(botId)
+  await bot.sendMessage(groupId, { text: `![:Person](${user.token.owner_id}), You have successfully authorized me to access your RingCentral data!
+Please reply "![:Person](${botId}) monitor" if you want me to monitor your voicemail.` })
   return result(
     'You have authorized the bot to access your RingCentral data! Please close this page and get back to Glip'
   )
