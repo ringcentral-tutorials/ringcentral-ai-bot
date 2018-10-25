@@ -230,8 +230,6 @@ const store = new Store(database)
 ;(async () => {
   // init bots
   for (const k of R.keys(store.bots)) {
-    let jsonData = store.bots[k]
-    delete jsonData.rc
     const bot = new Bot(store.bots[k])
     if (await bot.validate()) {
       store.bots[k] = bot
@@ -242,8 +240,6 @@ const store = new Store(database)
 
   // init users
   for (const k of R.keys(store.users)) {
-    let jsonData = store.users[k]
-    delete jsonData.rc
     const user = new User(store.users[k])
     if (await user.validate()) {
       store.users[k] = user
