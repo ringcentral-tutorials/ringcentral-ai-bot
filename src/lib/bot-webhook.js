@@ -12,15 +12,7 @@ export default async (event) => {
   let {body} = message
 
   if (body) {
-    let botIds = Object.keys(store.bots)
     let botId = message.ownerId
-    let isFromUser = !botIds.includes(botId)
-    if (isFromUser) {
-      let {groupId} = body
-      let user = store.getUser(botId)
-      botId = user.groups[groupId]
-    }
-    console.log(botId, 'botId')
     switch (body.eventType) {
       case 'GroupJoined':
         if (body.type === 'PrivateChat') {
