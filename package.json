@@ -97,6 +97,6 @@
     "node-fetch": "2.2.0",
     "ringcentral": "3.2.0",
     "ringcentral-js-concise": "0.6.2",
-    "subx": "^0.7.0"
+    "subx": "0.7.0"
   }
 }

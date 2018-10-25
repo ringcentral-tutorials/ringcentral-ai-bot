@@ -13,6 +13,7 @@ const dbPath = resolve(__dirname, '../data/database.json')
 const Store = new SubX({
   bots: {},
   users: {},
+  caches: {},
   getBot (id) {
     return this.bots[id]
   },
@@ -148,6 +149,7 @@ export const User = new SubX({
   async clearWebHooks () {
     try {
       const r = await this.rc.get('/restapi/v1.0/subscription')
+      console.log(r.data.records, 'r.data.records')
       for (const sub of r.data.records) {
         if (sub.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/user-webhook') {
           await this.rc.delete(`/restapi/v1.0/subscription/${sub.id}`)
@@ -202,8 +204,8 @@ export const User = new SubX({
     })
     return r.data.records
   },
-  async processVoiceMail() {
-    let voiceMails = await this.syncVoiceMails()
+  async processVoiceMail(newMailCount = 10) {
+    let voiceMails = await this.getVoiceMails(newMailCount)
     for (let mail of voiceMails) {
       let msg = await processMail(mail, this.rc)
       await this.sendVoiceMailInfo(

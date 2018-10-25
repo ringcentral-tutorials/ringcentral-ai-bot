@@ -9,7 +9,6 @@ import {toFlac} from './voicemail-to-flac'
 const client = new speech.SpeechClient()
 
 export async function speech2text(rc, voiceMailUrl) {
-
   let str = await toFlac(rc, voiceMailUrl)
   const audio = {
     content: str
@@ -27,7 +26,7 @@ export async function speech2text(rc, voiceMailUrl) {
   }
   
   // Detects speech in the audio file
-  return client
+  let final = await client
     .recognize(request)
     .then(data => {
       const response = data[0]
@@ -41,4 +40,5 @@ export async function speech2text(rc, voiceMailUrl) {
     .catch(err => {
       console.error('ERROR:', err)
     })
+  return final
 }
