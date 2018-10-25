@@ -5,7 +5,8 @@
     "node_modules/**/node_modules",
     "test",
     "dist/",
-    "src/data/*"
+    "src/data/*",
+    "*.json"
   ],
   "verbose": true,
   "execMap": {
@@ -15,7 +16,9 @@
     "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
   },
   "watch": [
-    "src/**",
+    "src/lib/**",
+    "src/common/**",
+    "src/*.js",
     "dev/test-server/**",
     "config.default.js",
     "config.js",

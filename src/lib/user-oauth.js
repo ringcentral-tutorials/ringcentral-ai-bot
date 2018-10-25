@@ -33,8 +33,15 @@ export default async (event) => {
   const token = userRc.token()
   console.log('userRc', token)
   store.userTokens[token.owner_id] = token
-
-  // todo: setup user voicemail webhook
+  userRc.post('/restapi/v1.0/subscription', {
+    eventFilters: [
+      '/restapi/v1.0/account/~/extension/~/message-store'
+    ],
+    deliveryMode: {
+      transportType: 'WebHook',
+      address: RINGCENTRAL_BOT_SERVER + '/user-webhook'
+    }
+  })
 
   const botRc = new RingCentral(
     '',

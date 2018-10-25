@@ -21,7 +21,7 @@ const clearBotWebHooks = async token => {
   })
 }
 
-const setupBotWebHook = async token => {
+export const setupBotWebHook = async token => {
   try {
     const rc = new RingCentral(
       '',
@@ -57,7 +57,3 @@ R.values(store.botTokens).forEach(async token => {
 R.values(store.botTokens).forEach(async token => {
   await setupBotWebHook(token)
 })
-
-export default {
-  setupBotWebHook
-}

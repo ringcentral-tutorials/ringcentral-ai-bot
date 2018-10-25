@@ -5,12 +5,14 @@
 import botauth from './bot-oauth'
 import userauth from './user-oauth'
 import bothook from './bot-webhook'
+import userhook from './user-webhook'
 import alien from './handle-alien-event'
 
 const mapper = {
   'bot-oauth': botauth,
   'user-oauth': userauth,
-  'bot-webhook': bothook
+  'bot-webhook': bothook,
+  'user-webhook': userhook
 }
 
 export default event => {

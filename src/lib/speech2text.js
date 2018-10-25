@@ -8,9 +8,9 @@ import {toFlac} from './voicemail-to-flac'
 // Creates a client
 const client = new speech.SpeechClient()
 
-async function speech2text(voiceMailUrl) {
+export async function speech2text(rc, voiceMailUrl) {
 
-  let str = await toFlac(voiceMailUrl)
+  let str = await toFlac(rc, voiceMailUrl)
   const audio = {
     content: str
   }
@@ -41,8 +41,4 @@ async function speech2text(voiceMailUrl) {
     .catch(err => {
       console.error('ERROR:', err)
     })
-}
-
-export default {
-  speech2text
 }

@@ -4,12 +4,11 @@
  * for google speech to text api
  */
 
-import ffmpegPath from '@ffmpeg-installer/ffmpeg'
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 import ffmpeg from 'fluent-ffmpeg'
-import fetch from 'node-fetch'
+
 import handleError from '../common/error-handler'
 import {Writable} from 'stream'
-
 ffmpeg.setFfmpegPath(ffmpegPath)
 
 class FakeWrite extends Writable {
@@ -26,9 +25,9 @@ class FakeWrite extends Writable {
 
 function handleResponse(res) {
   console.log('into')
-  console.log(res.body instanceof require('stream').Readable)
+  console.log(res.data instanceof require('stream').Readable)
   return new Promise((resolve, reject) => {
-    let final = new Buffer('')
+    let final = new Buffer.alloc(0)
     let writeStream = new FakeWrite({
       onData: data => {
         final = Buffer.concat(
@@ -39,7 +38,10 @@ function handleResponse(res) {
     writeStream.on('finish', () => {
       resolve(final.toString('base64'))
     })
-    ffmpeg(res.body)
+    writeStream.on('error', (e) => {
+      reject(e)
+    })
+    ffmpeg(res.data)
       .withAudioChannels(1)
       .withAudioFrequency(16000)
       .withAudioQuality(5)
@@ -78,12 +80,10 @@ function handleResponse(res) {
 
 }
 
-async function toFlac(url) {
-  return fetch(url)
+export async function toFlac(rc, url) {
+  return rc.get(url, {
+    responseType: 'stream'
+  })
     .then(handleResponse)
     .catch(handleError)
-}
-
-export default {
-  toFlac
 }
