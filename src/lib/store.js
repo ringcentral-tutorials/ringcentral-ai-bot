@@ -6,6 +6,7 @@ import * as R from 'ramda'
 import database from '../data/database.json'
 import {resolve} from 'path'
 import {processMail} from './voicemail-reader'
+import resultFormatter from './analysis-formatter'
 
 const dbPath = resolve(__dirname, '../data/database.json')
 
@@ -206,23 +207,22 @@ export const User = new SubX({
   },
   async processVoiceMail(newMailCount = 10) {
     let voiceMails = await this.getVoiceMails(newMailCount)
+    let userId = this.token.owner_id
     for (let mail of voiceMails) {
       let msg = await processMail(mail, this.rc)
       await this.sendVoiceMailInfo(
-        JSON.stringify(msg || '')
+        resultFormatter(userId, msg || {})
       )
     }
   },
   async sendVoiceMailInfo(processedMailInfo = '') {
-    console.log('sending mail info precessed:', processedMailInfo)
-    let userId = this.token.owner_id
+    console.log('sending mail info processed:', processedMailInfo)
     for (const groupId of Object.keys(this.groups)) {
       const botId = this.groups[groupId]
-      console.log(botId, 'botId------------')
       const bot = store.getBot(botId)
       await bot.sendMessage(
         groupId,
-        { text: `![:Person](${userId}), you got a new voiceMail: ${processedMailInfo}` })
+        { text: processedMailInfo })
     }
   }
 })
