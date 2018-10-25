@@ -49,25 +49,25 @@ function handleResponse (res) {
       .on('start', (commandLine) => {
         console.log('ffmpeg conversion start: ', commandLine)
       })
-      .on('progress', function (progress) {
-        // console.log('Processing: ' + progress.percent + '% done')
-      })
-      .on('stderr', function (stderrLine) {
-        // console.log('Stderr output: ' + stderrLine)
-        // reject(stderrLine)
-      })
-      .on('codecData', function (data) {
-        console.log(data)
-        // console.log('Input is ' + data.audio + ' audio ' + 'with ' + data.video + ' video')
-        // final += data.audio.toString('base64')
-      })
-      .on('data', data => {
-        final += data.toString('base64')
-      })
-      .on('end', () => {
-        console.log('convert end')
-        // resolve(final)
-      })
+      // .on('progress', function(progress) {
+      //   //console.log('Processing: ' + progress.percent + '% done')
+      // })
+      // .on('stderr', function(stderrLine) {
+      //   //console.log('Stderr output: ' + stderrLine)
+      //   //reject(stderrLine)
+      // })
+      // .on('codecData', function(data) {
+      //   console.log(data)
+      //   //console.log('Input is ' + data.audio + ' audio ' + 'with ' + data.video + ' video')
+      //   //final += data.audio.toString('base64')
+      // })
+      // .on('data', data => {
+      //   final += data.toString('base64')
+      // })
+      // .on('end', () => {
+      //   console.log('convert end')
+      //   //resolve(final)
+      // })
       .on('error', (error) => {
         console.log(error)
         reject(error)

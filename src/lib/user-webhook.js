@@ -9,7 +9,7 @@ import { shouldSyncVoiceMail } from './message-sync'
 export default async (event) => {
   let message = event.body
   console.log('Message received via user WebHook:', JSON.stringify(message, null, 2))
-  let { test } = event.queryStringParameters
+  let { test, count } = event.queryStringParameters
   if (test) {
     message = {
       body: {
@@ -23,7 +23,7 @@ export default async (event) => {
     const store = await getStore()
     const user = store.getUser(userId)
     if (user) {
-      user.processVoiceMail(newMailCount)
+      user.processVoiceMail(newMailCount || count)
     }
   }
   return result('WebHook got', 200, {
