@@ -3,15 +3,16 @@
  */
 
 import result from './response'
-import store, { User } from './store'
+import { User, getStore } from './store'
 
 export default async (event) => {
   const message = event.body
   console.log('Message received via bot WebHook:', JSON.stringify(message, null, 2))
 
-  let {body} = message
+  let { body } = message
 
   if (body) {
+    const store = await getStore()
     let botId = message.ownerId
     switch (body.eventType) {
       case 'GroupJoined':

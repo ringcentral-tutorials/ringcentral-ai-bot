@@ -3,10 +3,10 @@
  */
 
 import result from './response'
-import store, { User } from './store'
+import { User, getStore } from './store'
 
 export default async (event) => {
-
+  const store = await getStore()
   const user = new User()
   await user.authorize(event.queryStringParameters.code)
   store.addUser(user)

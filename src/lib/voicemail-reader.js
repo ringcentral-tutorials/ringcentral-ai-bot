@@ -2,21 +2,22 @@
  * read voicemail and process it
  */
 
-import {speech2text} from './speech2text'
+import { speech2text } from './speech2text'
 import _ from 'lodash'
-import {textAnalysis} from './text-analysis'
-import store from './store'
+import { textAnalysis } from './text-analysis'
+import { getStore } from './store'
 
 /**
  * process voice mail
  * @param {object} mail
  * @param {object} rc
  */
-export async function processMail(mail, rc) {
+export async function processMail (mail, rc) {
   let url = _.get(mail, 'attachments[0].uri')
   if (!url) {
     return ''
   }
+  const store = await getStore()
   let cached = store.caches[url]
   if (cached) {
     console.log('use cache for', url)
@@ -39,4 +40,3 @@ export async function processMail(mail, rc) {
   store.caches[url] = result
   return result
 }
-

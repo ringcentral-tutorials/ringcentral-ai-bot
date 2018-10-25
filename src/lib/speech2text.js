@@ -3,12 +3,12 @@
  */
 
 import speech from '@google-cloud/speech'
-import {toFlac} from './voicemail-to-flac'
+import { toFlac } from './voicemail-to-flac'
 
 // Creates a client
 const client = new speech.SpeechClient()
 
-export async function speech2text(rc, voiceMailUrl) {
+export async function speech2text (rc, voiceMailUrl) {
   let str = await toFlac(rc, voiceMailUrl)
   const audio = {
     content: str
@@ -24,7 +24,7 @@ export async function speech2text(rc, voiceMailUrl) {
     config,
     audio: audio
   }
-  
+
   // Detects speech in the audio file
   let final = await client
     .recognize(request)

@@ -16,10 +16,10 @@ const mapper = {
 }
 
 export default event => {
-  console.log('----------event get--------------')
-  console.log(event)
-  console.log('-----------event get-------------')
-  let {action = 'alien'} = event.pathParameters || {}
+  // console.log('----------event get--------------')
+  // console.log(event)
+  // console.log('-----------event get-------------')
+  let { action = 'alien' } = event.pathParameters || {}
   let handler = mapper[action] || alien
   return handler(event)
 }

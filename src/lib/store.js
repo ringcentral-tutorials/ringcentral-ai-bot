@@ -1,13 +1,14 @@
 import SubX from 'subx'
 import RingCentral from 'ringcentral-js-concise'
-import fs from 'fs'
+// import fs from 'fs'
 import { debounceTime } from 'rxjs/operators'
 import * as R from 'ramda'
-import database from '../data/database.json'
-import {resolve} from 'path'
-import {processMail} from './voicemail-reader'
+// import database from '../data/database.json'
+// import { resolve } from 'path'
+import { processMail } from './voicemail-reader'
+import { read, write } from './database'
 
-const dbPath = resolve(__dirname, '../data/database.json')
+// const dbPath = resolve(__dirname, '../data/database.json')
 
 // Store
 const Store = new SubX({
@@ -204,7 +205,7 @@ export const User = new SubX({
     })
     return r.data.records
   },
-  async processVoiceMail(newMailCount = 10) {
+  async processVoiceMail (newMailCount = 10) {
     let voiceMails = await this.getVoiceMails(newMailCount)
     for (let mail of voiceMails) {
       let msg = await processMail(mail, this.rc)
@@ -213,7 +214,7 @@ export const User = new SubX({
       )
     }
   },
-  async sendVoiceMailInfo(processedMailInfo = '') {
+  async sendVoiceMailInfo (processedMailInfo = '') {
     console.log('sending mail info precessed:', processedMailInfo)
     let userId = this.token.owner_id
     for (const groupId of Object.keys(this.groups)) {
@@ -228,8 +229,15 @@ export const User = new SubX({
 })
 
 // load data from database
-const store = new Store(database)
-;(async () => {
+let store
+export const getStore = async () => {
+  if (store) {
+    return store
+  }
+  // load database from S3
+  const database = await read()
+  store = new Store(database)
+
   // init bots
   for (const k of R.keys(store.bots)) {
     const bot = new Bot(store.bots[k])
@@ -253,9 +261,9 @@ const store = new Store(database)
   }
 
   // auto save to database
-  SubX.autoRun(store, () => {
-    fs.writeFileSync(dbPath, JSON.stringify(store, null, 2))
+  SubX.autoRun(store, async () => {
+    await write(store)
   }, debounceTime(1000))
-})()
 
-export default store
+  return store
+}

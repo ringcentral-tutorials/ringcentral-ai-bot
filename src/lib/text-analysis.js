@@ -8,8 +8,7 @@ import language from '@google-cloud/language'
 // Instantiates a client
 const client = new language.LanguageServiceClient()
 
-export function textAnalysis(text) {
-
+export function textAnalysis (text) {
   const document = {
     content: text,
     type: 'PLAIN_TEXT'
@@ -17,7 +16,7 @@ export function textAnalysis(text) {
 
   // Detects the sentiment of the text
   return client
-    .analyzeSentiment({document: document})
+    .analyzeSentiment({ document: document })
     .then(results => {
       const sentiment = results[0].documentSentiment
       console.log(`Text: ${text}`)

@@ -4,26 +4,26 @@
  * for google speech to text api
  */
 
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 import ffmpeg from 'fluent-ffmpeg'
 
 import handleError from '../common/error-handler'
-import {Writable} from 'stream'
+import { Writable } from 'stream'
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 ffmpeg.setFfmpegPath(ffmpegPath)
 
 class FakeWrite extends Writable {
-  constructor(opts) {
+  constructor (opts) {
     super(opts)
     this.opts = opts
   }
 
-  _write(data, encoding, done) {
+  _write (data, encoding, done) {
     this.opts.onData(data)
     done()
   }
 }
 
-function handleResponse(res) {
+function handleResponse (res) {
   console.log('into')
   console.log(res.data instanceof require('stream').Readable)
   return new Promise((resolve, reject) => {
@@ -49,24 +49,24 @@ function handleResponse(res) {
       .on('start', (commandLine) => {
         console.log('ffmpeg conversion start: ', commandLine)
       })
-      .on('progress', function(progress) {
-        //console.log('Processing: ' + progress.percent + '% done')
+      .on('progress', function (progress) {
+        // console.log('Processing: ' + progress.percent + '% done')
       })
-      .on('stderr', function(stderrLine) {
-        //console.log('Stderr output: ' + stderrLine)
-        //reject(stderrLine)
+      .on('stderr', function (stderrLine) {
+        // console.log('Stderr output: ' + stderrLine)
+        // reject(stderrLine)
       })
-      .on('codecData', function(data) {
+      .on('codecData', function (data) {
         console.log(data)
-        //console.log('Input is ' + data.audio + ' audio ' + 'with ' + data.video + ' video')
-        //final += data.audio.toString('base64')
+        // console.log('Input is ' + data.audio + ' audio ' + 'with ' + data.video + ' video')
+        // final += data.audio.toString('base64')
       })
       .on('data', data => {
         final += data.toString('base64')
       })
       .on('end', () => {
         console.log('convert end')
-        //resolve(final)
+        // resolve(final)
       })
       .on('error', (error) => {
         console.log(error)
@@ -77,10 +77,9 @@ function handleResponse(res) {
       //   require('path').resolve(__dirname, '../../f.flac')
       // )
   })
-
 }
 
-export async function toFlac(rc, url) {
+export async function toFlac (rc, url) {
   return rc.get(url, {
     responseType: 'stream'
   })
