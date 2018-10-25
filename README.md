@@ -22,13 +22,16 @@ npm i
 cp .sample.env .env
 # then edit .env, fill ringcentral app configs
 
+# create empty database key
+cp dist/database.json database.json
+
 ## start local lamda server
 npm run dev
 
 ## start a ngrok proxy to local port
 npm run ngrok
 # https://xxxxxx.ngrok.io ---> http://localhost:7867
-
+# you can check ngrok status from http://localhost:4040
 ```
 
 ## Build and deploy to aws lamda
