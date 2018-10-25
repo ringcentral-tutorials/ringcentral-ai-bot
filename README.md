@@ -31,7 +31,7 @@ npm run ngrok
 
 ```
 
-## Build and deployto aws lamda
+## Build and deploy to aws lamda
 
 edit `dist/serverless.yml`, make sure you edit dist/serverless.yml for proper name and required env
 ```yml
