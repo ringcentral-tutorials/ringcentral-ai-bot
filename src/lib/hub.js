@@ -2,19 +2,18 @@
  * check event type, send event to different event handler
  */
 
-const botauth = require('./bot-oauth')
-const userauth = require('./user-oauth')
-const bothook = require('./bot-webhook')
+import botauth from './bot-oauth'
+import userauth from './user-oauth'
+import bothook from './bot-webhook'
+import alien from './handle-alien-event'
 
-//const glip = require('./glip')
-const alien = require('./handle-alien-event')
 const mapper = {
   'bot-oauth': botauth,
   'user-oauth': userauth,
   'bot-webhook': bothook
 }
 
-module.exports = event => {
+export default event => {
   console.log('----------event get--------------')
   console.log(event)
   console.log('-----------event get-------------')

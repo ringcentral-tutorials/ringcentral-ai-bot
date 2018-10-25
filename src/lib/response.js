@@ -2,7 +2,7 @@
  * response helper
  */
 
-module.exports = (
+export default (
   msg,
   status = 200,
   options = {}

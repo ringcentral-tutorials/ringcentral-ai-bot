@@ -7,6 +7,7 @@
     "test": "npm run test",
     "build": "node bin/build",
     "deploy": "node bin/deploy",
+    "compile": "node bin/compile",
     "ngrok": "node bin/ngrok",
     "deploy-to-aws": "node bin/deploy-to-aws",
     "update-to-aws": "node bin/update-to-aws",

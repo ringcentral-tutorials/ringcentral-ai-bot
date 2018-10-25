@@ -4,11 +4,11 @@
  * for google speech to text api
  */
 
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
-const ffmpeg = require('fluent-ffmpeg')
-const fetch = require('node-fetch')
-const handleError = require('../common/error-handler')
-const {Writable} = require('stream')
+import ffmpegPath from '@ffmpeg-installer/ffmpeg'
+import ffmpeg from 'fluent-ffmpeg'
+import fetch from 'node-fetch'
+import handleError from '../common/error-handler'
+import {Writable} from 'stream'
 
 ffmpeg.setFfmpegPath(ffmpegPath)
 
@@ -84,6 +84,6 @@ async function toFlac(url) {
     .catch(handleError)
 }
 
-module.exports = {
+export default {
   toFlac
 }

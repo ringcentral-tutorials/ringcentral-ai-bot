@@ -10,7 +10,7 @@ import compress from 'koa-compress'
 import commonMiddleware from './common-middleware'
 import {err} from '../utils/log'
 import Router from 'koa-router'
-import {bot} from '../../../dist/handler'
+import {bot} from '../../../src/handler'
 
 const local = CONFIG.testServer
 const env = local.env

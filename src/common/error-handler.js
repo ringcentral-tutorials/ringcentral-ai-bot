@@ -2,7 +2,7 @@
  * json response parser
  */
 
-module.exports = e => {
+export default e => {
   console.log(e)
   return e
 }

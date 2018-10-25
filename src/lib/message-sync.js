@@ -1,17 +1,16 @@
 /**
  * do sync message
  */
-const parseJSON = require('../common/json-parse')
-const handleError = require('../common/error-handler')
-const _ = require('lodash')
-const {processVoiceMails} = require('./voicemail-reader')
+import parseJSON from '../common/json-parse'
+import handleError from '../common/error-handler'
+import _ from 'lodash'
+import {processVoiceMails} from './voicemail-reader'
 
 function doOneSync (platform, {
   accountId = '~',
   extensionId = '~',
   recordCount = 10,
   messageType = 'VoiceMail',
-  syncToken,
   syncType = 'ISync'
 }) {
   let url = `/account/${accountId}/extension/${extensionId}/message-store` +
@@ -64,6 +63,6 @@ async function syncVocieMail() {
   }
 }
 
-module.exports = {
+export default {
   syncVocieMail
 }

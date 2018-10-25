@@ -1,11 +1,12 @@
 
 
-const RingCentral = require('ringcentral-js-concise').default
+import RingCentral from 'ringcentral-js-concise'
+import handleError from '../common/error-handler'
 const {
   RINGCENTRAL_SERVER,
   RINGCENTRAL_BOT_SERVER
 } = require('../config.default')
-const R = require('ramda')
+import R from 'ramda'
 
 const {store} = global.bot
 
@@ -38,7 +39,8 @@ const setupBotWebHook = async token => {
         address: RINGCENTRAL_BOT_SERVER + '/bot-webhook'
       }
     })
-    console.log(res.data)
+      .catch(handleError)
+    //console.log(res.data)
   } catch (e) {
     const data = e.response.data
     if (data.errorCode === 'OAU-232') { // Extension not found
@@ -56,6 +58,6 @@ R.values(store.botTokens).forEach(async token => {
   await setupBotWebHook(token)
 })
 
-module.exports = {
+export default {
   setupBotWebHook
 }

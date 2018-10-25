@@ -3,7 +3,7 @@
  */
 
 // Imports the Google Cloud client library
-const language = require('@google-cloud/language')
+import language from '@google-cloud/language'
 
 // Instantiates a client
 const client = new language.LanguageServiceClient()
@@ -34,6 +34,6 @@ function textAnalysis(text) {
     })
 }
 
-module.exports = {
+export default {
   textAnalysis
 }

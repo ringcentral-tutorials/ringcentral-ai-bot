@@ -7,22 +7,15 @@
  * @param {array} events
  */
 
-const {speech2text} = require('./speech2text')
-const _ = require('lodash')
-const {textAnalysis} = require('./text-analysis')
-const UNREAD = 'unread'
+import {speech2text} from './speech2text'
+import _ from 'lodash'
+import {textAnalysis} from './text-analysis'
 
 async function filterVoiceMail(mails) {
-  let lastSyncedVoiceMailIds = await getLastSyncedVoiceMailIds()
   return mails.filter(v => {
     console.log(v.attachments)
     return _.get(v, 'attachments[0].uri')
   })
-}
-
-async function getLastSyncedVoiceMailIds() {
-  //todo
-  return global.bot.lastSyncedVoiceMailIds || []
 }
 
 async function processVoiceMails(mails) {
@@ -42,6 +35,6 @@ async function processVoiceMails(mails) {
   }
 }
 
-module.exports = {
+export default {
   processVoiceMails
 }

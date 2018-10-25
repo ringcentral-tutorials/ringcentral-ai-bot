@@ -2,7 +2,7 @@
  * handle event not userful
  */
 
-module.exports = () => {
+export default () => {
   return {
     statusCode: 500,
     message: 'server can not handle this...'

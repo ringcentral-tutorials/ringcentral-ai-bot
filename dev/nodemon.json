@@ -4,7 +4,9 @@
     ".git",
     "node_modules/**/node_modules",
     "test",
-    "src/"
+    "dist/",
+    "bot-tokens.json",
+    "user-tokens.json"
   ],
   "verbose": true,
   "execMap": {
@@ -14,8 +16,7 @@
     "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
   },
   "watch": [
-    "dist/handler.js",
-    "dist/lib/*",
+    "src/**",
     "dev/test-server/**",
     "config.default.js",
     "config.js",

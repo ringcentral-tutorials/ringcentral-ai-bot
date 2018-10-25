@@ -1,9 +1,9 @@
 /**
  * user oauth by tyler
  */
-const RingCentral = require('ringcentral-js-concise').default
-const {setupBotWebHook} = require('./bot-setup')
-const result = require('./response')
+import RingCentral from 'ringcentral-js-concise'
+import {setupBotWebHook} from './bot-setup'
+import result from './response'
 const {
   RINGCENTRAL_BOT_CLIENT_ID,
   RINGCENTRAL_BOT_CLIENT_SECRET,
@@ -13,7 +13,7 @@ const {
 
 const {store} = global.bot
 
-module.exports = async (event) => {
+export default async (event) => {
   console.log('bot uath get')
   const rc = new RingCentral(
     RINGCENTRAL_BOT_CLIENT_ID,
@@ -26,7 +26,6 @@ module.exports = async (event) => {
       code,
       redirectUri: RINGCENTRAL_BOT_SERVER + '/bot-oauth'
     })
-    console.log(xx)
   } catch (e) {
     console.log(JSON.stringify(e.response.data, null, 2))
   }

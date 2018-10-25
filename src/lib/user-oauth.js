@@ -1,8 +1,8 @@
 /**
  * user oauth by tyler
  */
-const RingCentral = require('ringcentral-js-concise').default
-const result = require('./response')
+import RingCentral from 'ringcentral-js-concise'
+import result from './response'
 const {
   RINGCENTRAL_USER_CLIENT_ID,
   RINGCENTRAL_USER_CLIENT_SECRET,
@@ -10,10 +10,9 @@ const {
   RINGCENTRAL_BOT_SERVER
 } = require('../config.default')
 
-console.log(require('../config.default'))
 const {store} = global.bot
 
-module.exports = async (event) => {
+export default async (event) => {
   const userRc = new RingCentral(
     RINGCENTRAL_USER_CLIENT_ID,
     RINGCENTRAL_USER_CLIENT_SECRET,

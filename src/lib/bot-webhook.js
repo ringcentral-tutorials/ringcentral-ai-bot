@@ -1,17 +1,18 @@
 /**
  * user oauth by tyler
  */
-const RingCentral = require('ringcentral-js-concise').default
-const result = require('./response')
+import RingCentral from 'ringcentral-js-concise'
+import result from './response'
 const {
   RINGCENTRAL_USER_CLIENT_ID,
   RINGCENTRAL_SERVER,
   RINGCENTRAL_BOT_SERVER
 } = require('../config.default')
 
+console.log(RINGCENTRAL_USER_CLIENT_ID, RINGCENTRAL_SERVER, RINGCENTRAL_BOT_SERVER)
 const {store} = global.bot
 
-module.exports = async (event) => {
+export default async (event) => {
   const message = event.body
   console.log('Message received via bot WebHook:', message)
   const botId = message.ownerId
