@@ -7,7 +7,7 @@ const {
   RINGCENTRAL_USER_CLIENT_ID,
   RINGCENTRAL_SERVER,
   RINGCENTRAL_BOT_SERVER
-} = require('../config.default')
+} = process.env
 
 console.log(RINGCENTRAL_USER_CLIENT_ID, RINGCENTRAL_SERVER, RINGCENTRAL_BOT_SERVER)
 const {store} = global.bot

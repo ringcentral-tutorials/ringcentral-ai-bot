@@ -5,7 +5,7 @@ import handleError from '../common/error-handler'
 const {
   RINGCENTRAL_SERVER,
   RINGCENTRAL_BOT_SERVER
-} = require('../config.default')
+} = process.env
 import R from 'ramda'
 
 const {store} = global.bot

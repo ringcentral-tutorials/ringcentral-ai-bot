@@ -3,7 +3,6 @@ global.Promise = require('bluebird')
 
 //init subx store as db
 require('./lib/db')
-require('./config.default')
 
 const hub = require('./lib/hub').default
 

@@ -9,21 +9,6 @@ module.exports = {
   ngrok: {
     // if you have paid ngrok account, you can set your reserved subdomain name here
     name: ''
-  },
-
-  // your ringcentral bot app config
-  botAppConfig: {
-    clientID: '',
-    clientSecret: '',
-    APIServerURL: '',
-    botServerURI: ''
-  },
-
-  // your ringcentral user app config
-  userAppConfig: {
-    clientID: '',
-    clientSecret: '',
-    APIServerURL: '',
-    botServerURI: ''
   }
+
 }
