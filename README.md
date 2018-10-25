@@ -57,7 +57,14 @@ edit `dist/serverless.yml`, make sure you set proper name and required env
 
     ## for google cloud api crendential path
     GOOGLE_APPLICATION_CREDENTIALS:
+
+    ## S3
+    AWS_S3_BUCKET=
+    AWS_S3_KEY=database.json
 ```
+
+You need to create the S3 bucket manually and upload a `database.json` file with content `{}`.
+
 
 ```bash
 # then run this cmd to deploy to aws lamda
