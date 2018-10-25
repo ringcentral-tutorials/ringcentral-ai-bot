@@ -5,8 +5,7 @@
     "node_modules/**/node_modules",
     "test",
     "dist/",
-    "bot-tokens.json",
-    "user-tokens.json"
+    "src/data/*"
   ],
   "verbose": true,
   "execMap": {
