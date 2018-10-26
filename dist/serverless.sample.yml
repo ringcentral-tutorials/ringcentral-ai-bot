@@ -12,7 +12,7 @@
 # Happy Coding!
 
 service: poc-rc-ai-bot # NOTE: update this with your service name
-
+timeout: 300
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
 # frameworkVersion: "=X.X.X"
