@@ -2,7 +2,7 @@
 ringcentral ai bot POC.
 
 ## Prerequisites
-- nodejs >= 10.9
+- nodejs >= 8.10
 - Get a aws account, create aws_access_key_id and aws_secret_access_key, put it in `~/.aws/credentials`, like this:
 ```bash
 [default]
@@ -10,6 +10,8 @@ aws_access_key_id = <your aws_access_key_id>
 aws_secret_access_key = <your aws_secret_access_key>
 ```
 refer to https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+- Create you need create a bucket in aws s3 console, and upload a `database.json` with content `{}`, so you can set proper env in `.env` and `dist/serverless.yml`
+```
 - register google cloud account and set payment method, download your credential json
 
 ## dev
@@ -62,11 +64,9 @@ edit `dist/serverless.yml`, make sure you set proper name and required env
     GOOGLE_APPLICATION_CREDENTIALS:
 
     ## S3
-    AWS_S3_BUCKET=
-    AWS_S3_KEY=database.json
+    AWS_S3_BUCKET: your-created-s3-bucket-name
+    AWS_S3_KEY: database.json
 ```
-
-You need to create the S3 bucket manually and upload a `database.json` file with content `{}`.
 
 
 ```bash

@@ -51,7 +51,7 @@ Please reply "![:Person](${botId})" if you want to talk to me.` })
   }
   return result('bot WebHook replied', 200, {
     headers: {
-      'validation-token': event.headers['validation-token']
+      'validation-token': event.headers['validation-token'] || event.headers['Validation-Token']
     }
   })
 }
