@@ -11,6 +11,8 @@ aws_secret_access_key = <your aws_secret_access_key>
 ```
 refer to https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
 - register google cloud account and set payment method, download your credential json
+- Create a bot app in ringcentral developer site, with permissions: `ReadContacts ReadMessages ReadPresence Contacts ReadAccounts SMS InternalMessages ReadCallLog ReadCallRecording SubscriptionWebhook Glip`, set `OAuth Redirect URI` to `https://your-ngrok-addr.ngrok.io/bot-oauth`
+- Create a browser based app in ringcentral developer site, with all permissions, set `OAuth Redirect URI` to `https://your-ngrok-addr.ngrok.io/user-oauth`
 
 ## dev
 ```bash
