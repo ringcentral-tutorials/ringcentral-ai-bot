@@ -19,7 +19,7 @@ service: poc-rc-ai-bot # NOTE: update this with your service name
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs10.9
 
 # you can overwrite defaults here
 #  stage: dev

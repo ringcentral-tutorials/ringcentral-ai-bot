@@ -9,6 +9,7 @@
     "deploy": "node bin/deploy",
     "compile": "node bin/compile",
     "ngrok": "node bin/ngrok",
+    "watch": "cd dist && serverless logs -f bot -t",
     "deploy-to-aws": "node bin/deploy-to-aws",
     "update-to-aws": "node bin/update-to-aws",
     "u": "npm run update-to-aws",
@@ -16,8 +17,7 @@
     "lint": "./node_modules/.bin/eslint --max-warnings 0 --ext .js  src",
     "w:build": "./node_modules/.bin/cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress -w",
     "start": "npm run build",
-    "dev": "node ./dev/run-dev-server",
-    "postinstall": "node bin/post-install"
+    "dev": "node ./dev/run-dev-server"
   },
   "repository": {
     "type": "git",
@@ -40,7 +40,6 @@
     "@babel/plugin-transform-runtime": "7.1.0",
     "@babel/preset-env": "7.1.0",
     "@babel/register": "7.0.0",
-    "@babel/runtime": "7.1.2",
     "babel-eslint": "8.2.3",
     "babel-loader": "8.0.4",
     "babel-minify-webpack-plugin": "0.3.1",
@@ -88,15 +87,16 @@
     "webpack-extraneous-file-cleanup-plugin": "2.0.0"
   },
   "dependencies": {
+    "@babel/runtime": "7.1.2",
     "@ffmpeg-installer/ffmpeg": "1.0.16",
     "@google-cloud/language": "2.0.0",
     "@google-cloud/speech": "2.1.1",
     "audio-format": "2.3.2",
     "aws-sdk": "^2.342.0",
+    "bluebird": "3.5.2",
     "fluent-ffmpeg": "2.1.2",
     "lodash": "4.17.11",
     "node-fetch": "2.2.0",
-    "ringcentral": "3.2.0",
     "ringcentral-js-concise": "0.6.2",
     "subx": "0.7.0"
   }

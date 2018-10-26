@@ -70,13 +70,18 @@ You need to create the S3 bucket manually and upload a `database.json` file with
 
 
 ```bash
-# then run this cmd to deploy to aws lamda
+# make sure you have yarn, couild use `npm i -g yarn to install`
+# then run this cmd to deploy to aws lamda, full build, may take more time
 npm run deploy
+
+
+## watch lamda server log
+npm run watch
 
 ## update function
 npm run update
 
-## update without build
+## update without build, fast update, no rebuild
 npm run u
 ```
 

@@ -45,6 +45,7 @@ package-lock.json
 .project
 .env
 /src/data/*.json
+/dist/.yarnclean
 /database.json
 user-tokens.json
 bot-tokens.json
