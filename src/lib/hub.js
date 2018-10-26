@@ -21,5 +21,7 @@ export default event => {
   // console.log('-----------event get-------------')
   let { action = 'alien' } = event.pathParameters || {}
   let handler = mapper[action] || alien
+  event.body = event.body || {}
+  event.queryStringParameters = event.queryStringParameters || {}
   return handler(event)
 }
