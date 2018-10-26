@@ -28,7 +28,7 @@ export default async (event) => {
   }
   return result('WebHook got', 200, {
     headers: {
-      'validation-token': event.headers['validation-token']
+      'validation-token': event.headers['validation-token'] || event.headers['Validation-Token']
     }
   })
 }
