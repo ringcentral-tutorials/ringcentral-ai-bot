@@ -7,5 +7,6 @@ exports.bot = async (event) => {
   console.log('----------event get--------------')
   console.log(event)
   console.log('-----------event get-------------')
-  return await hub(event)
+  let res = await hub(event)
+  return res
 }

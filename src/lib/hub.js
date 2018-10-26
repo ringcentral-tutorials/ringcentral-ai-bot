@@ -15,7 +15,7 @@ const mapper = {
   'user-webhook': userhook
 }
 
-export default event => {
+export default async event => {
   // console.log('----------event get--------------')
   // console.log(event)
   // console.log('-----------event get-------------')
@@ -23,5 +23,5 @@ export default event => {
   let handler = mapper[action] || alien
   event.body = event.body || {}
   event.queryStringParameters = event.queryStringParameters || {}
-  return handler(event)
+  return await handler(event)
 }
