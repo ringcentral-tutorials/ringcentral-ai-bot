@@ -3,7 +3,7 @@ global.Promise = require('bluebird')
 
 const hub = require('./lib/hub').default
 
-exports.bot = async (event) => {
+exports.bot = async function (event) {
   console.log('----------event get--------------')
   console.log(event)
   console.log('-----------event get-------------')
