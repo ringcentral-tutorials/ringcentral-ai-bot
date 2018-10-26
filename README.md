@@ -92,5 +92,10 @@ To make it work in aws lamda, need extra setting in your lamda console
 - Make sure your lamda function role has permission to read/write S3(Set this from aws IAM roles, could simply attach AmazonS3FullAccess policy to lamda function's role)
 - Make sure your lamda function's timeout more than 3 minutes
 
+## Test the bot
+- Goto your ringcentral developer site, in bot app's bot page, click add to glip
+- Login to https://glip-app.devtest.ringcentral.com, click bot to start the chat, just follow the bot's instructions
+
 ## License
 MIT
+
