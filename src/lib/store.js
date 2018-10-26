@@ -235,6 +235,7 @@ export const getStore = async () => {
   }
   // load database from S3
   const database = await read()
+  console.log(database, 'da')
   store = new Store(database)
 
   // init bots
