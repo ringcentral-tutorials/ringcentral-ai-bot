@@ -1,5 +1,5 @@
 # rc-ai-bot
-ringcentral ai bot POC.
+Ringcentral AI glip bot POC.
 
 ## Prerequisites
 - nodejs >= 8.10
@@ -10,7 +10,7 @@ aws_access_key_id = <your aws_access_key_id>
 aws_secret_access_key = <your aws_secret_access_key>
 ```
 refer to https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
-- Create you need create a bucket in aws s3 console, and upload a `database.json` with content `{}`, so you can set proper env in `.env` and `dist/serverless.yml`, read https://serverless.com/framework/docs/providers/aws/guide/serverless.yml/ for more about `serverless.yml`.
+- Create you need create a bucket in aws s3 console, and upload `bin/database.json` to it, so you can set proper env in `.env` and `dist/serverless.yml`, read https://serverless.com/framework/docs/providers/aws/guide/serverless.yml/ for more about `serverless.yml`.
 - register google cloud account and set payment method, download your credential json.
 - Create a bot app in ringcentral developer site, with permissions: `ReadContacts ReadMessages ReadPresence Contacts ReadAccounts SMS InternalMessages ReadCallLog ReadCallRecording SubscriptionWebhook Glip`, set `OAuth Redirect URI` to `https://your-ngrok-addr.ngrok.io/bot-oauth`
 - Create a browser based app in ringcentral developer site, with all permissions, set `OAuth Redirect URI` to `https://your-ngrok-addr.ngrok.io/user-oauth`.
@@ -24,9 +24,6 @@ npm i
 # create config
 cp .sample.env .env
 # then edit .env, fill ringcentral app configs
-
-# create empty database key
-cp dist/database.json database.json
 
 ## start local lamda server
 npm run dev
@@ -85,9 +82,11 @@ npm run update
 npm run u
 ```
 
-### After run deploy
+### Extral deploy steps
 To make it work in aws lamda, need extra setting in your lamda console
 
 - Create api gateway for your lamda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
 - Make sure your lamda function role has permission to read/write S3(Set this from aws IAM roles, could simply attach AmazonS3FullAccess policy to lamda function's role)
 - Make sure your lamda function's timeout more than 3 minutes
+
+## License MIT

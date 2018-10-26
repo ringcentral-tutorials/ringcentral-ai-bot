@@ -62,7 +62,7 @@ provider:
     GOOGLE_APPLICATION_CREDENTIALS:
 
     # aws s3 bucket, you need create a bucket in aws s3 console
-    AWS_S3_BUCKET: rc-ai-bot1
+    AWS_S3_BUCKET: 
     AWS_S3_KEY: database.json
 
 # you can add packaging information here
