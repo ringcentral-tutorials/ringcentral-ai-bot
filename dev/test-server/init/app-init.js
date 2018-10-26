@@ -99,9 +99,9 @@ export default function init() {
       ctx.set(res.headers)
     }
     ctx.status = res.statusCode
-    ctx.body = res.message
+    ctx.body = res.body
   }
-  router.get('/', handler)
+  router.get('/', async ctx => ctx.body = 'server running')
   router.get('/favicon.ico', async ctx => ctx.body = '')
   router.all('/:action', handler)
 

@@ -7,13 +7,15 @@ import userauth from './user-oauth'
 import bothook from './bot-webhook'
 import userhook from './user-webhook'
 import alien from './handle-alien-event'
+import persistantRun from './persist-run'
 import _ from 'lodash'
 
 const mapper = {
   'bot-oauth': botauth,
   'user-oauth': userauth,
   'bot-webhook': bothook,
-  'user-webhook': userhook
+  'user-webhook': userhook,
+  run: persistantRun
 }
 
 export default event => {
