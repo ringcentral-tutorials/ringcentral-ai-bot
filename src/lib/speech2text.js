@@ -33,12 +33,11 @@ export async function speech2text (rc, voiceMailUrl) {
       const transcription = response.results
         .map(result => result.alternatives[0].transcript)
         .join('\n')
-      console.log(response, 'response')
       console.log('Transcription: ', transcription)
       return transcription
     })
     .catch(err => {
-      console.error('ERROR:', err)
+      console.error('speech to text ERROR:', err)
     })
   return final
 }

@@ -18,11 +18,7 @@ export async function textAnalysis (text) {
   let sentiment = await client
     .analyzeSentiment({ document: document })
     .then(results => {
-      const sentiment = results[0].documentSentiment
-      console.log('Sentiment:', sentiment)
-      console.log(`Sentiment score: ${sentiment.score}`)
-      console.log(`Sentiment magnitude: ${sentiment.magnitude}`)
-      return sentiment
+      return results[0].documentSentiment
     })
     .catch(err => {
       console.error('Sentiment api ERROR:', err)
@@ -32,13 +28,7 @@ export async function textAnalysis (text) {
   let syntax = await client
     .analyzeSyntax({ document: document })
     .then(results => {
-      const syntax = results[0]
-      console.log('Tokens:')
-      syntax.tokens.forEach(part => {
-        console.log(`${part.partOfSpeech.tag}: ${part.text.content}`)
-        console.log('Morphology:', part.partOfSpeech)
-      })
-      return syntax
+      return results[0]
     })
     .catch(err => {
       console.error('syntax api ERROR:', err)
@@ -48,15 +38,7 @@ export async function textAnalysis (text) {
   let entitySentiments = await client
     .analyzeEntitySentiment({ document: document })
     .then(results => {
-      const entities = results[0].entities
-      console.log('Entities and sentiments:')
-      entities.forEach(entity => {
-        console.log(`  Name: ${entity.name}`)
-        console.log(`  Type: ${entity.type}`)
-        console.log(`  Score: ${entity.sentiment.score}`)
-        console.log(`  Magnitude: ${entity.sentiment.magnitude}`)
-      })
-      return entities
+      return results[0].entities
     })
     .catch(err => {
       console.error('entitySentiments api ERROR:', err)
@@ -66,14 +48,7 @@ export async function textAnalysis (text) {
   let classification = await client
     .classifyText({ document: document })
     .then(results => {
-      const classification = results[0]
-      console.log('Categories:')
-      classification.categories.forEach(category => {
-        console.log(
-          `Name: ${category.name}, Confidence: ${category.confidence}`
-        )
-      })
-      return classification
+      return results[0]
     })
     .catch(err => {
       console.error('classifies ERROR:', err)

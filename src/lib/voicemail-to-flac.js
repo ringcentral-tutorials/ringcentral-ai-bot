@@ -24,8 +24,6 @@ class FakeWrite extends Writable {
 }
 
 function handleResponse (res) {
-  console.log('into')
-  console.log(res.data instanceof require('stream').Readable)
   return new Promise((resolve, reject) => {
     let final = new Buffer.alloc(0)
     let writeStream = new FakeWrite({
@@ -46,9 +44,9 @@ function handleResponse (res) {
       .withAudioFrequency(16000)
       .withAudioQuality(5)
       .withOutputFormat('flac')
-      .on('start', (commandLine) => {
-        console.log('ffmpeg conversion start: ', commandLine)
-      })
+      // .on('start', (commandLine) => {
+      //   console.log('ffmpeg conversion start: ', commandLine)
+      // })
       // .on('progress', function(progress) {
       //   //console.log('Processing: ' + progress.percent + '% done')
       // })

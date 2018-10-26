@@ -7,7 +7,7 @@ import { User, getStore } from './store'
 
 export default async (event) => {
   const message = event.body
-  console.log('Message received via bot WebHook:', JSON.stringify(message, null, 2))
+  //console.log('Message received via bot WebHook:', JSON.stringify(message, null, 2))
 
   let { body } = message
 
@@ -49,11 +49,9 @@ Please reply "![:Person](${botId})" if you want to talk to me.` })
         break
     }
   }
-  let res = result('bot WebHook replied', 200, {
+  return result('bot WebHook replied', 200, {
     headers: {
       'validation-token': event.headers['validation-token'] || event.headers['Validation-Token']
     }
   })
-  console.log('response', res)
-  return res
 }

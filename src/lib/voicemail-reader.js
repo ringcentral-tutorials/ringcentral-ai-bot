@@ -33,7 +33,6 @@ export async function processMail (mail, rc) {
     return ''
   }
   let result = await textAnalysis(text)
-  console.log('analysis result', result)
   if (!result || !result.text) {
     return ''
   }

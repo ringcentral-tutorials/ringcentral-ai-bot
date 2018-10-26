@@ -7,8 +7,6 @@ import result from './response'
 
 export default async (event) => {
   let ms = event.queryStringParameters.ms || 60 * 1000
-  console.log('run, wating', ms)
   await wait(ms)
-  console.log('wait end')
   return result('done')
 }

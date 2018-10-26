@@ -151,7 +151,6 @@ export const User = new SubX({
   async clearWebHooks () {
     try {
       const r = await this.rc.get('/restapi/v1.0/subscription')
-      console.log(r.data.records, 'r.data.records')
       for (const sub of r.data.records) {
         if (sub.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/user-webhook') {
           await this.rc.delete(`/restapi/v1.0/subscription/${sub.id}`)
@@ -217,13 +216,13 @@ export const User = new SubX({
     }
   },
   async sendVoiceMailInfo (processedMailInfo = '') {
-    console.log('sending mail info processed:', processedMailInfo)
     for (const groupId of Object.keys(this.groups)) {
       const botId = this.groups[groupId]
       const bot = store.getBot(botId)
       await bot.sendMessage(
         groupId,
-        { text: processedMailInfo })
+        { text: processedMailInfo }
+      )
     }
   }
 })
