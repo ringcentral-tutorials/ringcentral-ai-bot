@@ -8,5 +8,5 @@ exports.bot = function (event, context, callback) {
   console.log(event)
   console.log('-----------event get-------------')
   hub(event)
-    .then(callback)
+    .then(res => callback(null, res))
 }
