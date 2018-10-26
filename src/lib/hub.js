@@ -7,6 +7,7 @@ import userauth from './user-oauth'
 import bothook from './bot-webhook'
 import userhook from './user-webhook'
 import alien from './handle-alien-event'
+import _ from 'lodash'
 
 const mapper = {
   'bot-oauth': botauth,
@@ -22,6 +23,9 @@ export default event => {
   let { action = 'alien' } = event.pathParameters || {}
   let handler = mapper[action] || alien
   event.body = event.body || {}
+  if (_.isString(event.body)) {
+    event.body = JSON.parse(event.body)
+  }
   event.queryStringParameters = event.queryStringParameters || {}
   return handler(event)
 }
