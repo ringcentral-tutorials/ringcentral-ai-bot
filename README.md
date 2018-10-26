@@ -70,12 +70,10 @@ edit `dist/serverless.yml`, make sure you set proper name and required env
     AWS_S3_KEY: database.json
 ```
 
-
 ```bash
 # make sure you have yarn, couild use `npm i -g yarn to install`
 # then run this cmd to deploy to aws lamda, full build, may take more time
 npm run deploy
-
 
 ## watch lamda server log
 npm run watch
@@ -87,3 +85,9 @@ npm run update
 npm run u
 ```
 
+### After run deploy
+To make it work in aws lamda, need extra setting in your lamda console
+
+- Create api gateway for your lamda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
+- Make sure your lamda function role has permission to read/write S3(Set this from aws IAM roles, could simply attach AmazonS3FullAccess policy to lamda function's role)
+- Make sure your lamda function's timeout more than 3 minutes
