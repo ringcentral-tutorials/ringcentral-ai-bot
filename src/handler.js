@@ -8,5 +8,8 @@ exports.bot = async (event) => {
   console.log(event)
   console.log('-----------event get-------------')
   let res = await hub(event)
+  console.log('----------res --------------')
+  console.log(res)
+  console.log('-----------res-------------')
   return res
 }
