@@ -13,7 +13,7 @@ aws_access_key_id = <your aws_access_key_id>
 aws_secret_access_key = <your aws_secret_access_key>
 ```
 refer to https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
-- Create you need create a bucket in aws s3 console, and upload `bin/database.json` to it, so you can set proper env in `.env` and `dist/serverless.yml`, read https://serverless.com/framework/docs/providers/aws/guide/serverless.yml/ for more about `serverless.yml`.
+- Create a bucket in aws s3 console, and upload `bin/database.json` to it, so you can set proper env in `.env` and `dist/serverless.yml`, read https://serverless.com/framework/docs/providers/aws/guide/serverless.yml/ for more about `serverless.yml`.
 - register google cloud account and set payment method, download your credential json.
 - Create a bot app in ringcentral developer site, with permissions: `ReadContacts ReadMessages ReadPresence Contacts ReadAccounts SMS InternalMessages ReadCallLog ReadCallRecording SubscriptionWebhook Glip`, set `OAuth Redirect URI` to `https://your-ngrok-addr.ngrok.io/bot-oauth`
 - Create a browser based app in ringcentral developer site, with all permissions, set `OAuth Redirect URI` to `https://your-ngrok-addr.ngrok.io/user-oauth`.
