@@ -9,7 +9,9 @@ export default (
 ) => {
   return {
     statusCode: status,
-    message: msg,
+    body: JSON.stringify({
+      message: msg
+    }),
     ...options
   }
 }
