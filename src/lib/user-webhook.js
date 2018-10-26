@@ -23,7 +23,7 @@ export default async (event) => {
     const store = await getStore()
     const user = store.getUser(userId)
     if (user) {
-      user.processVoiceMail(newMailCount || count)
+      await user.processVoiceMail(newMailCount || count)
     }
   }
   return result('WebHook got', 200, {
