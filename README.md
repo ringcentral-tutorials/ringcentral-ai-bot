@@ -1,5 +1,8 @@
 # rc-ai-bot
-Ringcentral AI glip bot POC.
+Ringcentral glip voicemail AI bot POC.
+
+## Features
+Read glip user's new voicemail, trancript the voice to text, and analysis the text, send results to user authurized chat group.
 
 ## Prerequisites
 - nodejs >= 8.10
@@ -89,4 +92,5 @@ To make it work in aws lamda, need extra setting in your lamda console
 - Make sure your lamda function role has permission to read/write S3(Set this from aws IAM roles, could simply attach AmazonS3FullAccess policy to lamda function's role)
 - Make sure your lamda function's timeout more than 3 minutes
 
-## License MIT
+## License
+MIT
