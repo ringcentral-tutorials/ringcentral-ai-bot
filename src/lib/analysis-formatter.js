@@ -35,7 +35,7 @@ function entitySentimentsRender(entitySentiments) {
   if (!entitySentiments) {
     return ''
   }
-  return '\n**entity sentiment:**\n\n' +
+  return '\n**Entity sentiment:**\n\n' +
     entitySentiments.reduce((prev, entity) => {
       return prev + `* Name: ${entity.name}, Type: ${entity.type}, Score: ${entity.sentiment.score}, Magnitude: ${entity.sentiment.magnitude}\n`
     }, '')
