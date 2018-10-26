@@ -9,6 +9,7 @@
     "deploy": "node bin/deploy",
     "compile": "node bin/compile",
     "ngrok": "node bin/ngrok",
+    "proxy": "ngrok http 7867",
     "watch": "cd dist && serverless logs -f bot -t",
     "deploy-to-aws": "node bin/deploy-to-aws",
     "update-to-aws": "node bin/update-to-aws",

@@ -31,7 +31,7 @@ cp .sample.env .env
 npm run dev
 
 ## start a ngrok proxy to local port
-npm run ngrok
+npm run proxy
 # https://xxxxxx.ngrok.io ---> http://localhost:7867
 # you can check ngrok status from http://localhost:4040
 ```
