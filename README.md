@@ -86,7 +86,7 @@ npm run update
 npm run u
 ```
 
-### Extral deploy steps
+### Extra deploy steps
 To make it work in aws lamda, need extra setting in your lamda console
 
 - Create api gateway for your lamda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
