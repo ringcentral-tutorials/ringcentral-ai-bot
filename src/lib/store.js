@@ -5,7 +5,7 @@ import * as R from 'ramda'
 import { processMail } from './voicemail-reader'
 import { read, write } from './database'
 import resultFormatter from './analysis-formatter'
-import {log} from './log'
+import {log, debug} from './log'
 import {subscribeInterval} from '../common/constants'
 import _ from 'lodash'
 
@@ -76,7 +76,7 @@ export const Bot = new SubX({
   async renewWebHooks () {
     try {
       const r = await this.rc.get('/restapi/v1.0/subscription')
-      log('r.data.records bot', r.data.records.length)
+      debug('r.data.records bot', r.data.records.length)
       let filtered = r.data.records.filter(
         r => {
           return r.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/bot-webhook'
@@ -86,13 +86,14 @@ export const Bot = new SubX({
           ? -1
           : 1
       })
-      log('bot fileted', filtered.length)
+      debug('bot filted', filtered.length)
       for (let i = 0, len = filtered.length;i < len;i ++) {
         let {id, eventFilters} = filtered[i]
         if (
           i === 0 &&
           _.isEqual(eventFilters.sort(), botEventFilters.sort())
         ) {
+          debug('renew bot sub')
           await this.renewSubscription(id)
         } else {
           await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
@@ -197,7 +198,7 @@ export const User = new SubX({
   async renewWebHooks () {
     try {
       const r = await this.rc.get('/restapi/v1.0/subscription')
-      log('r.data.records user', r.data.records.length)
+      debug('r.data.records user', r.data.records.length)
       let filtered = r.data.records.filter(
         r => {
           return r.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/user-webhook'
@@ -207,13 +208,14 @@ export const User = new SubX({
           ? 1
           : -1
       })
-      log('user fileted', filtered.length)
+      debug('user filted', filtered.length)
       for (let i = 0, len = filtered.length;i < len;i ++) {
         let {id, eventFilters} = filtered[i]
         if (
           i === 0 &&
           _.isEqual(eventFilters.sort(), userEventFilters.sort())
         ) {
+          debug('do renew user sub')
           await this.renewSubscription(id)
         } else {
           await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
