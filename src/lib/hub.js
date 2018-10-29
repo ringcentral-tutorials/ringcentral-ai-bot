@@ -9,7 +9,7 @@ import userhook from './user-webhook'
 import alien from './handle-alien-event'
 import persistantRun from './persist-run'
 import _ from 'lodash'
-import {log} from './log'
+import {debug} from './log'
 
 const mapper = {
   'bot-oauth': botauth,
@@ -20,9 +20,9 @@ const mapper = {
 }
 
 export default event => {
-  log('----------event get--------------')
-  log(event)
-  log('-----------event get-------------')
+  debug('----------event get--------------')
+  debug(event)
+  debug('-----------event get-------------')
   let { action = 'alien' } = event.pathParameters || {}
   let handler = mapper[action] || alien
   event.body = event.body || {}
