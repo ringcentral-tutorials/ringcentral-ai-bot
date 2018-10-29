@@ -1,18 +1,18 @@
 import fs from 'fs'
 import {resolve} from 'path'
+import {log} from './log'
 
 const Bucket = process.env.AWS_S3_BUCKET
 const dbPath = resolve(
   process.cwd(),
   'database.json'
 )
-
 if (!Bucket) {
-  console.log('No s3 Bucket, use file based database')
+  log('No s3 Bucket, use file based database')
   try {
     fs.accessSync(dbPath)
   } catch(e) {
-    console.log('no database.json, will create one for you')
+    log('no database.json, will create one for you')
     fs.writeFileSync(dbPath, '{}')
   }
 }
