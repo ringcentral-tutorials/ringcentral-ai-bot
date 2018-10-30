@@ -88,10 +88,9 @@ export const Bot = new SubX({
       })
       debug('bot filted', filtered.length)
       for (let i = 0, len = filtered.length;i < len;i ++) {
-        let {id, eventFilters} = filtered[i]
+        let {id} = filtered[i]
         if (
-          i === 0 &&
-          _.isEqual(eventFilters.sort(), botEventFilters.sort())
+          i === 0
         ) {
           debug('renew bot sub')
           await this.renewSubscription(id)
@@ -100,6 +99,7 @@ export const Bot = new SubX({
         }
       }
       if (!filtered.length) {
+        debug('setup bot sub')
         await this.setupWebHook()
       }
     } catch (e) {
@@ -215,10 +215,9 @@ export const User = new SubX({
       })
       log('user filted', filtered.length)
       for (let i = 0, len = filtered.length;i < len;i ++) {
-        let {id, eventFilters} = filtered[i]
+        let {id} = filtered[i]
         if (
-          i === 0 &&
-          _.isEqual(eventFilters.sort(), userEventFilters.sort())
+          i === 0
         ) {
           log('do renew user sub')
           await this.renewSubscription(id)
@@ -226,7 +225,10 @@ export const User = new SubX({
           await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
         }
       }
-      if (!filtered.length && Object.keys(this.groups).length > 0) {
+      if (
+        !filtered.length && Object.keys(this.groups).length > 0
+      ) {
+        log('do setup user sub')
         await this.setupWebHook()
       }
     } catch (e) {
