@@ -69,7 +69,7 @@ export const Bot = new SubX({
         }
       })
     } catch (e) {
-      log('Bot setupWebHook', e.response.data)
+      log('Bot setupWebHook error', e.response.data)
     }
   },
   async renewWebHooks () {
@@ -79,21 +79,18 @@ export const Bot = new SubX({
         r => {
           return r.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/bot-webhook'
         }
-      ).sort((a, b) => {
-        return a.expirationTime > b.expirationTime
-          ? -1
-          : 1
-      })
+      )
+      log('bot subs list', filtered.map(g => g.id).join(','))
       await this.setupWebHook()
-      for (let i = 0, len = filtered.length;i < len;i ++) {
-        let {id} = filtered[i]
-        await this.delSubscription(id)
+      for (let sub of filtered) {
+        await this.delSubscription(sub.id)
       }
     } catch (e) {
       log('bot renewWebHooks error', e.response.data)
     }
   },
   async delSubscription (id) {
+    log('del bot sub id:', id)
     try {
       await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
     } catch (e) {
@@ -198,21 +195,18 @@ export const User = new SubX({
         r => {
           return r.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/user-webhook'
         }
-      ).sort((a, b) => {
-        return a.expirationTime > b.expirationTime
-          ? 1
-          : -1
-      })
+      )
+      log('user subs list', filtered.map(g => g.id).join(','))
       await this.setupWebHook()
-      for (let i = 0, len = filtered.length;i < len;i ++) {
-        let {id} = filtered[i]
-        await this.delSubscription(id)
+      for (let sub of filtered) {
+        await this.delSubscription(sub.id)
       }
     } catch (e) {
       log('user renewWebHooks error', e.response.data)
     }
   },
   async delSubscription (id) {
+    log('del user sub id:', id)
     try {
       await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
     } catch (e) {
