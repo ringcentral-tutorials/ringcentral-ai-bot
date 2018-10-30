@@ -72,7 +72,7 @@ edit `dist/serverless.yml`, make sure you set proper name and required env
 ```
 
 ```bash
-# make sure you have yarn, couild use `npm i -g yarn to install`
+# make sure you have yarn, could use `npm i -g yarn to install`
 # then run this cmd to deploy to aws lamda, full build, may take more time
 npm run deploy
 
