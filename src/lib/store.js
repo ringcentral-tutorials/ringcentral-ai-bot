@@ -203,7 +203,7 @@ export const User = new SubX({
   async renewWebHooks () {
     try {
       const r = await this.rc.get('/restapi/v1.0/subscription')
-      debug('r.data.records user', r.data.records.length)
+      log('r.data.records user', r.data.records.length)
       let filtered = r.data.records.filter(
         r => {
           return r.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/user-webhook'
@@ -213,14 +213,14 @@ export const User = new SubX({
           ? 1
           : -1
       })
-      debug('user filted', filtered.length)
+      log('user filted', filtered.length)
       for (let i = 0, len = filtered.length;i < len;i ++) {
         let {id, eventFilters} = filtered[i]
         if (
           i === 0 &&
           _.isEqual(eventFilters.sort(), userEventFilters.sort())
         ) {
-          debug('do renew user sub')
+          log('do renew user sub')
           await this.renewSubscription(id)
         } else {
           await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
@@ -258,7 +258,7 @@ export const User = new SubX({
     const hasNoGroup = Object.keys(this.groups).length === 0
     this.groups[groupId] = botId
     if (hasNoGroup) {
-      await this.renewWebHooks()
+      await this.setupWebHook()
     }
   },
   async getVoiceMails (count) {
