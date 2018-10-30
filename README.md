@@ -92,7 +92,7 @@ To make it work in aws lamda, need extra setting in your lamda console
 - Create api gateway for your lamda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
 - Make sure your lamda function role has permission to read/write S3(Set this from aws IAM roles, could simply attach AmazonS3FullAccess policy to lamda function's role)
 - Make sure your lamda function's timeout more than 3 minutes
-- every time update lamda files, you need mannually init lamda server by send get request to `https://your-lamda-api-url.execute-api.us-east-1.amazonaws.com/default/poc-rc-ai-bot-dev-bot/init`, **twice**, there are example scripts `bin/sample-init-lamda`, and `bin/sample-update-lamda`, to make sure lamda init properly.
+- every time update lamda files, you need mannually init lamda server by send get request to `https://your-lamda-api-url.execute-api.us-east-1.amazonaws.com/default/poc-rc-ai-bot-dev-bot/init`, **twice**, there are example scripts `bin/sample-init-lamda.sh`, and `bin/sample-update-lamda.sh`, to make sure lamda init properly.
 
 ## Test the bot
 - Goto your ringcentral developer site, in bot app's bot page, click add to glip
