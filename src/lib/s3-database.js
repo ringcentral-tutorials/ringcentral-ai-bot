@@ -6,6 +6,8 @@ const s3 = new AWS.S3()
 const Bucket = process.env.AWS_S3_BUCKET
 const Key = process.env.AWS_S3_KEY
 
+log('Bucket', Bucket)
+log('Key', Key)
 export const read = () => new Promise((resolve, reject) => {
   s3.getObject({ Bucket, Key }, (err, data) => {
     if (err) {
