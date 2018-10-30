@@ -5,7 +5,7 @@ import * as R from 'ramda'
 import { processMail } from './voicemail-reader'
 import { read, write } from './database'
 import resultFormatter from './analysis-formatter'
-import {log, debug} from './log'
+import {log} from './log'
 import {subscribeInterval, expiresIn} from '../common/constants'
 
 const botEventFilters = [
