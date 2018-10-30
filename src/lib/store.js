@@ -54,7 +54,6 @@ export const Bot = new SubX({
       await this.rc.authorize({ code, redirectUri: process.env.RINGCENTRAL_BOT_SERVER + '/bot-oauth' })
     } catch (e) {
       log('Bot authorize', e.response.data)
-      throw e
     }
     this.token = this.rc.token()
   },
@@ -70,7 +69,6 @@ export const Bot = new SubX({
       })
     } catch (e) {
       log('Bot setupWebHook', e.response.data)
-      throw e
     }
   },
   async renewWebHooks () {
@@ -105,25 +103,30 @@ export const Bot = new SubX({
         await this.setupWebHook()
       }
     } catch (e) {
-      log('bot renewWebHooks', e.response.data)
-      throw e
+      log('bot renewWebHooks error', e.response.data)
+    }
+  },
+  async delSubscription (id) {
+    try {
+      await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
+    } catch (e) {
+      log('bot renewSubscription error', e.response.data)
     }
   },
   async renewSubscription (id) {
     try {
-      await this.rc.post(`/restapi/v1.0/subscription/${id}/renew`)
-      log('bot renewed subscribe', id)
+      await this.setupWebHook()
+      await this.delSubscription(id)
+      log('bot renewed subscribe')
     } catch (e) {
-      log('bot renewSubscription', e.response.data)
-      throw e
+      log('bot renewSubscription error', e.response.data)
     }
   },
   async sendMessage (groupId, messageObj) {
     try {
       await this.rc.post(`/restapi/v1.0/glip/groups/${groupId}/posts`, messageObj)
     } catch (e) {
-      log('Bot sendMessage', e.response.data)
-      throw e
+      log('Bot sendMessage error', e.response.data)
     }
   },
   async validate () {
@@ -138,7 +141,6 @@ export const Bot = new SubX({
         log(`Bot user ${this.token.owner_id} has been deleted`)
         return false
       }
-      throw e
     }
   }
 })
@@ -165,8 +167,7 @@ export const User = new SubX({
     try {
       await this.rc.authorize({ code, redirectUri: process.env.RINGCENTRAL_BOT_SERVER + '/user-oauth' })
     } catch (e) {
-      log('User authorize', e.response.data)
-      throw e
+      log('User authorize error', e.response.data)
     }
     this.token = this.rc.token()
   },
@@ -241,10 +242,18 @@ export const User = new SubX({
       log('user renewWebHooks error', e.response.data)
     }
   },
+  async delSubscription (id) {
+    try {
+      await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
+    } catch (e) {
+      log('user renewSubscription error', e.response.data)
+    }
+  },
   async renewSubscription (id) {
     try {
-      await this.rc.post(`/restapi/v1.0/subscription/${id}/renew`)
-      log('renewed user subscribe', id)
+      await this.setupWebHook()
+      await this.delSubscription(id)
+      log('renewed user subscribe')
     } catch (e) {
       log('user renewSubscription', e.response.data)
     }
@@ -253,15 +262,14 @@ export const User = new SubX({
     try {
       await this.rc.post('/restapi/v1.0/subscription', {
         eventFilters: userEventFilters,
-        expiresIn: 120,
+        expiresIn,
         deliveryMode: {
           transportType: 'WebHook',
           address: process.env.RINGCENTRAL_BOT_SERVER + '/user-webhook'
         }
       })
     } catch (e) {
-      log('User setupWebHook', e.response.data)
-      throw e
+      log('User setupWebHook error', e.response.data)
     }
   },
   async addGroup (groupId, botId) {
