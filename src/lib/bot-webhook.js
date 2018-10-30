@@ -16,7 +16,7 @@ export default async (event) => {
   if (body) {
     const store = await getStore()
     let botId = message.ownerId
-    if (message.event === subscribeInterval) {
+    if (message.event === subscribeInterval()) {
       let bot1 = store.getBot(botId)
       await bot1.renewWebHooks()
     } else {

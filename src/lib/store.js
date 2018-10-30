@@ -8,15 +8,15 @@ import resultFormatter from './analysis-formatter'
 import {log} from './log'
 import {subscribeInterval, expiresIn} from '../common/constants'
 
-const botEventFilters = [
+const botEventFilters = () => [
   '/restapi/v1.0/glip/posts',
   '/restapi/v1.0/glip/groups',
-  subscribeInterval
+  subscribeInterval()
 ]
 
-const userEventFilters = [
+const userEventFilters = () => [
   '/restapi/v1.0/account/~/extension/~/message-store',
-  subscribeInterval
+  subscribeInterval()
 ]
 
 // Store
@@ -61,8 +61,8 @@ export const Bot = new SubX({
   async setupWebHook () {
     try {
       await this.rc.post('/restapi/v1.0/subscription', {
-        eventFilters: botEventFilters,
-        expiresIn,
+        eventFilters: botEventFilters(),
+        expiresIn: expiresIn(),
         deliveryMode: {
           transportType: 'WebHook',
           address: process.env.RINGCENTRAL_BOT_SERVER + '/bot-webhook'
@@ -231,8 +231,8 @@ export const User = new SubX({
   async setupWebHook () { // setup WebHook for voicemail
     try {
       await this.rc.post('/restapi/v1.0/subscription', {
-        eventFilters: userEventFilters,
-        expiresIn,
+        eventFilters: userEventFilters(),
+        expiresIn: expiresIn(),
         deliveryMode: {
           transportType: 'WebHook',
           address: process.env.RINGCENTRAL_BOT_SERVER + '/user-webhook'
