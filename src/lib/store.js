@@ -170,7 +170,7 @@ export const User = new SubX({
   async refresh () {
     try {
       await this.rc.refresh()
-      this.token = this.rc.token
+      this.token = this.rc.token()
     } catch(e) {
       log('User try refresh token', e.response.data)
       delete store.users[this.token.owner_id]
@@ -188,7 +188,12 @@ export const User = new SubX({
         this.token = this.rc.token()
         return true
       } catch (e) {
-        log('User validate refresh', e.response.data)
+        log(
+          'User validate refresh',
+          e.response
+            ? e.response.data
+            : e
+        )
         delete store.users[this.token.owner_id]
         log(`User ${this.token.owner_id} refresh token has expired`)
         return false
@@ -226,7 +231,6 @@ export const User = new SubX({
       }
     } catch (e) {
       log('user renewWebHooks', e.response.data)
-      throw e
     }
   },
   async renewSubscription (id) {
@@ -234,7 +238,6 @@ export const User = new SubX({
       return this.rc.post(`/restapi/v1.0/subscription/${id}/renew`)
     } catch (e) {
       log('user renewSubscription', e.response.data)
-      throw e
     }
   },
   async setupWebHook () { // setup WebHook for voicemail
