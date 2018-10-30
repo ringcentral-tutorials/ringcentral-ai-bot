@@ -75,7 +75,6 @@ export const Bot = new SubX({
   async renewWebHooks () {
     try {
       const r = await this.rc.get('/restapi/v1.0/subscription')
-      debug('r.data.records bot', r.data.records.length)
       let filtered = r.data.records.filter(
         r => {
           return r.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/bot-webhook'
@@ -85,7 +84,6 @@ export const Bot = new SubX({
           ? -1
           : 1
       })
-      debug('bot filted', filtered.length)
       await this.setupWebHook()
       for (let i = 0, len = filtered.length;i < len;i ++) {
         let {id} = filtered[i]
@@ -196,7 +194,6 @@ export const User = new SubX({
   async renewWebHooks () {
     try {
       const r = await this.rc.get('/restapi/v1.0/subscription')
-      debug('r.data.records user', r.data.records.length)
       let filtered = r.data.records.filter(
         r => {
           return r.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/user-webhook'
@@ -206,7 +203,6 @@ export const User = new SubX({
           ? 1
           : -1
       })
-      debug('user filted', filtered.length)
       await this.setupWebHook()
       for (let i = 0, len = filtered.length;i < len;i ++) {
         let {id} = filtered[i]

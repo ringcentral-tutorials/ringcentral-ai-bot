@@ -4,7 +4,7 @@
 
 import result from './response'
 import { User, getStore } from './store'
-import {debug} from './log'
+//import {debug} from './log'
 
 import {subscribeInterval} from '../common/constants'
 
@@ -15,7 +15,6 @@ export default async (event) => {
   let { body } = message
   if (body) {
     const store = await getStore()
-    debug(store, 'store')
     let botId = message.ownerId
     if (message.event === subscribeInterval) {
       let bot1 = store.getBot(botId)
