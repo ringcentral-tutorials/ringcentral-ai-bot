@@ -16,10 +16,9 @@ export default async (event) => {
   if (body) {
     const store = await getStore()
     let botId = message.ownerId
-    if (body.event === subscribeInterval) {
-      debug('get interval sub')
+    if (message.event === subscribeInterval) {
       let bot1 = store.getBot(botId)
-      await bot1.renewSubscription()
+      await bot1.renewSubscription(message.subscriptionId)
     } else {
       switch (body.eventType) {
         case 'GroupJoined':

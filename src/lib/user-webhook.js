@@ -21,18 +21,16 @@ export default async (event) => {
     }
   }
   let newMailCount = shouldSyncVoiceMail(event)
-  let isRenewEvent = _.get(message, 'body.eventType') === subscribeInterval
+  let isRenewEvent = _.get(message, 'event') === subscribeInterval
   if (test || newMailCount || isRenewEvent) {
-    const userId = message.body.extensionId
+    const userId = message.body.extensionId || message.ownerId
     const store = await getStore()
     const user = store.getUser(userId)
     if (user && isRenewEvent) {
-      debug('receive renew event')
       let id = _.get(
         message,
-        'body.subscriptionId'
+        'subscriptionId'
       )
-      debug('receive renew event id', id)
       await user.renewSubscription(id)
       await user.refresh()
     } else if (user) {
