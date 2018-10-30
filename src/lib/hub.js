@@ -8,6 +8,7 @@ import bothook from './bot-webhook'
 import userhook from './user-webhook'
 import alien from './handle-alien-event'
 import persistantRun from './persist-run'
+import init from './init'
 import _ from 'lodash'
 import {debug} from './log'
 
@@ -16,7 +17,8 @@ const mapper = {
   'user-oauth': userauth,
   'bot-webhook': bothook,
   'user-webhook': userhook,
-  run: persistantRun
+  run: persistantRun,
+  init
 }
 
 export default event => {

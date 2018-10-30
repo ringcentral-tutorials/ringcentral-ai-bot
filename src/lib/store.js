@@ -21,6 +21,7 @@ const userEventFilters = [
 
 // Store
 const Store = new SubX({
+  lastInitTime: 0,
   bots: {},
   users: {},
   caches: {},
@@ -85,22 +86,10 @@ export const Bot = new SubX({
           : 1
       })
       debug('bot filted', filtered.length)
-      let delCount = 0
+      await this.setupWebHook()
       for (let i = 0, len = filtered.length;i < len;i ++) {
-        let {id, expiresIn: expiresInOb} = filtered[i]
-        if (
-          i === 0 && expiresInOb === expiresIn
-        ) {
-          debug('renew bot sub')
-          await this.renewSubscription(id)
-        } else {
-          await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
-          delCount ++
-        }
-      }
-      if (!filtered.length || delCount === filtered.length) {
-        debug('setup bot sub')
-        await this.setupWebHook()
+        let {id} = filtered[i]
+        await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
       }
     } catch (e) {
       log('bot renewWebHooks error', e.response.data)
@@ -218,25 +207,10 @@ export const User = new SubX({
           : -1
       })
       debug('user filted', filtered.length)
-      let delCount = 0
+      await this.setupWebHook()
       for (let i = 0, len = filtered.length;i < len;i ++) {
-        let {id, expiresIn: expiresInOb} = filtered[i]
-        if (
-          i === 0 && expiresInOb === expiresIn
-        ) {
-          log('do renew user sub')
-          await this.renewSubscription(id)
-        } else {
-          await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
-          delCount ++
-        }
-      }
-      if (
-        (!filtered.length || delCount === filtered.length) &&
-        Object.keys(this.groups).length > 0
-      ) {
-        debug('do setup user sub')
-        await this.setupWebHook()
+        let {id} = filtered[i]
+        await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
       }
     } catch (e) {
       log('user renewWebHooks error', e.response.data)
@@ -351,6 +325,7 @@ export const getStore = async () => {
     }
   }
 
+  store.lastInitTime = + new Date()
   // auto save to database
   SubX.autoRun(store, async () => {
     await write(store)
