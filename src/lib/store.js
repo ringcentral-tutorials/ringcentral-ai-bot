@@ -89,6 +89,7 @@ export const Bot = new SubX({
     }
   },
   async delSubscription (id) {
+    log('del bot sub id:', id)
     try {
       await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
     } catch (e) {
@@ -203,7 +204,7 @@ export const User = new SubX({
     }
   },
   async delSubscription (id) {
-    log('del bot id:', id)
+    log('del user sub id:', id)
     try {
       await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
     } catch (e) {
