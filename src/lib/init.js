@@ -2,7 +2,7 @@
  * when got event, init
  */
 
-import {getStore, Bot, User} from './store'
+import {getStore} from './store'
 import result from './response'
 import * as R from 'ramda'
 
