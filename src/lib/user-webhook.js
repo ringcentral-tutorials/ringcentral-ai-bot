@@ -27,11 +27,11 @@ export default async (event) => {
     const store = await getStore()
     const user = store.getUser(userId)
     if (user && isRenewEvent) {
-      let id = _.get(
-        message,
-        'subscriptionId'
-      )
-      await user.renewSubscription(id)
+      // let id = _.get(
+      //   message,
+      //   'subscriptionId'
+      // )
+      await user.renewWebHooks()
       await user.refresh()
     } else if (user) {
       await user.processVoiceMail(newMailCount || count)

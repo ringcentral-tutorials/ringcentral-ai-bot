@@ -87,7 +87,7 @@ export const Bot = new SubX({
       await this.setupWebHook()
       for (let i = 0, len = filtered.length;i < len;i ++) {
         let {id} = filtered[i]
-        await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
+        await this.delSubscription(id)
       }
     } catch (e) {
       log('bot renewWebHooks error', e.response.data)
@@ -97,7 +97,7 @@ export const Bot = new SubX({
     try {
       await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
     } catch (e) {
-      log('bot renewSubscription error', e.response.data)
+      log('bot delSubscription error', e.response.data)
     }
   },
   async renewSubscription (id) {
@@ -206,7 +206,7 @@ export const User = new SubX({
       await this.setupWebHook()
       for (let i = 0, len = filtered.length;i < len;i ++) {
         let {id} = filtered[i]
-        await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
+        await this.delSubscription(id)
       }
     } catch (e) {
       log('user renewWebHooks error', e.response.data)
@@ -216,7 +216,7 @@ export const User = new SubX({
     try {
       await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
     } catch (e) {
-      log('user renewSubscription error', e.response.data)
+      log('user delSubscription error', e.response.data)
     }
   },
   async renewSubscription (id) {
