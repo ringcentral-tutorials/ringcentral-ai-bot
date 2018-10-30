@@ -69,7 +69,7 @@ export const Bot = new SubX({
         }
       })
     } catch (e) {
-      log('Bot setupWebHook', e.response.data)
+      log('Bot setupWebHook error', e.response.data)
     }
   },
   async renewWebHooks () {

@@ -3,7 +3,7 @@
     ["@babel/env", {
       "targets": {
         "chrome": 58,
-        "node": "current"
+        "node": "6"
       }
     }]
   ],
