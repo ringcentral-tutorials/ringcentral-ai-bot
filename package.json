@@ -54,7 +54,6 @@
     "cross-env": "5.1.6",
     "dotenv": "6.1.0",
     "download-npm-package": "3.1.12",
-    "electron": "2.0.8",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "16.1.0",
     "eslint-config-standard": "11.0.0",
