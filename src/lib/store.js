@@ -7,7 +7,6 @@ import { read, write } from './database'
 import resultFormatter from './analysis-formatter'
 import {log, debug} from './log'
 import {subscribeInterval} from '../common/constants'
-import _ from 'lodash'
 
 const botEventFilters = [
   '/restapi/v1.0/glip/posts',
