@@ -11,6 +11,6 @@ export default async (event) => {
   await bot.authorize(event.queryStringParameters.code)
   const store = await getStore()
   store.addBot(bot)
-  await bot.setupWebHook()
+  await bot.renewWebHooks()
   return result('Bot added')
 }

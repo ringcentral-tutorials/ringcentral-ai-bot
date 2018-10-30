@@ -4,6 +4,9 @@
 
 import result from './response'
 import { getStore } from './store'
+//import {debug} from './log'
+import {subscribeInterval} from '../common/constants'
+import _ from 'lodash'
 import { shouldSyncVoiceMail } from './message-sync'
 
 export default async (event) => {
@@ -18,11 +21,19 @@ export default async (event) => {
     }
   }
   let newMailCount = shouldSyncVoiceMail(event)
-  if (test || newMailCount) {
-    const userId = message.body.extensionId
+  let isRenewEvent = _.get(message, 'event') === subscribeInterval
+  if (test || newMailCount || isRenewEvent) {
+    const userId = message.body.extensionId || message.ownerId
     const store = await getStore()
     const user = store.getUser(userId)
-    if (user) {
+    if (user && isRenewEvent) {
+      let id = _.get(
+        message,
+        'subscriptionId'
+      )
+      await user.renewSubscription(id)
+      await user.refresh()
+    } else if (user) {
       await user.processVoiceMail(newMailCount || count)
     }
   }

@@ -14,4 +14,5 @@ cp('-r', [
   'bin/.yarnclean'
 ], 'dist/')
 exec('cd dist && rm -rf node_modules && npm i --production')
+exec('npm run prepare-ffmpeg')
 exec('cd dist && yarn generate-lock-entry > yarn.lock && yarn autoclean --force && rm -rf package* && rm -rf .yarnclean && rm -rf yarn.lock')

@@ -4,6 +4,7 @@
 
 import speech from '@google-cloud/speech'
 import { toFlac } from './voicemail-to-flac'
+import {log} from './log'
 
 // Creates a client
 const client = new speech.SpeechClient()
@@ -33,11 +34,11 @@ export async function speech2text (rc, voiceMailUrl) {
       const transcription = response.results
         .map(result => result.alternatives[0].transcript)
         .join('\n')
-      console.log('Transcription: ', transcription)
+      log('Transcription: ', transcription)
       return transcription
     })
     .catch(err => {
-      console.error('speech to text ERROR:', err)
+      log('speech to text ERROR:', err)
     })
   return final
 }

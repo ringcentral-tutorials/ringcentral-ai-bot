@@ -6,6 +6,7 @@ import { speech2text } from './speech2text'
 import _ from 'lodash'
 import { textAnalysis } from './text-analysis'
 import { getStore } from './store'
+import {log} from './log'
 
 /**
  * process voice mail
@@ -20,7 +21,7 @@ export async function processMail (mail, rc) {
   const store = await getStore()
   let cached = store.caches[url]
   if (cached) {
-    console.log('use cache for', url)
+    log('use cache for', url)
     return cached
   }
   let text = await speech2text(

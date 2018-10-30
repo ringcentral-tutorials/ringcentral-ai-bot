@@ -5,7 +5,7 @@
  */
 
 import ffmpeg from 'fluent-ffmpeg'
-
+import {log} from './log'
 import handleError from '../common/error-handler'
 import { Writable } from 'stream'
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
@@ -67,7 +67,7 @@ function handleResponse (res) {
       //   //resolve(final)
       // })
       .on('error', (error) => {
-        console.log(error)
+        log('voice convert error', error)
         reject(error)
       })
       .pipe(writeStream)
