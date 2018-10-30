@@ -4,7 +4,7 @@
 
 import result from './response'
 import { getStore } from './store'
-import {debug} from './log'
+//import {debug} from './log'
 import {subscribeInterval} from '../common/constants'
 import _ from 'lodash'
 import { shouldSyncVoiceMail } from './message-sync'

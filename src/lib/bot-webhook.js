@@ -4,7 +4,7 @@
 
 import result from './response'
 import { User, getStore } from './store'
-import {debug} from './log'
+//import {debug} from './log'
 
 import {subscribeInterval} from '../common/constants'
 
