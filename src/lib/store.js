@@ -8,15 +8,15 @@ import resultFormatter from './analysis-formatter'
 import {log} from './log'
 import {subscribeInterval, expiresIn} from '../common/constants'
 
-const botEventFilters = [
+const botEventFilters = () => [
   '/restapi/v1.0/glip/posts',
   '/restapi/v1.0/glip/groups',
-  subscribeInterval
+  subscribeInterval()
 ]
 
-const userEventFilters = [
+const userEventFilters = () => [
   '/restapi/v1.0/account/~/extension/~/message-store',
-  subscribeInterval
+  subscribeInterval()
 ]
 
 // Store
@@ -61,8 +61,8 @@ export const Bot = new SubX({
   async setupWebHook () {
     try {
       await this.rc.post('/restapi/v1.0/subscription', {
-        eventFilters: botEventFilters,
-        expiresIn,
+        eventFilters: botEventFilters(),
+        expiresIn: expiresIn(),
         deliveryMode: {
           transportType: 'WebHook',
           address: process.env.RINGCENTRAL_BOT_SERVER + '/bot-webhook'
@@ -87,7 +87,7 @@ export const Bot = new SubX({
       await this.setupWebHook()
       for (let i = 0, len = filtered.length;i < len;i ++) {
         let {id} = filtered[i]
-        await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
+        await this.delSubscription(id)
       }
     } catch (e) {
       log('bot renewWebHooks error', e.response.data)
@@ -97,7 +97,7 @@ export const Bot = new SubX({
     try {
       await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
     } catch (e) {
-      log('bot renewSubscription error', e.response.data)
+      log('bot delSubscription error', e.response.data)
     }
   },
   async renewSubscription (id) {
@@ -206,7 +206,7 @@ export const User = new SubX({
       await this.setupWebHook()
       for (let i = 0, len = filtered.length;i < len;i ++) {
         let {id} = filtered[i]
-        await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
+        await this.delSubscription(id)
       }
     } catch (e) {
       log('user renewWebHooks error', e.response.data)
@@ -216,7 +216,7 @@ export const User = new SubX({
     try {
       await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
     } catch (e) {
-      log('user renewSubscription error', e.response.data)
+      log('user delSubscription error', e.response.data)
     }
   },
   async renewSubscription (id) {
@@ -231,8 +231,8 @@ export const User = new SubX({
   async setupWebHook () { // setup WebHook for voicemail
     try {
       await this.rc.post('/restapi/v1.0/subscription', {
-        eventFilters: userEventFilters,
-        expiresIn,
+        eventFilters: userEventFilters(),
+        expiresIn: expiresIn(),
         deliveryMode: {
           transportType: 'WebHook',
           address: process.env.RINGCENTRAL_BOT_SERVER + '/user-webhook'

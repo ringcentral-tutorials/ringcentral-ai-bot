@@ -6,7 +6,7 @@ import {getStore} from './store'
 import result from './response'
 import * as R from 'ramda'
 
-const threshold = 5 * 1000
+
 
 export default async () => {
 
@@ -14,6 +14,7 @@ export default async () => {
   let now = + new Date()
   let {lastInitTime} = store
   let diff = now - lastInitTime
+  const threshold = 5 * 1000
   if (diff < threshold) {
     return result(diff)
   }
