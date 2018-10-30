@@ -80,10 +80,10 @@ export const Bot = new SubX({
           return r.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/bot-webhook'
         }
       )
+      await this.setupWebHook()
       for (let sub of filtered) {
         await this.delSubscription(sub.id)
       }
-      await this.setupWebHook()
     } catch (e) {
       log('bot renewWebHooks error', e.response.data)
     }
@@ -194,10 +194,10 @@ export const User = new SubX({
           return r.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/user-webhook'
         }
       )
+      await this.setupWebHook()
       for (let sub of filtered) {
         await this.delSubscription(sub.id)
       }
-      await this.setupWebHook()
     } catch (e) {
       log('user renewWebHooks error', e.response.data)
     }
