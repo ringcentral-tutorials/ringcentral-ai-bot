@@ -37,12 +37,22 @@ export default async (event) => {
             const user = store.getUser(body.creatorId)
             if (user) {
               await user.addGroup(body.groupId, botId)
-              await bot.sendMessage(body.groupId, { text: `![:Person](${body.creatorId}), now your voicemail is monitored!` })
+              await bot.sendMessage(body.groupId, { text: `![:Person](${body.creatorId}), now your voicemail is monitored!\nIf you want me to **stop monitor** your voicemail, please reply "![:Person](${botId}) unmonitor` })
             } else {
               const user = new User()
               const authorizeUri = user.authorizeUri(body.groupId, botId)
               await bot.sendMessage(body.groupId, {
                 text: `![:Person](${body.creatorId}), [click here](${authorizeUri}) to authorize me to access your RingCentral data first.`
+              })
+            }
+          } else if (/\bunmonit\b/i.test(body.text)) { // monitor voicemail
+            const user = store.getUser(body.creatorId)
+            if (user) {
+              user.removeGroup(body.groupId)
+              await bot.sendMessage(body.groupId, { text: `![:Person](${body.creatorId}), stop monitor your voicemail now!\nIf you want me to monitor your voicemail again, please reply "![:Person](${botId}) monitor"` })
+            } else {
+              await bot.sendMessage(body.groupId, {
+                text: `![:Person](${body.creatorId}), If you want me to monitor your voicemail, please reply "![:Person](${botId}) monitor" first.`
               })
             }
           } else {
