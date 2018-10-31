@@ -248,6 +248,9 @@ export const User = new SubX({
       log('User setupWebHook error', e.response.data)
     }
   },
+  removeGroup(id) {
+    delete this.groups[id]
+  },
   async addGroup (groupId, botId) {
     const hasNoGroup = Object.keys(this.groups).length === 0
     this.groups[groupId] = botId
@@ -335,5 +338,3 @@ export const getStore = async () => {
 
   return store
 }
-
-getStore()
