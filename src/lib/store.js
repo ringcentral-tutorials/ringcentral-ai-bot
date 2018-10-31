@@ -75,7 +75,7 @@ export const Bot = new SubX({
       if (str.includes('SUB-406')) {
         log('bot subscribe fail, will do subscribe one minutes later')
         setTimeout(
-          this.renewWebHooks,
+          () => this.renewWebHooks(),
           60 * 1000
         )
       } else {
