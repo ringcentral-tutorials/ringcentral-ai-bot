@@ -48,7 +48,7 @@ export default function init() {
   //   await next()
   // })
   app.use(mount('/_bc', serve(cwd + '/node_modules', staticOption())))
-
+  app.use(mount('/', serve(cwd + '/bin', staticOption())))
   // body
   app.use(bodyparser)
 
