@@ -1,0 +1,9 @@
+apps:
+    name: rc-ai-bot
+    script: ./server/index.js
+    exec_mode : cluster
+    error_file: ./logs/rc-bot_err.log
+    out_file: ./logs/rc-bot_out.log
+    pid_file: ./pids/rc-bot.pid
+    env:
+        NODE_ENV: production

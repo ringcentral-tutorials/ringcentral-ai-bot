@@ -2,6 +2,7 @@
 
 //user bluebird as global.Promise for better performance
 global.Promise = require('bluebird')
+require('dotenv').config()
 
 import init from './init'
 import config from './config'

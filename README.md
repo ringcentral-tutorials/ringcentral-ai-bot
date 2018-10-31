@@ -35,6 +35,20 @@ npm run proxy
 # https://xxxxxx.ngrok.io ---> http://localhost:7867
 # you can check ngrok status from http://localhost:4040
 ```
+## Build and Run in production env
+```bash
+# install pm2 first if you wanna use pm2
+npm i -g pm2
+
+# build
+npm run build
+
+# run production server
+npm run prod-server
+
+# or use pm2
+pm2 start bin/pm2.yml
+```
 
 ## Build and deploy to aws lamda
 - **ONLY works in linux**, you could run local dev server in any os, but aws lamda is in linux x64, some dependencies need to be prebuilt and upload to lamda, so need the build process in linux x64, you could do it in ci or any linux server/destop env.

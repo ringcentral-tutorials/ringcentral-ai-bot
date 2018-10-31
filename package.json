@@ -1,6 +1,6 @@
 {
   "name": "rc-ai-bot",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "POC of ringcentral glip ai bot",
   "main": "dist/handler.js",
   "scripts": {
@@ -8,6 +8,8 @@
     "build": "node bin/build",
     "deploy": "node bin/deploy",
     "compile": "node bin/compile",
+    "compile-server": "node bin/compile-server",
+    "prod-server": "NODE_ENV=production node server/index.js",
     "ngrok": "node bin/ngrok",
     "proxy": "ngrok http 7867",
     "watch": "cd dist && serverless logs -f bot -t",
