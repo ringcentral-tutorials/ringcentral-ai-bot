@@ -7,6 +7,7 @@ import { read, write } from './database'
 import resultFormatter from './analysis-formatter'
 import {log} from './log'
 import {subscribeInterval, expiresIn} from '../common/constants'
+import _ from 'lodash'
 
 const botEventFilters = () => [
   '/restapi/v1.0/glip/posts',
@@ -69,7 +70,18 @@ export const Bot = new SubX({
         }
       })
     } catch (e) {
-      log('Bot setupWebHook error', e.response.data)
+      let data = _.get(e, 'response.data') || {}
+      let str = JSON.stringify(data)
+      if (str.includes('SUB-406')) {
+        log('bot subscribe fail, will do subscribe one minutes later')
+        setTimeout(
+          this.renewWebHooks,
+          60 * 1000
+        )
+      } else {
+        log('Bot setupWebHook error', e.response.data)
+        throw e
+      }
     }
   },
   async renewWebHooks () {
