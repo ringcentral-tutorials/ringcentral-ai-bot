@@ -33,7 +33,7 @@ export default async (event) => {
             break
           }
           var bot = store.getBot(botId)
-          if (/\bunmonit\b/i.test(body.text)) { // monitor voicemail
+          if (/\bunmonitor\b/i.test(body.text)) { // monitor voicemail
             const user = store.getUser(body.creatorId)
             if (user) {
               user.removeGroup(body.groupId)
