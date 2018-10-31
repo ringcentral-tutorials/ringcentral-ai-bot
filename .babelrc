@@ -2,8 +2,8 @@
   "presets": [
     ["@babel/env", {
       "targets": {
-        "chrome": 58,
-        "node": "6"
+        "chrome": 69,
+        "node": "8"
       }
     }]
   ],

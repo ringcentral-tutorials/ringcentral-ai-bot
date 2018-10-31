@@ -3,17 +3,18 @@ import mount from 'koa-mount'
 import Bodyparser from 'koa-bodyparser'
 import logger from 'koa-logger'
 import serve from 'koa-static'
-import CONFIG from '../config'
 import conditional from 'koa-conditional-get'
 import etag from 'koa-etag'
 import compress from 'koa-compress'
 import commonMiddleware from './common-middleware'
 import {err} from '../utils/log'
 import Router from 'koa-router'
-import {bot} from '../../../src/handler'
+import {resolve} from 'path'
 
-const local = CONFIG.testServer
-const env = local.env
+const env = process.env.NODE_ENV
+const funcSrc = env === 'production' ? 'dist' : '../src'
+const botPath = resolve(__dirname, `../../${funcSrc}/handler`)
+const {bot} = require(botPath)
 const cwd = process.cwd()
 const app = new Koa()
 const staticOption = () => ({
@@ -26,7 +27,7 @@ const bodyparser = Bodyparser()
 export default function init() {
 
   // global middlewares
-  app.keys = ['sugo:' + env]
+  app.keys = ['rc-bot:' + Math.random()]
 
   app.use(compress({
     threshold: 2048,
@@ -47,7 +48,7 @@ export default function init() {
   //   await next()
   // })
   app.use(mount('/_bc', serve(cwd + '/node_modules', staticOption())))
-
+  app.use(mount('/', serve(cwd + '/bin', staticOption())))
   // body
   app.use(bodyparser)
 
