@@ -338,5 +338,3 @@ export const getStore = async () => {
 
   return store
 }
-
-getStore()
