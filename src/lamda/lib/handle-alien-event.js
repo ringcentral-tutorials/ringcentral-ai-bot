@@ -2,9 +2,9 @@
  * handle event not userful
  */
 
-export default () => {
+export default (evt) => {
   return {
-    statusCode: 500,
-    message: 'server can not handle this...'
+    statusCode: 200,
+    body: JSON.stringify(evt)
   }
 }
