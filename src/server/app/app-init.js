@@ -77,7 +77,7 @@ export default function init() {
       ctx.set(res.headers)
     }
     ctx.status = res.statusCode
-    ctx.body = JSON.parse(res.body).message
+    ctx.body = res.body
   }
 
   //routers
