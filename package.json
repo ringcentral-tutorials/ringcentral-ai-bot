@@ -32,7 +32,7 @@
   ],
   "author": "ZHAO Xudong <zxdong@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/zxdong262/poc-rc-glip-bot#readme",
+  "homepage": "https://github.com/zxdong262/rc-ai-bot#readme",
   "devDependencies": {
     "@babel/cli": "7.1.2",
     "@babel/core": "7.1.2",
