@@ -16,7 +16,7 @@ const {resolve} = require('path')
 const {exec, rm, mv} = require('shelljs')
 const targetFolder = resolve(
   __dirname,
-  '../dist/node_modules/@ffmpeg-installer'
+  '../lamda/node_modules/@ffmpeg-installer'
 )
 const toRmove = resolve(
   targetFolder,
@@ -24,15 +24,15 @@ const toRmove = resolve(
 )
 const target2 = resolve(
   __dirname,
-  '../dist'
+  '../lamda'
 )
 rm('-rf', toRmove)
 exec(`node_modules/.bin/download-npm-package @ffmpeg-installer/linux-x64 ${target2}`)
 mv(
-  'dist/@ffmpeg-installer/linux-x64',
+  'lamda/@ffmpeg-installer/linux-x64',
   resolve(targetFolder, 'inux-x64')
 )
-rm('-rf', 'dist/@ffmpeg-installer')
+rm('-rf', 'lamda/@ffmpeg-installer')
 const bin = resolve(
   targetFolder,
   'linux-x64/ffmpeg'
