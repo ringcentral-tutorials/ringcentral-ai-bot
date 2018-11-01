@@ -13,7 +13,7 @@ Read glip user's new voicemail, trancript the voice to text, and analysis the te
 ## dev
 ```bash
 git clone git@github.com:zxdong262/rc-ai-bot.git
-# or
+# or git clone https://github.com/zxdong262/rc-ai-bot.git
 cd rc-ai-bot
 yarn
 
