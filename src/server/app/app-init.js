@@ -6,15 +6,12 @@ import serve from 'koa-static'
 import conditional from 'koa-conditional-get'
 import etag from 'koa-etag'
 import compress from 'koa-compress'
-import commonMiddleware from './common-middleware'
-import {err} from '../utils/log'
+import {log} from '../../lamda/lib/log'
 import Router from 'koa-router'
-import {resolve} from 'path'
+import {bot} from '../../lamda/handler'
+import config from './config'
 
-const env = process.env.NODE_ENV
-const funcSrc = env === 'production' ? 'dist' : '../src'
-const botPath = resolve(__dirname, `../../${funcSrc}/handler`)
-const {bot} = require(botPath)
+const isProduction = process.env.NODE_ENV === 'production'
 const cwd = process.cwd()
 const app = new Koa()
 const staticOption = () => ({
@@ -40,19 +37,14 @@ export default function init() {
   // add etags
   app.use(etag())
 
-  // //static
-  // app.use(async (ctx, next) => {
-  //   ctx.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
-  //   ctx.set('Expires', '-1')
-  //   ctx.set('Pragma', 'no-cache')
-  //   await next()
-  // })
-  app.use(mount('/_bc', serve(cwd + '/node_modules', staticOption())))
-  app.use(mount('/', serve(cwd + '/bin', staticOption())))
+  app.use(
+    mount('/', serve(cwd + '/bin', staticOption()))
+  )
+
   // body
   app.use(bodyparser)
 
-  if (env === 'development') {
+  if (!isProduction) {
     app.use(logger())
   }
 
@@ -61,32 +53,17 @@ export default function init() {
     try {
       await next()
     } catch(e) {
-      err(e.stack)
-      let {path} = ctx
-      if (
-        /^\/api\//.test(path)
-      ) {
-        ctx.status = 500
-        ctx.body = {
-          error: e.message || e.stack,
-          serverTime: new Date()
-        }
-      } else {
-        //500 page
-        ctx.status = 500
-        ctx.body = {
-          ...ctx.local,
-          stack: e.stack,
-          message: e.message
-        }
+      log('server error', e.stack)
+      //500 page
+      ctx.status = 500
+      ctx.body = {
+        stack: e.stack,
+        message: e.message
       }
     }
   })
 
-  //common middleware
-  app.use(commonMiddleware)
-
-  let router = new Router()
+  //lamda handler wrapper
   let handler = async (ctx) => {
     let event = {
       headers: ctx.headers,
@@ -102,7 +79,12 @@ export default function init() {
     ctx.status = res.statusCode
     ctx.body = JSON.parse(res.body).message
   }
-  router.get('/', async ctx => ctx.body = 'server running')
+
+  //routers
+  let router = new Router()
+  router.get('/', async ctx => {
+    ctx.body = `${config.pack.name} server running`
+  })
   router.get('/favicon.ico', async ctx => ctx.body = '')
   router.all('/:action', handler)
 

@@ -1,27 +1,25 @@
 {
   "name": "rc-ai-bot",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "POC of ringcentral glip ai bot",
-  "main": "dist/handler.js",
+  "main": "lamda/handler.js",
   "scripts": {
     "test": "npm run test",
     "build": "node bin/build",
     "deploy": "node bin/deploy",
     "compile": "node bin/compile",
     "compile-server": "node bin/compile-server",
-    "prod-server": "NODE_ENV=production node server/index.js",
-    "ngrok": "node bin/ngrok",
+    "prod-server": "NODE_ENV=production node server/run-dev-server.js",
     "proxy": "ngrok http 7867",
     "watch": "cd dist && serverless logs -f bot -t",
     "deploy-to-aws": "node bin/deploy-to-aws",
     "update-to-aws": "node bin/update-to-aws",
     "prepare-ffmpeg": "node bin/prepare-ffmpeg",
     "u": "npm run update-to-aws",
-    "s:watch": "cd dist && ../node_modules/.bin/serverless logs -f hello -t",
+    "s:watch": "cd lamda && ../node_modules/.bin/serverless logs -f hello -t",
     "lint": "./node_modules/.bin/eslint --max-warnings 0 --ext .js  src",
-    "w:build": "./node_modules/.bin/cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress -w",
-    "start": "npm run build",
-    "dev": "node ./dev/run-dev-server"
+    "start": "npm run dev",
+    "dev": "node ./src/server/run-dev-server"
   },
   "repository": {
     "type": "git",

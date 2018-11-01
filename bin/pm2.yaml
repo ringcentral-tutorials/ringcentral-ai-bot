@@ -1,6 +1,6 @@
 apps:
     name: rc-ai-bot
-    script: ./server/index.js
+    script: ./server/run-dev-server.js
     exec_mode : cluster
     error_file: ./logs/rc-bot_err.log
     out_file: ./logs/rc-bot_out.log
