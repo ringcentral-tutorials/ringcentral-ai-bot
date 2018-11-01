@@ -280,6 +280,9 @@ export const User = new SubX({
     return r.data.records
   },
   async processVoiceMail (newMailCount = 10) {
+    if (!Object.keys(this.groups)) {
+      return
+    }
     let voiceMails = await this.getVoiceMails(newMailCount)
     let userId = this.token.owner_id
     for (let mail of voiceMails) {
