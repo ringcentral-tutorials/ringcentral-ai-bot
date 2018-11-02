@@ -43,6 +43,7 @@ provider:
 # you can define service wide environment variables here
   environment:
     NODE_ENV: production
+    DB_TYPE: dynamodb
     # ringcentral apps
 
     ## bots
