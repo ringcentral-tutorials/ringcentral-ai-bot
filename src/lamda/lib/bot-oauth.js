@@ -2,15 +2,13 @@
  * user oauth by tyler
  */
 
-import result from './response'
+import {result} from './common'
 
-import { Bot, getStore } from './store'
+import {Bot} from './store'
 
 export default async (event) => {
   const bot = new Bot()
   await bot.authorize(event.queryStringParameters.code)
-  const store = await getStore()
-  store.addBot(bot)
   await bot.renewWebHooks()
   return result('Bot added')
 }

@@ -5,9 +5,8 @@
  */
 
 import ffmpeg from 'fluent-ffmpeg'
-import {log} from './log'
-import handleError from '../common/error-handler'
-import { Writable } from 'stream'
+import {log} from './common'
+import {Writable} from 'stream'
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 ffmpeg.setFfmpegPath(ffmpegPath)
 
@@ -82,5 +81,4 @@ export async function toFlac (rc, url) {
     responseType: 'stream'
   })
     .then(handleResponse)
-    .catch(handleError)
 }

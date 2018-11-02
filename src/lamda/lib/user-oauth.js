@@ -2,16 +2,14 @@
  * user oauth by tyler
  */
 
-import result from './response'
-import { User, getStore } from './store'
+import {result} from './common'
+import {User, store} from './store'
 
 export default async (event) => {
-  const store = await getStore()
   const user = new User()
   await user.authorize(event.queryStringParameters.code)
-  store.addUser(user)
   const [groupId, botId] = event.queryStringParameters.state.split(':')
-  const bot = store.getBot(botId)
+  const bot = await store.getBot(botId)
 
   await bot.sendMessage(groupId, { text: `![:Person](${user.token.owner_id}), you have successfully authorized me to access your RingCentral data!` })
 

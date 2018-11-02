@@ -3,7 +3,7 @@
  */
 
 import * as dymanodb from './dynamondb'
-import * as filedb from './file-db'
+import * as filedb from './filedb'
 
 const {DB_TYPE} = process.env
 

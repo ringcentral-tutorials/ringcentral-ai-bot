@@ -4,13 +4,24 @@
 
 import fs from 'fs'
 import {resolve} from 'path'
-import {tables} from './constants'
+import {tables, debug} from './common'
 
 const dbPath = resolve(process.cwd(), 'filedb')
 const fss = Promise.promisifyAll(fs)
 
+function accessAsync(path) {
+  return new Promise((resolve) => {
+    fs.access(path, (err) => {
+      if (err) {
+        return resolve(false)
+      }
+      resolve(true)
+    })
+  })
+}
+
 async function prepareDb() {
-  let exist = await fss.accessAsync(dbPath)
+  let exist = await accessAsync(dbPath)
   if (exist) {
     return true
   }
@@ -21,12 +32,15 @@ async function prepareDb() {
 }
 
 function writeFileAsync(filePath, data) {
-  return fss.writeFileAsync(filePath, JSON.stringify(data, null, 2))
+  return fss
+    .writeFileAsync(filePath, JSON.stringify(data, null, 2))
+    .catch(() => false)
 }
 
-async function readFileAsync(filePath) {
-  let old = await fss.readFileAsync(filePath)
-  return JSON.parse(old.toString())
+function readFileAsync(filePath) {
+  return fss.readFileAsync(filePath)
+    .then(r => JSON.parse(r.toString()))
+    .catch(() => false)
 }
 
 /**
@@ -40,6 +54,12 @@ async function readFileAsync(filePath) {
  * for get, singleUser:{id: xxx}, allUser: {}
  */
 export async function dbAction(tableName, action, data) {
+  debug(
+    'db',
+    tableName,
+    action,
+    data
+  )
   await prepareDb()
   let {id = '', update, ids} = data
   let filePath = resolve(
@@ -52,6 +72,9 @@ export async function dbAction(tableName, action, data) {
       await writeFileAsync(filePath, data)
       break
     case 'remove':
+      if (!id) {
+        return
+      }
       if (id) {
         fss.unlinkAsync(filePath)
       } else if (ids) {
@@ -64,10 +87,16 @@ export async function dbAction(tableName, action, data) {
           await fss.unlinkAsync(pd)
         }
       }
+      break
     case 'update':
+      if (!id) {
+        return
+      }
       var old = await readFileAsync(filePath)
-      Object.assign(old, update)
-      await writeFileAsync(filePath, old)
+      if (old) {
+        Object.assign(old, update)
+        await writeFileAsync(filePath, old)
+      }
       break
     case 'get':
       if (id) {
@@ -86,5 +115,7 @@ export async function dbAction(tableName, action, data) {
         }
         return res
       }
+    default:
+      break
   }
 }

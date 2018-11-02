@@ -1,4 +1,66 @@
 /**
+ * sync message related
+ */
+import _ from 'lodash'
+
+const env = process.env.NODE_ENV
+
+export function log(...args) {
+  console.log(
+    '' + new Date().toISOString(),
+    ...args
+  )
+}
+
+export function debug(...args) {
+  if (env !== 'production') {
+    console.log(
+      '' + new Date(),
+      ...args
+    )
+  }
+}
+
+/**
+ * response helper
+ */
+export function result (
+  msg,
+  status = 200,
+  options = {}
+) {
+  return {
+    statusCode: status,
+    body: msg,
+    ...options
+  }
+}
+
+export const subscribeInterval = () => '/restapi/v1.0/subscription/~?threshold=59&interval=15'
+export const expiresIn = () => process.env.SUBSCRIBE_EXPIRE
+  ? parseInt(process.env.SUBSCRIBE_EXPIRE)
+  : 1799
+export const tables = [
+  'user',
+  'bot',
+  'cache'
+]
+
+export function shouldSyncVoiceMail (event) {
+  let isStoreMsg = /\/account\/[\d~]+\/extension\/[\d~]+\/message-store/.test(
+    _.get(event, 'body.event') || ''
+  )
+  if (!isStoreMsg) {
+    return
+  }
+  let body = _.get(event, 'body.body') || {}
+  let { changes = [] } = body
+  // only new voice mail counts
+  let voiceMailUpdates = changes.filter(c => c.type === 'VoiceMail' && c.newCount > 0)
+  return voiceMailUpdates.length
+}
+
+/**
  * format google NLP analysis result to glip message string
  */
 
@@ -41,7 +103,7 @@ function entitySentimentsRender(entitySentiments) {
     }, '')
 }
 
-export default (userId, result) => {
+export function resultFormatter (userId, result) {
   let {
     text,
     sentiment,
@@ -56,4 +118,15 @@ export default (userId, result) => {
   entitySentimentsRender(entitySentiments) +
   syntaxRender(syntax) +
   sentimentRender(sentiment)
+}
+
+/**
+ * handle event not userful
+ */
+
+export function handleEvent (evt) {
+  return {
+    statusCode: 200,
+    body: JSON.stringify(evt)
+  }
 }

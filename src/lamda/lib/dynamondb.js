@@ -13,5 +13,6 @@
  * for get, singleUser:{id: xxx}, allUser: undefined
  */
 export async function dbAction(tableName, action, data) {
-
+  //todo
+  console.log(data)
 }

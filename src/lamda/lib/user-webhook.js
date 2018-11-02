@@ -2,12 +2,9 @@
  * user oauth by tyler
  */
 
-import result from './response'
-import { getStore } from './store'
-//import {debug} from './log'
-import {subscribeInterval} from '../common/constants'
+import {result, subscribeInterval, shouldSyncVoiceMail} from './common'
+import {store} from './store'
 import _ from 'lodash'
-import { shouldSyncVoiceMail } from './message-sync'
 
 export default async (event) => {
   let message = event.body
@@ -22,10 +19,9 @@ export default async (event) => {
   }
   let newMailCount = shouldSyncVoiceMail(event)
   let isRenewEvent = _.get(message, 'event') === subscribeInterval()
-  if (test || newMailCount || isRenewEvent) {
+  if (newMailCount || isRenewEvent) {
     const userId = message.body.extensionId || message.ownerId
-    const store = await getStore()
-    const user = store.getUser(userId)
+    const user = await store.getUser(userId)
     if (user && isRenewEvent) {
       // let id = _.get(
       //   message,
