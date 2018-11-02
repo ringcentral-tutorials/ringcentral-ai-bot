@@ -1,6 +1,6 @@
 {
   "name": "rc-ai-bot",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "POC of ringcentral glip ai bot",
   "main": "lamda/handler.js",
   "scripts": {
