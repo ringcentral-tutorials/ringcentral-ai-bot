@@ -6,19 +6,14 @@ import botauth from './bot-oauth'
 import userauth from './user-oauth'
 import bothook from './bot-webhook'
 import userhook from './user-webhook'
-import alien from './handle-alien-event'
-import persistantRun from './persist-run'
-import init from './init'
 import _ from 'lodash'
-import {debug} from './log'
+import {result, handleEvent, debug} from './common'
 
 const mapper = {
   'bot-oauth': botauth,
   'user-oauth': userauth,
   'bot-webhook': bothook,
-  'user-webhook': userhook,
-  run: persistantRun,
-  init
+  'user-webhook': userhook
 }
 
 export default event => {
@@ -26,11 +21,12 @@ export default event => {
   debug(event)
   debug('-----------event get-------------')
   let { action = 'alien' } = event.pathParameters || {}
-  let handler = mapper[action] || alien
+  let handler = mapper[action] || handleEvent
   event.body = event.body || {}
   if (_.isString(event.body)) {
     event.body = JSON.parse(event.body)
   }
   event.queryStringParameters = event.queryStringParameters || {}
   return handler(event)
+
 }

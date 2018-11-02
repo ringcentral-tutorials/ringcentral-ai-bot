@@ -4,7 +4,7 @@
 
 import init from './app-init'
 import config from './config'
-import {log} from '../../lamda/lib/log'
+import {log} from '../../lamda/lib/common'
 import http from 'http'
 
 const start = async function () {

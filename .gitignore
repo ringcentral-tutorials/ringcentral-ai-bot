@@ -17,6 +17,7 @@ jspm_packages
 *.rdb
 /.happypack/
 /app/assets/
+/filedb
 # config etc
 .idea/
 /config.js

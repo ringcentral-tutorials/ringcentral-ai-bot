@@ -3,8 +3,8 @@
  */
 
 import speech from '@google-cloud/speech'
-import { toFlac } from './voicemail-to-flac'
-import {log} from './log'
+import {toFlac} from './voicemail-to-flac'
+import {log} from './common'
 
 // Creates a client
 const client = new speech.SpeechClient()

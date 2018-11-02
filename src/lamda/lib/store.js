@@ -1,12 +1,12 @@
-import SubX from 'subx'
+
+import Subx from 'subx'
 import RingCentral from 'ringcentral-js-concise'
-import { debounceTime } from 'rxjs/operators'
-import * as R from 'ramda'
-import { processMail } from './voicemail-reader'
-import { read, write } from './database'
-import resultFormatter from './analysis-formatter'
-import {log} from './log'
-import {subscribeInterval, expiresIn} from '../common/constants'
+import {processMail} from './voicemail-reader'
+import db from './db'
+import {
+  log, tables, resultFormatter,
+  subscribeInterval, expiresIn
+} from './common'
 import _ from 'lodash'
 
 const botEventFilters = () => [
@@ -20,28 +20,44 @@ const userEventFilters = () => [
   subscribeInterval()
 ]
 
-// Store
-const Store = new SubX({
-  lastInitTime: 0,
-  bots: {},
-  users: {},
-  caches: {},
-  getBot (id) {
-    return this.bots[id]
-  },
-  getUser (id) {
-    return this.users[id]
-  },
-  addBot (bot) {
-    this.bots[bot.token.owner_id] = bot
-  },
-  addUser (user) {
-    this.users[user.token.owner_id] = user
-  }
-})
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+
+// load data from database
+function getStore () {
+  let subxed = ['user', 'bot']
+  return tables.reduce((prev, table) => {
+    let cap = capitalizeFirstLetter(table)
+    return {
+      ...prev,
+      [`get${cap}`]: async function(id) {
+        let item = {}
+        item = await db.dbAction(table, 'get', {id})
+        if (!subxed.includes(table)) {
+          return item
+        }
+        if (!item) {
+          return item
+        }
+        return create(item, table)
+      },
+      [`remove${cap}`]: function(id) {
+        return db.dbAction(table, 'remove', {id})
+      },
+      [`add${cap}`]: function(item) {
+        return db.dbAction(table, 'add', item)
+      }
+    }
+  }, {})
+}
+
+
+export const store = getStore()
 
 // Bot
-export const Bot = new SubX({
+export const Bot = new Subx({
   get rc () {
     const rc = new RingCentral(
       process.env.RINGCENTRAL_BOT_CLIENT_ID,
@@ -51,13 +67,32 @@ export const Bot = new SubX({
     rc.token(this.token)
     return rc
   },
+  async writeToDb(item) {
+    if (item) {
+      await db.dbAction('bot', 'add', item)
+    } else {
+      await db.dbAction('bot', 'update', {
+        id: this.id,
+        update: {
+          token: this.token
+        }
+      })
+    }
+  },
   async authorize (code) {
     try {
       await this.rc.authorize({ code, redirectUri: process.env.RINGCENTRAL_BOT_SERVER + '/bot-oauth' })
     } catch (e) {
       log('Bot authorize', e.response.data)
     }
-    this.token = this.rc.token()
+    let token = this.rc.token()
+    let id = token.owner_id
+    this.token = token
+    this.id = id
+    await this.writeToDb({
+      id,
+      token
+    })
   },
   async setupWebHook () {
     try {
@@ -115,14 +150,14 @@ export const Bot = new SubX({
       await this.delSubscription(id)
       log('bot renewed subscribe')
     } catch (e) {
-      log('bot renewSubscription error', e.response.data)
+      log('bot renewSubscription error', e.stack)
     }
   },
   async sendMessage (groupId, messageObj) {
     try {
       await this.rc.post(`/restapi/v1.0/glip/groups/${groupId}/posts`, messageObj)
     } catch (e) {
-      log('Bot sendMessage error', e.response.data)
+      log('Bot sendMessage error', e.stack)
     }
   },
   async validate () {
@@ -133,8 +168,8 @@ export const Bot = new SubX({
       log('Bot validate', e.response.data)
       const errorCode = e.response.data.errorCode
       if (errorCode === 'OAU-232' || errorCode === 'CMN-405') {
-        delete store.bots[this.token.owner_id]
-        log(`Bot user ${this.token.owner_id} has been deleted`)
+        await store.removeBot[this.id]
+        log(`Bot user ${this.id} has been deleted`)
         return false
       }
     }
@@ -142,7 +177,7 @@ export const Bot = new SubX({
 })
 
 // User
-export const User = new SubX({
+export const User = new Subx({
   groups: {},
   get rc () {
     const rc = new RingCentral(
@@ -152,6 +187,19 @@ export const User = new SubX({
     )
     rc.token(this.token)
     return rc
+  },
+  async writeToDb(item) {
+    if (item) {
+      await db.dbAction('user', 'add', item)
+    } else {
+      await db.dbAction('user', 'update', {
+        id: this.id,
+        update: {
+          token: this.token,
+          groups: this.groups
+        }
+      })
+    }
   },
   authorizeUri (groupId, botId) {
     return this.rc.authorizeUri(process.env.RINGCENTRAL_BOT_SERVER + '/user-oauth', {
@@ -165,7 +213,15 @@ export const User = new SubX({
     } catch (e) {
       log('User authorize error', e.response.data)
     }
-    this.token = this.rc.token()
+    let token = this.rc.token()
+    let id = token.owner_id
+    this.token = token
+    this.id = id
+    await this.writeToDb({
+      id,
+      token,
+      groups: {}
+    })
   },
   async refresh () {
     try {
@@ -173,7 +229,7 @@ export const User = new SubX({
       this.token = this.rc.token()
     } catch(e) {
       log('User try refresh token', e.response.data)
-      delete store.users[this.token.owner_id]
+      await store.removeUser(this.id)
       log(`User ${this.token.owner_id} refresh token has expired`)
     }
   },
@@ -186,15 +242,16 @@ export const User = new SubX({
       try {
         await this.rc.refresh()
         this.token = this.rc.token()
+        await this.writeToDb()
         return true
       } catch (e) {
         log(
-          'User validate refresh',
+          'User validate refresh error',
           e.response
             ? e.response.data
             : e
         )
-        delete store.users[this.token.owner_id]
+        await store.removeUser(this.id)
         log(`User ${this.token.owner_id} refresh token has expired`)
         return false
       }
@@ -248,12 +305,14 @@ export const User = new SubX({
       log('User setupWebHook error', e.response.data)
     }
   },
-  removeGroup(id) {
+  async removeGroup(id) {
     delete this.groups[id]
+    await this.writeToDb()
   },
   async addGroup (groupId, botId) {
     const hasNoGroup = Object.keys(this.groups).length === 0
     this.groups[groupId] = botId
+    await this.writeToDb()
     if (hasNoGroup) {
       await this.setupWebHook()
     }
@@ -295,7 +354,7 @@ export const User = new SubX({
   async sendVoiceMailInfo (processedMailInfo = '') {
     for (const groupId of Object.keys(this.groups)) {
       const botId = this.groups[groupId]
-      const bot = store.getBot(botId)
+      const bot = await store.getBot(botId)
       await bot.sendMessage(
         groupId,
         { text: processedMailInfo }
@@ -304,40 +363,11 @@ export const User = new SubX({
   }
 })
 
-// load data from database
-let store
-export const getStore = async () => {
-  if (store) {
-    return store
+async function create(item, type) {
+  let dict = {
+    bot: Bot,
+    user: User
   }
-  // load database from S3
-  const database = await read()
-  store = new Store(database)
-
-  // init bots
-  for (const k of R.keys(store.bots)) {
-    const bot = new Bot(store.bots[k])
-    if (await bot.validate()) {
-      store.bots[k] = bot
-      await bot.renewWebHooks()
-    }
-  }
-
-  // init users
-  for (const k of R.keys(store.users)) {
-    const user = new User(store.users[k])
-    if (await user.validate()) {
-      store.users[k] = user
-      await user.renewWebHooks()
-      await user.refresh()
-    }
-  }
-
-  store.lastInitTime = + new Date()
-  // auto save to database
-  SubX.autoRun(store, async () => {
-    await write(store)
-  }, debounceTime(1000))
-
-  return store
+  let inst = new dict[type](item)
+  return inst
 }

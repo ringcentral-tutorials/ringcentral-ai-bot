@@ -2,11 +2,8 @@
  * user oauth by tyler
  */
 
-import result from './response'
-import { User, getStore } from './store'
-//import {debug} from './log'
-
-import {subscribeInterval} from '../common/constants'
+import {result, subscribeInterval} from './common'
+import {User, store} from './store'
 
 export default async (event) => {
   const message = event.body
@@ -14,16 +11,17 @@ export default async (event) => {
 
   let { body } = message
   if (body) {
-    const store = await getStore()
     let botId = message.ownerId
     if (message.event === subscribeInterval()) {
-      let bot1 = store.getBot(botId)
-      await bot1.renewWebHooks()
+      let bot1 = await store.getBot(botId)
+      if (bot1) {
+        await bot1.renewWebHooks()
+      }
     } else {
       switch (body.eventType) {
         case 'GroupJoined':
           if (body.type === 'PrivateChat') {
-            const bot = store.getBot(botId)
+            const bot = await store.getBot(botId)
             await bot.sendMessage(body.id, { text: `Hello, I am a chatbot.
   Please reply "![:Person](${botId})" if you want to talk to me.` })
           }
@@ -32,11 +30,11 @@ export default async (event) => {
           if (body.creatorId === botId || body.text.indexOf(`![:Person](${botId})`) === -1) {
             break
           }
-          var bot = store.getBot(botId)
+          var bot = await store.getBot(botId)
           if (/\bunmonitor\b/i.test(body.text)) { // monitor voicemail
-            const user = store.getUser(body.creatorId)
+            const user = await store.getUser(body.creatorId)
             if (user) {
-              user.removeGroup(body.groupId)
+              await user.removeGroup(body.groupId)
               await bot.sendMessage(body.groupId, { text: `![:Person](${body.creatorId}), stop monitor your voicemail now!\nIf you want me to monitor your voicemail again, please reply "![:Person](${botId}) monitor"` })
             } else {
               await bot.sendMessage(body.groupId, {
@@ -44,7 +42,7 @@ export default async (event) => {
               })
             }
           } else if (/\bmonitor\b/i.test(body.text)) { // monitor voicemail
-            const user = store.getUser(body.creatorId)
+            const user = await store.getUser(body.creatorId)
             if (user) {
               await user.addGroup(body.groupId, botId)
               await bot.sendMessage(body.groupId, { text: `![:Person](${body.creatorId}), now your voicemail is monitored!\nIf you want me to **stop monitor** your voicemail, please reply "![:Person](${botId}) unmonitor"` })
