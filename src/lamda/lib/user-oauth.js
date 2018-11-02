@@ -14,7 +14,7 @@ export default async (event) => {
   await bot.sendMessage(groupId, { text: `![:Person](${user.token.owner_id}), you have successfully authorized me to access your RingCentral data!` })
 
   await user.addGroup(groupId, botId)
-  await bot.sendMessage(groupId, { text: `![:Person](${user.token.owner_id}), your voiceMail is monitored!` })
+  await bot.sendMessage(groupId, { text: `![:Person](${user.token.owner_id}), your voiceMail is monitored!\nIf you want me to **stop monitor** your voicemail, please reply "![:Person](${botId}) unmonitor"` })
 
   return result(
     'You have authorized the bot to access your RingCentral data! Please close this page and get back to Glip'

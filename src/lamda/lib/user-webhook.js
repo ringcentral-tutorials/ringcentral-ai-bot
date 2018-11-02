@@ -8,7 +8,6 @@ import _ from 'lodash'
 
 export default async (event) => {
   let message = event.body
-  //console.log('Message received via user WebHook:', JSON.stringify(message, null, 2))
   let { test, count } = event.queryStringParameters || {}
   if (test) {
     message = {

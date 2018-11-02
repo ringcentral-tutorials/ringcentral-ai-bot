@@ -40,11 +40,6 @@ export const subscribeInterval = () => '/restapi/v1.0/subscription/~?threshold=5
 export const expiresIn = () => process.env.SUBSCRIBE_EXPIRE
   ? parseInt(process.env.SUBSCRIBE_EXPIRE)
   : 1799
-export const tables = [
-  'user',
-  'bot',
-  'cache'
-]
 
 export function shouldSyncVoiceMail (event) {
   let isStoreMsg = /\/account\/[\d~]+\/extension\/[\d~]+\/message-store/.test(
@@ -128,5 +123,23 @@ export function handleEvent (evt) {
   return {
     statusCode: 200,
     body: JSON.stringify(evt)
+  }
+}
+
+export const tables = [
+  'user',
+  'bot',
+  'cache'
+]
+
+export const dynamodbDefinitions = {
+  user: {
+    id: ['S', 'HASH', 'string']
+  },
+  bot: {
+    id: ['S', 'HASH', 'string']
+  },
+  cache: {
+    id: ['S', 'HASH']
   }
 }

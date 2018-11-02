@@ -22,6 +22,9 @@ export default async (event) => {
         case 'GroupJoined':
           if (body.type === 'PrivateChat') {
             const bot = await store.getBot(botId)
+            if (!bot) {
+              break
+            }
             await bot.sendMessage(body.id, { text: `Hello, I am a chatbot.
   Please reply "![:Person](${botId})" if you want to talk to me.` })
           }
@@ -31,6 +34,9 @@ export default async (event) => {
             break
           }
           var bot = await store.getBot(botId)
+          if (!bot) {
+            return
+          }
           if (/\bunmonitor\b/i.test(body.text)) { // monitor voicemail
             const user = await store.getUser(body.creatorId)
             if (user) {
