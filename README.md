@@ -56,7 +56,7 @@ pm2 start bin/pm2.yml
 
 ## Build and deploy to AWS Lambda
 
-https://github.com/zxdong262/rc-ai-bot/wiki/Build-and-deploy-to-aws-lamda
+https://github.com/ringcentral-tutorials/rc-ai-bot/wiki/Build-and-deploy-to-aws-lamda
 
 ## License
 
