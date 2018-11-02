@@ -23,16 +23,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:zxdong262/rc-ai-bot.git"
+    "url": "git+ssh://git@github.com:ringcentral-tutorials/rc-ai-bot.git"
   },
   "keywords": [
     "ringcentral",
     "bot",
     "ai"
   ],
-  "author": "ZHAO Xudong <zxdong@gmail.com>",
+  "author": "Drake Zhao <drake.zhao@ringcentral.com>",
   "license": "MIT",
-  "homepage": "https://github.com/zxdong262/rc-ai-bot#readme",
+  "homepage": "https://github.com/ringcentral-tutorials/rc-ai-bot#readme",
   "devDependencies": {
     "@babel/cli": "7.1.2",
     "@babel/core": "7.1.2",
