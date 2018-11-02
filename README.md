@@ -15,9 +15,9 @@ Read Glip user's new voicemail, transcribe the voice to text, analyze the text w
 ## dev
 
 ```bash
-git clone git@github.com:zxdong262/rc-ai-bot.git
-# or git clone https://github.com/zxdong262/rc-ai-bot.git
-cd rc-ai-bot
+git clone git@github.com:ringcentral-tutorials/ringcentral-ai-bot.git
+# or git clone https://github.com/ringcentral-tutorials/ringcentral-ai-bot.git
+cd ringcentral-ai-bot
 yarn
 
 # create config
@@ -51,12 +51,12 @@ pm2 start bin/pm2.yml
 ```
 
 ## Test the bot
-- Goto your ringcentral developer site, in bot app's bot page, click add to glip
+- Goto your ringcentral developer site, in bot app's bot page, click `add to glip`
 - Login to https://glip-app.devtest.ringcentral.com, click bot to start the chat, just follow the bot's instructions
 
 ## Build and deploy to AWS Lambda
 
-https://github.com/ringcentral-tutorials/rc-ai-bot/wiki/Build-and-deploy-to-aws-lamda
+https://github.com/ringcentral-tutorials/ringcentral-ai-bot/wiki/Build-and-deploy-to-aws-lamda
 
 ## License
 
