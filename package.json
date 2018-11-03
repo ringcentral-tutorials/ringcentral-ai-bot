@@ -11,7 +11,7 @@
     "compile-server": "node bin/compile-server",
     "prod-server": "NODE_ENV=production node server/run-dev-server.js",
     "proxy": "ngrok http 7867",
-    "watch": "cd dist && serverless logs -f bot -t",
+    "watch": "cd lamda && serverless logs -f bot -t",
     "deploy-to-aws": "node bin/deploy-to-aws",
     "update-to-aws": "node bin/update-to-aws",
     "u": "npm run update-to-aws",

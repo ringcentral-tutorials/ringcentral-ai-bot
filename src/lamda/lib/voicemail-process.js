@@ -28,9 +28,7 @@ export async function processMail (mail, headers) {
   let text = await speech2text(
     url, headers
   )
-  if (
-    !_.isString(text)
-  ) {
+  if (!_.isString(text)) {
     return ''
   }
   let result = await textAnalysis(text)

@@ -118,7 +118,6 @@ export function resultFormatter (userId, result) {
 /**
  * handle event not userful
  */
-
 export function handleEvent (evt) {
   return {
     statusCode: 200,
@@ -142,4 +141,12 @@ export const dynamodbDefinitions = {
   cache: {
     id: ['S', 'HASH']
   }
+}
+
+export function handleRCError(type, e) {
+  log(
+    type,
+    'error',
+    _.get(e.response.data) || e.stack
+  )
 }

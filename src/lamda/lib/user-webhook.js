@@ -18,7 +18,7 @@ export default async (event) => {
   }
   let newMailCount = shouldSyncVoiceMail(event)
   let isRenewEvent = _.get(message, 'event') === subscribeInterval()
-  if (newMailCount || isRenewEvent) {
+  if (test || newMailCount || isRenewEvent) {
     const userId = (message.body.extensionId || message.ownerId).toString()
     const user = await store.getUser(userId)
     if (user && isRenewEvent) {

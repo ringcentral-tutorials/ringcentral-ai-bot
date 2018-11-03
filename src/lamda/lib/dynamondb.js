@@ -172,21 +172,6 @@ function getItem(id, table) {
         debug(err, 'get item error')
         return resolve(false)
       }
-      /*
-      data = {
-        Item: {
-        "AlbumTitle": {
-          S: "Songs About Life"
-          },
-        "Artist": {
-          S: "Acme Band"
-          },
-        "SongTitle": {
-          S: "Happy Day"
-          }
-        }
-      }
-      */
       if (!data.Item) {
         return resolve(false)
       }
@@ -211,7 +196,7 @@ function getItem(id, table) {
 }
 
 /**
- * user action
+ * db action
  * @param {String} tableName
  * @param {String} action, add, remove, update, get
  * @param {Object} data
@@ -224,8 +209,8 @@ export async function dbAction(tableName, action, data) {
   debug(
     'db action',
     tableName,
-    action,
-    data
+    action
+    //data
   )
   await prepareDb()
   let {id = '', update} = data

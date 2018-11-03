@@ -44,7 +44,7 @@ function readFileAsync(filePath) {
 }
 
 /**
- * user action
+ * db action
  * @param {String} tableName, user or bot
  * @param {String} action, add, remove, update, get
  * @param {Object} data
