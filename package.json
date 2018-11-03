@@ -1,6 +1,6 @@
 {
   "name": "rc-ai-bot",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "POC of ringcentral glip ai bot",
   "main": "lamda/handler.js",
   "scripts": {
@@ -14,7 +14,6 @@
     "watch": "cd dist && serverless logs -f bot -t",
     "deploy-to-aws": "node bin/deploy-to-aws",
     "update-to-aws": "node bin/update-to-aws",
-    "prepare-ffmpeg": "node bin/prepare-ffmpeg",
     "u": "npm run update-to-aws",
     "s:watch": "cd lamda && ../node_modules/.bin/serverless logs -f hello -t",
     "lint": "./node_modules/.bin/eslint --max-warnings 0 --ext .js  src",
@@ -49,7 +48,6 @@
     "babel-plugin-transform-runtime": "6.23.0",
     "cross-env": "5.1.6",
     "dotenv": "6.1.0",
-    "download-npm-package": "3.1.12",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "16.1.0",
     "eslint-config-standard": "11.0.0",
@@ -80,12 +78,9 @@
   },
   "dependencies": {
     "@babel/runtime": "7.1.2",
-    "@ffmpeg-installer/ffmpeg": "1.0.16",
-    "@google-cloud/language": "2.0.0",
-    "@google-cloud/speech": "2.1.1",
+    "audio-analysis-service": "0.1.2",
     "aws-sdk": "^2.342.0",
     "bluebird": "3.5.2",
-    "fluent-ffmpeg": "2.1.2",
     "lodash": "4.17.11",
     "ringcentral-js-concise": "0.6.2",
     "subx": "0.7.0"

@@ -2,9 +2,9 @@
  * read voicemail and process it
  */
 
-import {speech2text} from './speech2text'
 import _ from 'lodash'
-import {textAnalysis} from './text-analysis'
+import {speech2text} from 'audio-analysis-service/dist/url2text'
+import {textAnalysis} from 'audio-analysis-service/dist/text-analysis'
 import {store} from './store'
 import {log} from './common'
 import crypto from 'crypto'
@@ -14,7 +14,7 @@ import crypto from 'crypto'
  * @param {object} mail
  * @param {object} rc
  */
-export async function processMail (mail, rc) {
+export async function processMail (mail, headers) {
   let url = _.get(mail, 'attachments[0].uri')
   if (!url) {
     return ''
@@ -26,8 +26,7 @@ export async function processMail (mail, rc) {
     return cached
   }
   let text = await speech2text(
-    rc,
-    url
+    url, headers
   )
   if (
     !_.isString(text)

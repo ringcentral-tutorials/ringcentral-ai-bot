@@ -19,13 +19,9 @@ export default async (event) => {
   let newMailCount = shouldSyncVoiceMail(event)
   let isRenewEvent = _.get(message, 'event') === subscribeInterval()
   if (newMailCount || isRenewEvent) {
-    const userId = message.body.extensionId || message.ownerId
+    const userId = (message.body.extensionId || message.ownerId).toString()
     const user = await store.getUser(userId)
     if (user && isRenewEvent) {
-      // let id = _.get(
-      //   message,
-      //   'subscriptionId'
-      // )
       await user.renewWebHooks()
       await user.refresh()
     } else if (user) {
