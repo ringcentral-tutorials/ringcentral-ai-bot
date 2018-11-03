@@ -5,7 +5,7 @@ import {processMail} from './voicemail-process'
 import db from './db'
 import {
   log, tables, resultFormatter,
-  subscribeInterval, expiresIn
+  subscribeInterval, expiresIn, handleRCError
 } from './common'
 import _ from 'lodash'
 
@@ -24,8 +24,7 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-
-// load data from database
+//build store functions
 function getStore () {
   let subxed = ['user', 'bot']
   return tables.reduce((prev, table) => {
@@ -83,7 +82,7 @@ export const Bot = new Subx({
     try {
       await this.rc.authorize({ code, redirectUri: process.env.RINGCENTRAL_BOT_SERVER + '/bot-oauth' })
     } catch (e) {
-      log('Bot authorize', e.response.data)
+      handleRCError('Bot authorize', e)
     }
     let token = this.rc.token()
     let id = token.owner_id
@@ -114,43 +113,41 @@ export const Bot = new Subx({
           60 * 1000
         )
       } else {
-        log('Bot setupWebHook error', e.response.data)
+        handleRCError('Bot setupWebHook', e)
         throw e
       }
     }
   },
   async renewWebHooks () {
     try {
-      const x = await this.rc.get('/restapi/v1.0/account/~/extension/~')
-      log(x.data, 'x.data')
       const r = await this.rc.get('/restapi/v1.0/subscription')
       let filtered = r.data.records.filter(
         r => {
           return r.deliveryMode.address === process.env.RINGCENTRAL_BOT_SERVER + '/bot-webhook'
         }
       )
-      log('bot subs list', filtered.map(g => g.id).join(','))
+      debug('bot subs list', filtered.map(g => g.id).join(','))
       await this.setupWebHook()
       for (let sub of filtered) {
         await this.delSubscription(sub.id)
       }
     } catch (e) {
-      log('bot renewWebHooks error', e.response.data)
+      handleRCError('bot renewWebHooks', e)
     }
   },
   async delSubscription (id) {
-    log('del bot sub id:', id)
+    debug('del bot sub id:', id)
     try {
       await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
     } catch (e) {
-      log('bot delSubscription error', e.response.data)
+      handleRCError('bot delSubscription', e)
     }
   },
   async sendMessage (groupId, messageObj) {
     try {
       await this.rc.post(`/restapi/v1.0/glip/groups/${groupId}/posts`, messageObj)
     } catch (e) {
-      log('Bot sendMessage error', e.stack)
+      handleRCError('Bot sendMessage', e)
     }
   },
   async validate () {
@@ -158,8 +155,8 @@ export const Bot = new Subx({
       await this.rc.get('/restapi/v1.0/account/~/extension/~')
       return true
     } catch (e) {
-      log('Bot validate', e.response.data)
-      const errorCode = e.response.data.errorCode
+      handleRCError('Bot validate', e)
+      const errorCode = _.get(e, 'response.data.errorCode')
       if (errorCode === 'OAU-232' || errorCode === 'CMN-405') {
         await store.removeBot[this.id]
         log(`Bot user ${this.id} has been deleted`)
@@ -204,7 +201,7 @@ export const User = new Subx({
     try {
       await this.rc.authorize({ code, redirectUri: process.env.RINGCENTRAL_BOT_SERVER + '/user-oauth' })
     } catch (e) {
-      log('User authorize error', e.response.data)
+      handleRCError('User authorize', e)
     }
     let token = this.rc.token()
     let id = token.owner_id
@@ -221,7 +218,7 @@ export const User = new Subx({
       await this.rc.refresh()
       this.token = this.rc.token()
     } catch(e) {
-      log('User try refresh token', e.response.data)
+      handleRCError('User refresh token', e)
       await store.removeUser(this.id)
       log(`User ${this.token.owner_id} refresh token has expired`)
     }
@@ -240,15 +237,14 @@ export const User = new Subx({
         await this.delSubscription(sub.id)
       }
     } catch (e) {
-      log('user renewWebHooks error', e.response.data)
+      handleRCError('user renewWebHooks', e)
     }
   },
   async delSubscription (id) {
-    log('del user sub id:', id)
     try {
       await this.rc.delete(`/restapi/v1.0/subscription/${id}`)
     } catch (e) {
-      log('user delSubscription error', e.response.data)
+      handleRCError(`user delSubscription ${id}`, e)
     }
   },
   async setupWebHook () { // setup WebHook for voicemail
@@ -262,7 +258,7 @@ export const User = new Subx({
         }
       })
     } catch (e) {
-      log('User setupWebHook error', e.response.data)
+      handleRCError('User setupWebHook', e)
     }
   },
   async removeGroup(id) {
@@ -286,24 +282,26 @@ export const User = new Subx({
     })
     return r.data.records
   },
-  // async syncVoiceMails (params = {
-  //   recordCount: 10,
-  //   syncType: 'FSync'
-  // }) {
-  //   const r = await this.rc.get('/restapi/v1.0/account/~/extension/~/message-sync', {
-  //     params: {
-  //       ...params,
-  //       messageType: 'VoiceMail'
-  //     }
-  //   })
-  //   return r.data.records
-  // },
+  /*
+  async syncVoiceMails (params = {
+    recordCount: 10,
+    syncType: 'FSync'
+  }) {
+    const r = await this.rc.get('/restapi/v1.0/account/~/extension/~/message-sync', {
+      params: {
+        ...params,
+        messageType: 'VoiceMail'
+      }
+    })
+    return r.data.records
+  },
+  */
   async processVoiceMail (newMailCount = 10) {
     if (!Object.keys(this.groups)) {
       return
     }
     let voiceMails = await this.getVoiceMails(newMailCount)
-    let userId = this.token.owner_id
+    let userId = this.id
     let headers = this.rc._bearerAuthorizationHeader()
     for (let mail of voiceMails) {
       let msg = await processMail(mail, headers)
@@ -324,6 +322,11 @@ export const User = new Subx({
   }
 })
 
+/**
+ * create instance from user/bot info
+ * @param {object} item
+ * @param {*} type 
+ */
 async function create(item, type) {
   let dict = {
     bot: Bot,
