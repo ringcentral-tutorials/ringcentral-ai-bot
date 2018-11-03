@@ -127,8 +127,8 @@ export function handleEvent (evt) {
 }
 
 export const tables = [
-  'user',
   'bot',
+  'user',
   'cache'
 ]
 

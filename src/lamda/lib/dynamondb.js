@@ -14,13 +14,14 @@ AWS.config.update({
   region: process.env.DYNAMODB_REGION
 })
 
-const prefix = process.env.DYNAMODB_TABLE_PREFIX || 'ringcental_ai_bot'
+const prefix = process.env.DYNAMODB_TABLE_PREFIX || 'ringcentral_ai_bot'
 
 const dynamodb = new AWS.DynamoDB()
 
 function createTableName(table) {
   return prefix + '_' + table
 }
+
 function tableExist() {
   return new Promise((resolve) => {
     let params = {
@@ -28,7 +29,7 @@ function tableExist() {
     }
     dynamodb.describeTable(params, function (err) {
       if (err) {
-        resolve(false)
+        return resolve(false)
       }
       resolve(true)
     })
@@ -72,13 +73,33 @@ function createTable(table) {
   })
 }
 
+async function createTableWrap(table) {
+  await createTable(table)
+  return new Promise((resolve, reject) => {
+    var params = {
+      TableName: createTableName(table)
+    }
+    dynamodb.waitFor(
+      'tableExists',
+      params,
+      function(err, data) {
+        if (err) {
+          debug(err, 'wait for db tableExists error', table)
+          return reject(err)
+        }
+        resolve(data)
+      }
+    )
+  })
+}
+
 async function prepareDb() {
   let exist = await tableExist()
   if (exist) {
     return true
   }
   for (let t of tables) {
-    await createTable(t)
+    await createTableWrap(t)
   }
 }
 
@@ -201,7 +222,7 @@ function getItem(id, table) {
  */
 export async function dbAction(tableName, action, data) {
   debug(
-    'db',
+    'db action',
     tableName,
     action,
     data
@@ -214,7 +235,7 @@ export async function dbAction(tableName, action, data) {
       break
     case 'remove':
       if (!id) {
-        return
+        break
       }
       if (id) {
         removeItem(id, tableName)
@@ -222,7 +243,7 @@ export async function dbAction(tableName, action, data) {
       break
     case 'update':
       if (!id) {
-        return
+        break
       }
       var old = await getItem(id, tableName)
       if (old) {
