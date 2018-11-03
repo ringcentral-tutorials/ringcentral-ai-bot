@@ -61,9 +61,10 @@ provider:
     ## for google cloud api crendential path
     GOOGLE_APPLICATION_CREDENTIALS:
 
-    # aws s3 bucket, you need create a bucket in aws s3 console
-    AWS_S3_BUCKET: 
-    AWS_S3_KEY: database.json
+    # db
+    DB_TYPE: dynamodb
+    DYNAMODB_TABLE_PREFIX: rc_ai_bot1
+    DYNAMODB_REGION: us-east-1
 
 # you can add packaging information here
 # package:
