@@ -121,6 +121,20 @@ npm run u
 - Make sure your lamda function's timeout more than 5 minutes
 - Do not forget to set your ringcentral app's redirect URL to lamda's api gateway url, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/bot-oauth` for bot app, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/user-oauth` for user app.
 
+## Credits
+- The concept of this bot is designed by [@grokify](https://github.com/grokify)
+- [@tylerlong](https://github.com/tylerlong) Wrote the core bot logic
+
+## Documents & Reference
+- https://developer.ringcentral.com/legacy-api-reference/index.html#!#Overview.html
+- https://ringcentral-api-docs.readthedocs.io/en/latest/glip_bots/
+- https://github.com/grokify/ringcentral-polling-and-syncing
+- https://github.com/ringcentral/ringcentral-js
+- https://github.com/tylerlong/ringcentral-js-concise
+- https://github.com/grokify/groupbot
+- https://github.com/tylerlong/subx
+- https://github.com/zxdong262/audio-analysis-service (Voice transcript/analysis related external service)
+
 ## License
 
 MIT
