@@ -56,7 +56,84 @@ pm2 start bin/pm2.yml
 
 ## Build and deploy to AWS Lambda
 
-https://github.com/ringcentral-tutorials/ringcentral-ai-bot/wiki/Build-and-deploy-to-aws-lamda
+AWS lamda with api gate way and dynamodb would give us a flexible way to deploy bot.
+
+- **ONLY works in linux**, AWS lamda is in linux x64, some dependencies need to be prebuilt and upload to lamda, so need the build process in linux x64, you could do it in ci or any linux server/destop env.
+
+- Get a aws account, create aws_access_key_id and aws_secret_access_key, put it in `~/.aws/credentials`, like this:
+```bash
+[default]
+aws_access_key_id = <your aws_access_key_id>
+aws_secret_access_key = <your aws_secret_access_key>
+```
+refer to https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
+
+
+```bash
+cp lamda/serverless.sample.yml lamda/serverless.yml
+```
+Edit `lamda/serverless.yml`, make sure you set proper name and required env
+```yml
+# you can define service wide environment variables here
+  environment:
+    NODE_ENV: production
+    # ringcentral apps
+
+    ## bots
+    RINGCENTRAL_BOT_CLIENT_ID:
+    RINGCENTRAL_BOT_CLIENT_SECRET:
+
+    ## user
+    RINGCENTRAL_USER_CLIENT_ID:
+    RINGCENTRAL_USER_CLIENT_SECRET:
+
+    ## common
+    RINGCENTRAL_SERVER: https://platform.devtest.ringcentral.com
+    RINGCENTRAL_BOT_SERVER: https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot
+
+    ## for google cloud api crendential path
+    GOOGLE_APPLICATION_CREDENTIALS: path/to/google-credential.json
+
+    # db
+    DB_TYPE: dynamodb
+    DYNAMODB_TABLE_PREFIX: rc_ai_bot1
+    DYNAMODB_REGION: us-east-1
+
+```
+
+Deploy to aws lamda with `npm run deploy`
+```bash
+# make sure you have yarn, could use `npm i -g yarn to install`
+# then run this cmd to deploy to aws lamda, full build, may take more time
+npm run deploy
+
+## watch lamda server log
+npm run watch
+
+## update function
+npm run update
+
+## update without build, fast update, no rebuild
+npm run u
+```
+- Create api gateway for your lamda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
+- Make sure your lamda function role has permission to read/write dynamodb(Set this from aws IAM roles, could simply attach `AmazonDynamoDBFullAccess` policy to lamda function's role)
+- Make sure your lamda function's timeout more than 5 minutes
+- Do not forget to set your ringcentral app's redirect URL to lamda's api gateway url, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/bot-oauth` for bot app, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/user-oauth` for user app.
+
+## Credits
+- The concept of this bot is designed by [@grokify](https://github.com/grokify)
+- [@tylerlong](https://github.com/tylerlong) Wrote the core bot logic
+
+## Documents & Reference
+- https://developer.ringcentral.com/legacy-api-reference/index.html#!#Overview.html
+- https://ringcentral-api-docs.readthedocs.io/en/latest/glip_bots/
+- https://github.com/grokify/ringcentral-polling-and-syncing
+- https://github.com/ringcentral/ringcentral-js
+- https://github.com/tylerlong/ringcentral-js-concise
+- https://github.com/grokify/groupbot
+- https://github.com/tylerlong/subx
+- https://github.com/zxdong262/audio-analysis-service (Voice transcript/analysis related external service)
 
 ## License
 

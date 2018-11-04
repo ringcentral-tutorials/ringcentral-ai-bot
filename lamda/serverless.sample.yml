@@ -61,9 +61,10 @@ provider:
     ## for google cloud api crendential path
     GOOGLE_APPLICATION_CREDENTIALS:
 
-    # aws s3 bucket, you need create a bucket in aws s3 console
-    AWS_S3_BUCKET: 
-    AWS_S3_KEY: database.json
+    # db
+    DB_TYPE: dynamodb
+    DYNAMODB_TABLE_PREFIX: rc_ai_bot1
+    DYNAMODB_REGION: us-east-1
 
 # you can add packaging information here
 # package:
@@ -77,7 +78,7 @@ exclude:
 functions:
   bot:
     handler: handler.bot
-    timeout: 300
+    timeout: 400
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
