@@ -1,0 +1,6 @@
+{
+    "title": "Building a RingCentral AI Chatbot",
+    "repo": "ringcentral-tutorials/ringcentral-ai-bot",
+    "description": "Welcome to RingCentral AI Chatbot tutorial! This tutorial will guide you through building a complete, public chatbot including user auth to third party services, subscribing to notifications, processing events and posting messages.\n\nClick the \"Start\" button below to see how Viewsaurus works.",
+    "heroku": false
+}

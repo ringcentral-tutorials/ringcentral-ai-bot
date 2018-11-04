@@ -1,0 +1,111 @@
+.chapter(data-title='RingCentral AI Bot')
+  .step(data-title='Overview', data-file='../src/lamda/lib/bot-oauth.js', data-highlight='10-13')
+    :markdown
+      ## Overview
+
+      1. Core Bot Functionality
+        1. [Bot Auth](#1)
+        1. Subscribing for Bot Events
+        1. Creating Posts
+      1. Adding a Bot
+        1. Add to Glip Button
+        1. Welcome Message
+      1. Linking to Services
+      1. Responding to Events
+        1. Bot Events
+        1. Service Events
+      1. Installing and running the bot
+
+  .step(data-title='Adding the Bot', data-file='../src/lamda/lib/bot-oauth.js', data-highlight='10-13')
+    :markdown
+      ## Adding the Bot
+
+      A bot is installed into a RingCentral account when the user clicks the "Add to Glip" button which creates and adds the bot to the account. The "Add to Glip" button is in the Developer Portal for development and the [RingCentral App Gallery](https://ringcentral.com/apps) for graduated, public bots. Ensure you have configured your bot OAuth webhook in the Developer Portal. The development button looks like the following:
+
+      ![](images/ringcentral-ai-bot_add-to-glip-button-sandbox.png)
+
+  .step(data-title='Bot Authentication', data-file='../src/lamda/lib/store.js', data-highlight='81-95')
+    :markdown
+      ## Bot Authentication
+
+      When the button is clicked, the user will be presented with an OAuth 2.0 login flow that ends with the browser being redirected to your redirect URL which will then need to retrieve the authorization code from the query string parameter and exchange it for an access token.
+
+      For a public bot, you will need one token per account and can save the token by using the bot's `personId` which is returned as the `owner_id` with the `access_token`.
+
+  .step(data-title='Subscribing for Events', data-file='../src/lamda/lib/store.js', data-highlight='96-120')
+    :markdown
+      ## Subscribing for Events
+
+      The bot interacts with Glip by receiving posts from users and group events it's a member of. To subscribe to to these events, create a subscription with the `/restapi/v1.0/subscription` API.
+
+      The event filters are shown in the next section.
+
+  .step(data-title='Event Filters', data-file='../src/lamda/lib/store.js', data-highlight='12-16')
+    :markdown
+      ## Event Filters
+
+      To listen for commands in Glip, the bot needs to subscribe for events via event filters. Two event filters of use include:
+
+      * `glip/posts` for user commands and
+      * `glip/groups` for when the bot is invited to a group
+
+  .step(data-title='Creating Posts', data-file='../src/lamda/lib/store.js', data-highlight='146-152')
+    :markdown
+      ## Creating Posts
+
+      To create a post use the Glip Create Post API:
+
+      `/restapi/v1.0/glip/groups/{groupId}/posts`
+
+      This requires sending the bot access token in the `Authorization` header as the `Bearer` token value.
+
+      The bot automatically handles both creating a new post and authorization.
+
+      More information on the API is available here:
+
+      * [Create Post API](https://developer.ringcentral.com/api-reference#Posts-createGlipGroupPost)
+
+  .step(data-title='Creating the Welcome Message', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='21-29')
+    :markdown
+      ## Creating the Welcome Message
+
+      To post a welcome message to a user when the bot is added to a new team, perform the following.
+
+      1. Subscribe for the glip/groups event filter
+      1. When receiving an incoming event, identify an event for joining a private chat with the following event: `body.eventType` == `GroupJoined` && `body.type` == `PrivateChat`
+      1. Post your welcome message.
+
+      When posting back, use the following steps:
+
+      1. Use the event `ownerId` to identify the bot user and retrieve the proper access token.
+      1. Post back to the `body.groupId`
+      1. Optionally at mention the user by loading the user's `personId` by calling the `group/{groupId}` endpoint and filtering the array of `members.
+
+  .step(data-title='Linking User Accounts', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='84-88')
+    :markdown
+      ## Linking User Accounts
+
+      To have the bot access user data for RingCentral or other accounts, have the bot offer to launch an OAuth flow via a link in the Glip chat.
+
+      When the user clicks on the link, launch the OAuth flow and then return to a redirect URL for the user flow.
+
+  .step(data-title='Saving the User Token', data-file='../src/lamda/lib/store.js', data-highlight='200-215')
+    :markdown
+      ## Saving the User Token
+
+      Similar to saving the bot token, you will need to save the user token for each user.
+
+  .step(data-title='Link Account Success', data-file='../src/lamda/lib/store.js', data-highlight='249-262')
+    :markdown
+      ## Link Account Success
+
+      After the account has been linked, performe the needed service and return a successful message to the user.
+
+      In this case, we will use the user access token to create a subscription for new voicemail using the `/restapi/v1.0/account/~/extension/~/message-store` event filter defined in the variable `userEventFilters`.
+
+ .step(data-title='Processing Events', data-file='../src/lamda/lib/voicemail-process.js', data-highlight='17-43')
+    :markdown
+      ## Processing Events
+
+      When you receive the new voicemail event, process the voicemail by transcribing it to text and then analyzing the text.
+
