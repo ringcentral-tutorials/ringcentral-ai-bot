@@ -11,8 +11,7 @@ import _ from 'lodash'
 
 const botEventFilters = () => [
   '/restapi/v1.0/glip/posts',
-  '/restapi/v1.0/glip/groups',
-  subscribeInterval()
+  '/restapi/v1.0/glip/groups'
 ]
 
 const userEventFilters = () => [
@@ -97,7 +96,7 @@ export const Bot = new Subx({
     try {
       await this.rc.post('/restapi/v1.0/subscription', {
         eventFilters: botEventFilters(),
-        expiresIn: expiresIn(),
+        expiresIn: 500000000,
         deliveryMode: {
           transportType: 'WebHook',
           address: process.env.RINGCENTRAL_BOT_SERVER + '/bot-webhook'

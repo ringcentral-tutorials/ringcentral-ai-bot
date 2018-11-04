@@ -20,13 +20,13 @@ export default async (event) => {
   let botId = message.ownerId
 
   //handle expire reminder event, resubscribe
-  if (message.event === subscribeInterval()) {
-    let bot1 = await store.getBot(botId)
-    if (bot1) {
-      await bot1.renewWebHooks()
-    }
-    return msg
-  }
+  // if (message.event === subscribeInterval()) {
+  //   let bot1 = await store.getBot(botId)
+  //   if (bot1) {
+  //     await bot1.renewWebHooks()
+  //   }
+  //   return msg
+  // }
 
   switch (body.eventType) {
 
