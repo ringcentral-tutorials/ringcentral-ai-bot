@@ -1,6 +1,4 @@
 
-
-//user bluebird as global.Promise for better performance
 import Koa from 'koa'
 import mount from 'koa-mount'
 import Bodyparser from 'koa-bodyparser'
@@ -34,7 +32,7 @@ const staticOption = () => ({
 })
 const bodyparser = Bodyparser()
 
-const start = async function () {
+const start = function () {
   app.keys = ['rc-bot:' + Math.random()]
   app.use(compress({
     threshold: 2048,
