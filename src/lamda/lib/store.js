@@ -4,7 +4,7 @@ import RingCentral from 'ringcentral-js-concise'
 import {processMail} from './voicemail-process'
 import db from './db'
 import {
-  log, tables, resultFormatter,
+  log, tables, resultFormatter, debug,
   subscribeInterval, expiresIn, handleRCError
 } from './common'
 import _ from 'lodash'

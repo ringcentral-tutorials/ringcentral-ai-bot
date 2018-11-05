@@ -2,7 +2,7 @@
  * user oauth by tyler
  */
 
-import {result, subscribeInterval} from './common'
+import {result} from './common'
 import {User, store} from './store'
 
 export default async (event) => {

@@ -147,6 +147,6 @@ export function handleRCError(type, e) {
   log(
     type,
     'error',
-    _.get(e.response.data) || e.stack
+    _.get(e, 'response.data') || e.stack
   )
 }
