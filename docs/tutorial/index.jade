@@ -2,7 +2,7 @@
   .step(data-title='Overview', data-file='../src/lamda/lib/bot-oauth.js', data-highlight='10-13')
     :markdown
       ## Overview
-
+      1. Prepare the devement env
       1. Core Bot Functionality
         1. [Bot Auth](#1)
         1. Subscribing for Bot Events
@@ -15,6 +15,11 @@
         1. Bot Events
         1. Service Events
       1. Installing and running the bot
+  .step(data-title='Prerequisites', data-file='../README.md', data-highlight='10-35')
+    :markdown
+      ## Prepare the devement env
+
+      Follow the readme's insruction, create required App, set proper env, get the development env ready.
 
   .step(data-title='Adding the Bot', data-file='../src/lamda/lib/bot-oauth.js', data-highlight='10-13')
     :markdown
@@ -24,7 +29,7 @@
 
       ![](images/ringcentral-ai-bot_add-to-glip-button-sandbox.png)
 
-  .step(data-title='Bot Authentication', data-file='../src/lamda/lib/store.js', data-highlight='81-95')
+  .step(data-title='Bot Authentication', data-file='../src/lamda/lib/store.js', data-highlight='79-93')
     :markdown
       ## Bot Authentication
 
@@ -32,7 +37,7 @@
 
       For a public bot, you will need one token per account and can save the token by using the bot's `personId` which is returned as the `owner_id` with the `access_token`.
 
-  .step(data-title='Subscribing for Events', data-file='../src/lamda/lib/store.js', data-highlight='96-120')
+  .step(data-title='Subscribing for Events', data-file='../src/lamda/lib/store.js', data-highlight='94-118')
     :markdown
       ## Subscribing for Events
 
@@ -40,7 +45,7 @@
 
       The event filters are shown in the next section.
 
-  .step(data-title='Event Filters', data-file='../src/lamda/lib/store.js', data-highlight='12-16')
+  .step(data-title='Event Filters', data-file='../src/lamda/lib/store.js', data-highlight='12-13')
     :markdown
       ## Event Filters
 
@@ -49,7 +54,7 @@
       * `glip/posts` for user commands and
       * `glip/groups` for when the bot is invited to a group
 
-  .step(data-title='Creating Posts', data-file='../src/lamda/lib/store.js', data-highlight='146-152')
+  .step(data-title='Creating Posts', data-file='../src/lamda/lib/store.js', data-highlight='144-150')
     :markdown
       ## Creating Posts
 
@@ -65,7 +70,7 @@
 
       * [Create Post API](https://developer.ringcentral.com/api-reference#Posts-createGlipGroupPost)
 
-  .step(data-title='Creating the Welcome Message', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='21-29')
+  .step(data-title='Creating the Welcome Message', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='35-47')
     :markdown
       ## Creating the Welcome Message
 
@@ -89,13 +94,13 @@
 
       When the user clicks on the link, launch the OAuth flow and then return to a redirect URL for the user flow.
 
-  .step(data-title='Saving the User Token', data-file='../src/lamda/lib/store.js', data-highlight='200-215')
+  .step(data-title='Saving the User Token', data-file='../src/lamda/lib/store.js', data-highlight='198-213')
     :markdown
       ## Saving the User Token
 
       Similar to saving the bot token, you will need to save the user token for each user.
 
-  .step(data-title='Link Account Success', data-file='../src/lamda/lib/store.js', data-highlight='249-262')
+  .step(data-title='Link Account Success', data-file='../src/lamda/lib/store.js', data-highlight='248-261')
     :markdown
       ## Link Account Success
 

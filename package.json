@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-ai-bot",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "POC of ringcentral glip ai bot",
   "main": "lamda/handler.js",
   "scripts": {
@@ -11,6 +11,7 @@
     "compile-server": "node bin/compile-server",
     "prod-server": "NODE_ENV=production node server/run-dev-server.js",
     "proxy": "ngrok http 7867",
+    "docs": "cd docs && saurus author",
     "watch": "cd lamda && serverless logs -f bot -t",
     "deploy-to-aws": "node bin/deploy-to-aws",
     "update-to-aws": "node bin/update-to-aws",
@@ -27,7 +28,8 @@
   "keywords": [
     "ringcentral",
     "bot",
-    "ai"
+    "ai",
+    "tutorial"
   ],
   "author": "Drake Zhao <drake.zhao@ringcentral.com>",
   "license": "MIT",
