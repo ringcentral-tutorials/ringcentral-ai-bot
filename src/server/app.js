@@ -1,3 +1,6 @@
+
+
+//user bluebird as global.Promise for better performance
 import Koa from 'koa'
 import mount from 'koa-mount'
 import Bodyparser from 'koa-bodyparser'
@@ -6,10 +9,21 @@ import serve from 'koa-static'
 import conditional from 'koa-conditional-get'
 import etag from 'koa-etag'
 import compress from 'koa-compress'
-import {log} from '../../lamda/lib/common'
 import Router from 'koa-router'
-import {bot} from '../../lamda/handler'
-import config from './config'
+import {bot} from '../lamda/handler'
+import {log} from '../lamda/lib/common'
+import http from 'http'
+import {resolve} from 'path'
+
+const p = resolve(
+  process.cwd(),
+  'package.json'
+)
+const pack = require(p)
+const {
+  PORT = 7867,
+  HOST = 'localhost'
+} = process.env
 
 const isProduction = process.env.NODE_ENV === 'production'
 const cwd = process.cwd()
@@ -18,36 +32,23 @@ const staticOption = () => ({
   maxAge: 1000 * 60 * 60 * 24 * 365,
   hidden: true
 })
-
 const bodyparser = Bodyparser()
 
-export default function init() {
-
-  // global middlewares
+const start = async function () {
   app.keys = ['rc-bot:' + Math.random()]
-
   app.use(compress({
     threshold: 2048,
     flush: require('zlib').Z_SYNC_FLUSH
   }))
-
-  //get
   app.use(conditional())
-
-  // add etags
   app.use(etag())
-
   app.use(
     mount('/', serve(cwd + '/bin', staticOption()))
   )
-
-  // body
   app.use(bodyparser)
-
   if (!isProduction) {
     app.use(logger())
   }
-
   //global error handle
   app.use(async (ctx, next) => {
     try {
@@ -62,7 +63,6 @@ export default function init() {
       }
     }
   })
-
   //lamda handler wrapper
   let handler = async (ctx) => {
     let event = {
@@ -83,7 +83,7 @@ export default function init() {
   //routers
   let router = new Router()
   router.get('/', async ctx => {
-    ctx.body = `${config.pack.name} server running`
+    ctx.body = `${pack.name} server running`
   })
   router.get('/favicon.ico', async ctx => ctx.body = '')
   router.all('/:action', handler)
@@ -92,5 +92,15 @@ export default function init() {
     .use(router.routes())
     .use(router.allowedMethods())
 
-  return app
+  let server = http.Server(app.callback())
+  server.listen(PORT, HOST, () => {
+    log(`${pack.name} server start on --> http://${HOST}:${PORT}`)
+  })
+}
+
+try {
+  start()
+} catch (e) {
+  log(`error start ${pack.name}'`, e.stack)
+  process.exit(1)
 }

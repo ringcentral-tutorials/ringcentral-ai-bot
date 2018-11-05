@@ -1,4 +1,4 @@
-const {exec, echo, cp, rm} = require('shelljs')
+const {exec, echo, rm} = require('shelljs')
 echo('compile server')
 
 rm('-rf', 'server')
