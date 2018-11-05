@@ -135,6 +135,19 @@ npm run u
 - https://github.com/tylerlong/subx
 - https://github.com/zxdong262/audio-analysis-service (Voice transcript/analysis related external service)
 
+## Edit tutorial
+This repo also servs as a tutorial in https://ringcentral-tutorials.github.io/ringcentral-ai-bot.
+```
+# install deps
+yarn
+
+# start local docs server
+yarn docs
+```
+Then visit http://localhost:8888 to check the tutorial
+
+You can edit `docs/tutorial/index.jade`, docs will auto update `docs/index.html`, refresh http://localhost:8888 to see the change.
+
 ## License
 
 MIT
