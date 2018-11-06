@@ -8,14 +8,10 @@ Read Glip user's new voicemail, transcribe the voice to text, analyze the text w
 ## Prerequisites
 
 - Node.js >= 8.10
-- register Google cloud account and set payment method, download your credential json.
-- Create a bot app in [RingCentral developer site](https://developers.ringcentral.com), with permissions: `ReadContacts ReadMessages ReadPresence Contacts ReadAccounts SMS InternalMessages ReadCallLog ReadCallRecording SubscriptionWebhook Glip`, set `OAuth Redirect URI` to `https://your-ngrok-addr.ngrok.io/bot-oauth`
-- Create a browser based app in RingCentral developer site, with all permissions, set `OAuth Redirect URI` to `https://your-ngrok-addr.ngrok.io/user-oauth`.
+- Create a bot app in [RingCentral developer site](https://developers.ringcentral.com), with permissions: `ReadContacts ReadMessages ReadPresence Contacts ReadAccounts SMS InternalMessages ReadCallLog ReadCallRecording SubscriptionWebhook Glip`
+- Create a browser based app in RingCentral developer site, with all permissions.
 
-**Note:** for `https://your-ngrok-addr.ngrok.io`, please check section below:
-
-
-## dev
+## Prepare the development env
 
 ```bash
 git clone git@github.com:ringcentral-tutorials/ringcentral-ai-bot.git
@@ -27,7 +23,7 @@ yarn
 cp .sample.env .env
 # then edit .env, fill ringcentral app configs
 
-## start local lamda server
+## start local server
 yarn dev
 
 ## start a ngrok proxy to local port
@@ -35,8 +31,17 @@ yarn proxy
 # https://xxxxxx.ngrok.io ---> http://localhost:7867
 # you can check ngrok status from http://localhost:4040
 ```
+- After started the ngrok server, you can set your ringcentral app's redirect URL to lamda's api gateway url, `https://xxxxxx.ngrok.io/bot-oauth` for bot app, `https://xxxxxx.ngrok.io/user-oauth` for user app, ngrok will proxy the request to your local server.
+- Goto your ringcentral developer site, in bot app's bot page, click `Add to glip`, Then bot Added, time to test it.
+
+## Test the bot
+- Login to https://glip-app.devtest.ringcentral.com, click bot's name to start the chat, just follow the bot's instructions.
 
 ## Build and Run in production env
+- In local development, by default we use fake data to simulate the voicemail transcript and analysis, in production we use the real thing.
+- Register Google cloud account and set payment method, create an project and create an credential, download your credential json.
+- Set `GOOGLE_APPLICATION_CREDENTIALS=your/google/credential/path` in `.env`
+- Restart server
 
 ```bash
 # install pm2 first if you wanna use pm2
@@ -52,10 +57,6 @@ yarn prod-server
 # use pm2
 pm2 start bin/pm2.yml
 ```
-
-## Test the bot
-- Goto your ringcentral developer site, in bot app's bot page, click `add to glip`
-- Login to https://glip-app.devtest.ringcentral.com, click bot to start the chat, just follow the bot's instructions
 
 ## Build and deploy to AWS Lambda
 

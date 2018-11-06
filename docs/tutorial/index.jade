@@ -3,60 +3,96 @@
     :markdown
       ## Overview
       1. Prepare the development env
-      1. Core Bot Functionality
-        1. [Bot Auth](#1)
-        1. Subscribing for Bot Events
-        1. Creating Posts
-      1. Adding a Bot
-        1. Add to Glip Button
-        1. Welcome Message
-      1. Linking to Services
-      1. Responding to Events
-        1. Bot Events
-        1. Service Events
-      1. Installing and running the bot
-  .step(data-title='Prerequisites', data-file='../README.md', data-highlight='8-37')
+      1. Test the bot
+      1. The bot workflow
+        1. Bot auth
+        1. Subscribing for bot Events
+        1. Bot webhook get subscribed info
+        1. Bot post message
+        1. Build the user authorize URL
+        1. Use authrize
+        1. Subscribing for user voicemail events
+        1. User webhook
+        1. Process the voicemail
+      1. Practice
+        1. Support unmonitor command
+        2. Write a custom command support
+        3. Just tell chat group how many new voicemail there
+        4. Write custom voicemail reponse
+  .step(data-title='Prerequisites', data-file='../README.md', data-highlight='8-35')
     :markdown
       ## Prepare the development env
 
-      Follow the readme's insruction, create required App, set proper env, get the development env ready.
+      Follow the readme's instruction, create required App, set proper env, get the development env ready, add the bot to glip, ready to test the bot.
 
-  .step(data-title='Adding the Bot', data-file='../src/lamda/lib/bot-oauth.js', data-highlight='10-13')
+      - 1.Node.js >= 8.10
+      - 2.Create a bot app in [RingCentral developer site](https://developers.ringcentral.com), with permissions: `ReadContacts ReadMessages ReadPresence Contacts ReadAccounts SMS InternalMessages ReadCallLog ReadCallRecording SubscriptionWebhook Glip`
+      - 3.Create a browser based app in RingCentral developer site, with all permissions.
+
+      - 4.Prepare the development env
+
+      ```
+      git clone git@github.com:ringcentral-tutorials/ringcentral-ai-bot.git
+      # or git clone https://github.com/ringcentral-tutorials/ringcentral-ai-bot.git
+      cd ringcentral-ai-bot
+      yarn
+
+      # create config
+      cp .sample.env .env
+      # then edit .env, fill ringcentral app configs
+
+      ## start local server
+      yarn dev
+
+      ## start a ngrok proxy to local port
+      yarn proxy
+      # https://xxxxxx.ngrok.io ---> http://localhost:7867
+      # you can check ngrok status from http://localhost:4040
+      ```
+      - 5.After started the ngrok server, you can set your ringcentral app's redirect URL to lamda's api gateway url, `https://xxxxxx.ngrok.io/bot-oauth` for bot app, `https://xxxxxx.ngrok.io/user-oauth` for user app, ngrok will proxy the request to your local server.
+      - 6.Goto your ringcentral developer site, in bot app's bot page, click `Add to glip`, Then bot Added, time to test it.
+
+
+  .step(data-title='Test the bot', data-file='../README.md', data-highlight='37-38')
     :markdown
-      ## Adding the Bot
+      ## Test the bot
 
-      A bot is installed into a RingCentral account when the user clicks the "Add to Glip" button which creates and adds the bot to the account. The "Add to Glip" button is in the Developer Portal for development and the [RingCentral App Gallery](https://ringcentral.com/apps) for graduated, public bots. Ensure you have configured your bot OAuth webhook in the Developer Portal. The development button looks like the following:
+      Login to https://glip-app.devtest.ringcentral.com, click bot's name from people list to start the chat, just follow the bot's instructions. It works, then we can see how it works.
 
-      ![](images/ringcentral-ai-bot_add-to-glip-button-sandbox.png)
-
-  .step(data-title='Bot Authentication', data-file='../src/lamda/lib/store.js', data-highlight='79-93')
+  .step(data-title='Bot auth', data-file='../src/lamda/lib/bot-oauth.js', data-highlight='10-13')
     :markdown
       ## Bot Authentication
 
-      When the button is clicked, the user will be presented with an OAuth 2.0 login flow that ends with the browser being redirected to your redirect URL which will then need to retrieve the authorization code from the query string parameter and exchange it for an access token.
+      Since we set the redirect URL in bot app's setting page, when click the `Add to glip` Button, ringcentral will send request to the redirect URL, proxyed by ngrok, finallly get to our local server.
 
-      For a public bot, you will need one token per account and can save the token by using the bot's `personId` which is returned as the `owner_id` with the `access_token`.
+      We will use the code(`event.queryStringParameters.code`) provided by the request to do authorize, and store the fetched accessToken/user id etc to database.
 
-  .step(data-title='Subscribing for Events', data-file='../src/lamda/lib/store.js', data-highlight='94-118')
+      Then we can subscribe to glip post and group event, so when use add bot to chat group, or post message in chat group, ringcentral will send info to subscribed webhook.
+
+  .step(data-title='Subscribing for bot Events', data-file='../src/lamda/lib/store.js', data-highlight='95-119')
     :markdown
-      ## Subscribing for Events
+      ## Subscribing for bot Events
 
-      The bot interacts with Glip by receiving posts from users and group events it's a member of. To subscribe to to these events, create a subscription with the `/restapi/v1.0/subscription` API.
+      The bot accesstoken will never expires, we set subscibe expire to a very long time(500000000ms, 15year+), set webhook to `/bot-webhook` so we can get data when use add bot to chat group, or post message in chat group.
 
-      The event filters are shown in the next section.
+      Event filters are like this:
 
-  .step(data-title='Event Filters', data-file='../src/lamda/lib/store.js', data-highlight='12-13')
+      ```js
+      const botEventFilters = () => [
+        '/restapi/v1.0/glip/posts',
+        '/restapi/v1.0/glip/groups'
+      ]
+      ```
+
+  .step(data-title='Bot webhook get subscribed info', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='31-51')
     :markdown
-      ## Event Filters
+      ## Bot webhook get subscribed info
 
-      To listen for commands in Glip, the bot needs to subscribe for events via event filters. Two event filters of use include:
+      After the subscribe, when use add bot to chat group, or post message in chat group, now our `/bot-webhook` will get the subscribed info, so we can respond accordingly, like post some message to guide user.
 
-      * `glip/posts` for user commands and
-      * `glip/groups` for when the bot is invited to a group
-
-  .step(data-title='Creating Posts', data-file='../src/lamda/lib/store.js', data-highlight='144-150')
+  .step(data-title='Bot post message', data-file='../src/lamda/lib/store.js', data-highlight='144-149')
     :markdown
-      ## Creating Posts
+      ## Bot post message
 
       To create a post use the Glip Create Post API:
 
@@ -70,47 +106,80 @@
 
       * [Create Post API](https://developer.ringcentral.com/api-reference#Posts-createGlipGroupPost)
 
-  .step(data-title='Creating the Welcome Message', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='35-47')
+  .step(data-title='Build the user authorize URL', data-file='../src/lamda/lib/store.js', data-highlight='192-197')
     :markdown
-      ## Creating the Welcome Message
+      ## Build the user authorize URL
+      After bot got joined chat group message, and guide user to `@` the bot, and command the bot by `@{BOTID} monitor`, bot now need send the user authorize URL, let user to do the OAuth authorization, that is why we need the user app in the beginning, bot could not get user info directly by design.
 
-      To post a welcome message to a user when the bot is added to a new team, perform the following.
-
-      1. Subscribe for the glip/groups event filter
-      1. When receiving an incoming event, identify an event for joining a private chat with the following event: `body.eventType` == `GroupJoined` && `body.type` == `PrivateChat`
-      1. Post your welcome message.
-
-      When posting back, use the following steps:
-
-      1. Use the event `ownerId` to identify the bot user and retrieve the proper access token.
-      1. Post back to the `body.groupId`
-      1. Optionally at mention the user by loading the user's `personId` by calling the `group/{groupId}` endpoint and filtering the array of `members.
-
-  .step(data-title='Linking User Accounts', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='84-88')
+  .step(data-title='Use authrize', data-file='../src/lamda/lib/user-oauth.js', data-highlight='9-21')
     :markdown
-      ## Linking User Accounts
+      ## Use authrize
 
-      To have the bot access user data for RingCentral or other accounts, have the bot offer to launch an OAuth flow via a link in the Glip chat.
+      When user click the authorize URL, and successfully authorized, OAuth flow will visit our server's `/user-oauth` with authrization code.
 
-      When the user clicks on the link, launch the OAuth flow and then return to a redirect URL for the user flow.
+      Similar to bot auth process, just use the auth code get access token, store user info, group info and token to database. The difference is user access token expire. We will see how to deal with this later.
 
-  .step(data-title='Saving the User Token', data-file='../src/lamda/lib/store.js', data-highlight='198-213')
+      With user's authorization, we can subscribe to user's voicemail message, so when new voicemail comes, ringcentral server notify our bot server.
+
+  .step(data-title='Subscribing for user voicemail events', data-file='../src/lamda/lib/store.js', data-highlight='248-261')
     :markdown
-      ## Saving the User Token
+      ## Subscribing for user voicemail events
 
-      Similar to saving the bot token, you will need to save the user token for each user.
+      For user we subscribe these:
+      ```
+      [
+        '/restapi/v1.0/account/~/extension/~/message-store',
+        '/restapi/v1.0/subscription/~?threshold=59&interval=15'
+      ]
+      ```
+      1.Subscribe `message-store` to get new voicemail notification.
 
-  .step(data-title='Link Account Success', data-file='../src/lamda/lib/store.js', data-highlight='248-261')
+      2.Subscribe to `'/restapi/v1.0/subscription/~?threshold=59&interval=15'` will setup a reminder, 59 seconds before subscribe expires, send notication request to supplied webhook url(`/user-webhook` in our case), if not susccessful, resend every 15 senconds, so we do token renew and subsribe renew when we got these notification request to make user token auto renew.
+
+      You can read more about reminder hook from https://github.com/ringcentral/ringcentral-api-docs/blob/master/docs/notifications_webhooks.md
+
+  .step(data-title='User webhook', data-file='../src/lamda/lib/user-webhook.js', data-highlight='10-47')
     :markdown
-      ## Link Account Success
+      ## User webhook
 
-      After the account has been linked, perform the needed service and return a successful message to the user.
+      Since we subscribe user voicemail events and reminder event, we must handle then accordingly.
 
-      In this case, we will use the user access token to create a subscription for new voicemail using the `/restapi/v1.0/account/~/extension/~/message-store` event filter defined in the variable `userEventFilters`.
+      That is where we could do different bot operations. We can practice later.
 
- .step(data-title='Processing Events', data-file='../src/lamda/lib/voicemail-process.js', data-highlight='17-43')
+ .step(data-title='Process the voicemail', data-file='../src/lamda/lib/voicemail-process.js', data-highlight='37-62')
     :markdown
-      ## Processing Events
+      ## Process the voicemail
 
       When you receive the new voicemail event, process the voicemail by transcribing it to text and then analyzing the text.
 
+      Since it is a external service, we put it in a seprate module: https://github.com/zxdong262/audio-analysis-service
+
+      You may noticed by default we get a fake result for demo, if you want to use real google service to handle it, you should follow the instruction in [README#Build and Run in production env](https://github.com/ringcentral-tutorials/ringcentral-ai-bot#build-and-run-in-production-env) to set your `GOOGLE_APPLICATION_CREDENTIALS` in `.env` then you will get real result.
+
+      That is the whole process. Hope you know how it works now. If so, let's do some practice, write some code.
+ .step(data-title='Support unmonitor command', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='64-76')
+    :markdown
+      ## Support unmonitor command
+
+      When you post `@botID unmonitor`, bot did not response, let's uncomment the code and restart the server to make it work.
+ .step(data-title='Write a custom command support', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='92-94')
+    :markdown
+      ## Write a custom command support
+
+      Now you can see how the bot command works, try write one yourself.
+
+ .step(data-title='Just tell chat group how many new voicemail there', data-file='../src/lamda/lib/user-webhook.js', data-highlight='24-40')
+    :markdown
+      ## Just tell chat group how many new voicemail there
+
+      Let's replace the default voicemail process by simply tell user how many new voicemail got by comment out line 26-28, uncomment line 31-40
+
+ .step(data-title='Write custom voicemail reponse', data-file='../src/lamda/lib/user-webhook.js', data-highlight='24-40')
+    :markdown
+      ## Write custom voicemail reponse
+
+      The last practice!
+
+      Replace line26-28, write you own process function, send some custom reponse about new voice mail.
+
+      That' i's all, have fun with the bot coding~
