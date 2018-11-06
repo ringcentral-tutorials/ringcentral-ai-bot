@@ -58,24 +58,25 @@ Please reply "![:Person](${botId})" if you want to talk to me.`
 
       //no bot in database
       if (!bot) {
-        return
+        break
       }
 
-      //user unmonit voicemail
-      if (/\bunmonitor\b/i.test(body.text)) { // monitor voicemail
-        const user = await store.getUser(body.creatorId)
-        if (user) {
-          await user.removeGroup(body.groupId)
-          await bot.sendMessage(body.groupId, { text: `![:Person](${body.creatorId}), stop monitor your voicemail now!\nIf you want me to monitor your voicemail again, please reply "![:Person](${botId}) monitor"` })
-        } else {
-          await bot.sendMessage(body.groupId, {
-            text: `![:Person](${body.creatorId}), If you want me to monitor your voicemail, please reply "![:Person](${botId}) monitor" first.`
-          })
-        }
+      // user unmonit voicemail,
+      // todo: uncomment line67-75 to support unmonitor command
+      if (/\bunmonitor\b/i.test(body.text)) {
+        // const user = await store.getUser(body.creatorId)
+        // if (user) {
+        //   await user.removeGroup(body.groupId)
+        //   await bot.sendMessage(body.groupId, { text: `![:Person](${body.creatorId}), stop monitor your voicemail now!\nIf you want me to monitor your voicemail again, please reply "![:Person](${botId}) monitor"` })
+        // } else {
+        //   await bot.sendMessage(body.groupId, {
+        //     text: `![:Person](${body.creatorId}), If you want me to monitor your voicemail, please reply "![:Person](${botId}) monitor" first.`
+        //   })
+        // }
       }
 
       //user monit voicemail
-      else if (/\bmonitor\b/i.test(body.text)) { // monitor voicemail
+      else if (/\bmonitor\b/i.test(body.text)) {
         const user = await store.getUser(body.creatorId)
         if (user) {
           await user.addGroup(body.groupId, botId)
@@ -88,6 +89,8 @@ Please reply "![:Person](${botId})" if you want to talk to me.`
           })
         }
       }
+
+      //todo: write some code to support `help` command
 
       //other situation, just tip user to monit
       else {
