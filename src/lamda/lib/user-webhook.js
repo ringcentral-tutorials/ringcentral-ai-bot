@@ -21,12 +21,32 @@ export default async (event) => {
   if (test || newMailCount || isRenewEvent) {
     const userId = (message.body.extensionId || message.ownerId).toString()
     const user = await store.getUser(userId)
+
+    // get reminder event, do token renew and subscribe renew
     if (user && isRenewEvent) {
       await user.renewWebHooks()
       await user.refresh()
-    } else if (user) {
-      await user.processVoiceMail(newMailCount || count)
     }
+
+    // get new voicemail, process the email and send to chat group
+    // todo: comment out line33-35, uncomment line67-75
+    // todo replace line33-35, use you own process function, send some custom reponse about new voice mail
+    // else if (user) {
+    //   await user.processVoiceMail(newMailCount || count)
+    // }
+
+    // replace line34-36 with this section, which will only tell chat group how many new voicemail we get
+    // else if (user) {
+    //   for (const groupId of Object.keys(user.groups)) {
+    //     const botId = user.groups[groupId]
+    //     const bot = await store.getBot(botId)
+    //     await bot.sendMessage(
+    //       groupId,
+    //       { text: `![:Person](${userId}), you got ${newMailCount} new voiceMail! `}
+    //     )
+    //   }
+    // }
+
   }
   return result('WebHook got', 200, {
     headers: {
