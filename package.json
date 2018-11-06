@@ -11,7 +11,7 @@
     "compile-server": "node bin/compile-server",
     "prod-server": "NODE_ENV=production node server/run-dev-server.js",
     "proxy": "ngrok http 7867",
-    "docs": "cd docs && saurus author",
+    "docs": "cd docs && npx saurus author",
     "watch": "cd lamda && serverless logs -f bot -t",
     "deploy-to-aws": "node bin/deploy-to-aws",
     "update-to-aws": "node bin/update-to-aws",
@@ -76,7 +76,8 @@
     "recursive-assign": "0.2.0",
     "serverless": "1.32.0",
     "shelljs": "0.8.2",
-    "standard": "^12.0.1"
+    "standard": "^12.0.1",
+    "viewsaurus-ringcentral": "^0.4.7"
   },
   "dependencies": {
     "@babel/runtime": "7.1.2",
@@ -86,5 +87,10 @@
     "lodash": "4.17.11",
     "ringcentral-js-concise": "0.6.2",
     "subx": "0.7.0"
+  },
+  "standard": {
+    "ignore": [
+      "/docs/"
+    ]
   }
 }
