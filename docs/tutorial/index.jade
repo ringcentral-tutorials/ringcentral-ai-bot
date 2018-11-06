@@ -10,7 +10,7 @@
         1. Bot webhook get subscribed info
         1. Bot post message
         1. Build the user authorize URL
-        1. Use authrize
+        1. User authrize
         1. Subscribing for user voicemail events
         1. User webhook
         1. Process the voicemail
@@ -114,9 +114,9 @@
 
       After bot got joined chat group message, and guide user to `@` the bot, and command the bot by `@{BOTID} monitor`, bot sends the user authorize URL, let user to do the OAuth authorization first, that is why we need the user app in the beginning, bot could not get user info without authorization from user, it is by design.
 
-  .step(data-title='Use authrize', data-file='../src/lamda/lib/user-oauth.js', data-highlight='9-21')
+  .step(data-title='User authrize', data-file='../src/lamda/lib/user-oauth.js', data-highlight='9-21')
     :markdown
-      ## Use authorize
+      ## User authorize
 
       When user click the authorize URL, and successfully authorized, OAuth flow will visit our server's `/user-oauth` with authrization code.
 
