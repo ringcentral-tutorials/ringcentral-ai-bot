@@ -8,17 +8,9 @@ import _ from 'lodash'
 
 export default async (event) => {
   let message = event.body
-  let { test, count } = event.queryStringParameters || {}
-  if (test) {
-    message = {
-      body: {
-        extensionId: test
-      }
-    }
-  }
   let newMailCount = shouldSyncVoiceMail(event)
   let isRenewEvent = _.get(message, 'event') === subscribeInterval()
-  if (test || newMailCount || isRenewEvent) {
+  if (newMailCount || isRenewEvent) {
     const userId = (message.body.extensionId || message.ownerId).toString()
     const user = await store.getUser(userId)
 
@@ -29,11 +21,11 @@ export default async (event) => {
     }
 
     // get new voicemail, process the email and send to chat group
-    // todo: comment out line33-35, uncomment line67-75
-    // todo replace line33-35, use you own process function, send some custom reponse about new voice mail
-    // else if (user) {
-    //   await user.processVoiceMail(newMailCount || count)
-    // }
+    // todo: comment out line26-28, uncomment line31-40
+    // todo: replace line26-28, use you own process function, send some custom reponse about new voice mail
+    else if (user) {
+      await user.processVoiceMail(newMailCount)
+    }
 
     // replace line34-36 with this section, which will only tell chat group how many new voicemail we get
     // else if (user) {
