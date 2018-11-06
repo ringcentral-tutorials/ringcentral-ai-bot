@@ -12,6 +12,9 @@ Read Glip user's new voicemail, transcribe the voice to text, analyze the text w
 - Create a bot app in [RingCentral developer site](https://developers.ringcentral.com), with permissions: `ReadContacts ReadMessages ReadPresence Contacts ReadAccounts SMS InternalMessages ReadCallLog ReadCallRecording SubscriptionWebhook Glip`, set `OAuth Redirect URI` to `https://your-ngrok-addr.ngrok.io/bot-oauth`
 - Create a browser based app in RingCentral developer site, with all permissions, set `OAuth Redirect URI` to `https://your-ngrok-addr.ngrok.io/user-oauth`.
 
+**Note:** for `https://your-ngrok-addr.ngrok.io`, please check section below:
+
+
 ## dev
 
 ```bash

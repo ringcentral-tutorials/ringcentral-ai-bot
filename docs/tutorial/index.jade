@@ -1,8 +1,8 @@
 .chapter(data-title='RingCentral AI Bot')
-  .step(data-title='Overview', data-file='../src/lamda/lib/bot-oauth.js', data-highlight='10-13')
+  .step(data-title='Overview', data-file='../README.md', data-highlight='1-6')
     :markdown
       ## Overview
-      1. Prepare the devement env
+      1. Prepare the development env
       1. Core Bot Functionality
         1. [Bot Auth](#1)
         1. Subscribing for Bot Events
@@ -15,9 +15,9 @@
         1. Bot Events
         1. Service Events
       1. Installing and running the bot
-  .step(data-title='Prerequisites', data-file='../README.md', data-highlight='10-35')
+  .step(data-title='Prerequisites', data-file='../README.md', data-highlight='8-37')
     :markdown
-      ## Prepare the devement env
+      ## Prepare the development env
 
       Follow the readme's insruction, create required App, set proper env, get the development env ready.
 
@@ -104,7 +104,7 @@
     :markdown
       ## Link Account Success
 
-      After the account has been linked, performe the needed service and return a successful message to the user.
+      After the account has been linked, perform the needed service and return a successful message to the user.
 
       In this case, we will use the user access token to create a subscription for new voicemail using the `/restapi/v1.0/account/~/extension/~/message-store` event filter defined in the variable `userEventFilters`.
 
