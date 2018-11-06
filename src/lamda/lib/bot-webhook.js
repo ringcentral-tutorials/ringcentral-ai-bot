@@ -2,8 +2,8 @@
  * user oauth by tyler
  */
 
-import {result} from './common'
-import {User, store} from './store'
+import { result } from './common'
+import { User, store } from './store'
 
 export default async (event) => {
   const message = event.body
@@ -19,7 +19,7 @@ export default async (event) => {
 
   let botId = message.ownerId
 
-  //handle expire reminder event, resubscribe
+  // handle expire reminder event, resubscribe
   // if (message.event === subscribeInterval()) {
   //   let bot1 = await store.getBot(botId)
   //   if (bot1) {
@@ -29,8 +29,7 @@ export default async (event) => {
   // }
 
   switch (body.eventType) {
-
-    //bot join group
+    // bot join group
     case 'GroupJoined':
       if (body.type === 'PrivateChat') {
         const bot = await store.getBot(botId)
@@ -47,27 +46,27 @@ Please reply "![:Person](${botId})" if you want to talk to me.`
       }
       break
 
-    //bot got post
+    // bot got post
     case 'PostAdded':
 
-      //only respond to @bot event
+      // only respond to @bot event
       if (body.creatorId === botId || body.text.indexOf(`![:Person](${botId})`) === -1) {
         break
       }
       var bot = await store.getBot(botId)
 
-      //no bot in database
+      // no bot in database
       if (!bot) {
         break
       }
 
       // user unmonit voicemail,
-      // todo: uncomment line67-75 to support unmonitor command
+      // todo: uncomment code inside if statement below to support unmonitor command
       if (/\bunmonitor\b/i.test(body.text)) {
         // const user = await store.getUser(body.creatorId)
         // if (user) {
         //   await user.removeGroup(body.groupId)
-        //   await bot.sendMessage(body.groupId, { text: `![:Person](${body.creatorId}), stop monitor your voicemail now!\nIf you want me to monitor your voicemail again, please reply "![:Person](${botId}) monitor"` })
+        //   await bot.sendMessage(body.groupId, { text: `![:Person](${body.creatorId}), stopped monitoring your voicemail!\nIf you want me to monitor your voicemail again, please reply "![:Person](${botId}) monitor"` })
         // } else {
         //   await bot.sendMessage(body.groupId, {
         //     text: `![:Person](${body.creatorId}), If you want me to monitor your voicemail, please reply "![:Person](${botId}) monitor" first.`
@@ -75,7 +74,7 @@ Please reply "![:Person](${botId})" if you want to talk to me.`
         // }
       }
 
-      //user monit voicemail
+      // user monit voicemail
       else if (/\bmonitor\b/i.test(body.text)) {
         const user = await store.getUser(body.creatorId)
         if (user) {
@@ -90,9 +89,9 @@ Please reply "![:Person](${botId})" if you want to talk to me.`
         }
       }
 
-      //todo: write some code to support `help` command
+      // todo: write some code to support `help` command
 
-      //other situation, just tip user to monit
+      // other situation, just tip user to monit
       else {
         await bot.sendMessage(body.groupId, {
           text: `If you want me to monitor your voicemail, please reply "![:Person](${botId}) monitor"`
