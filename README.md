@@ -21,7 +21,7 @@ yarn
 
 # create config
 cp .sample.env .env
-# then edit .env, fill ringcentral app configs
+# then edit .env, specify credentials and other environment variables
 
 ## start local server
 yarn dev
@@ -32,10 +32,10 @@ yarn proxy
 # you can check ngrok status from http://localhost:4040
 ```
 - After started the ngrok server, you can set your ringcentral app's redirect URL to lamda's api gateway url, `https://xxxxxx.ngrok.io/bot-oauth` for bot app, `https://xxxxxx.ngrok.io/user-oauth` for user app, ngrok will proxy the request to your local server.
-- Goto your ringcentral developer site, in bot app's bot page, click `Add to glip`, Then bot Added, time to test it.
+- Goto your ringcentral developer site, in bot app's bot page, click `Add to glip`, do remember the bot name you specified, we will need it in next section.
 
 ## Test the bot
-- Login to https://glip-app.devtest.ringcentral.com, click bot's name to start the chat, just follow the bot's instructions.
+- Login to https://glip-app.devtest.ringcentral.com, find the bot by searching its name. Talk to the bot, follow the its instructions.
 
 ## Build and Run in production env
 - In local development, by default we use fake data to simulate the voicemail transcript and analysis, in production we use the real thing.
@@ -140,7 +140,8 @@ You can edit `docs/tutorial/index.jade`, docs will auto update `docs/index.html`
 
 ## Credits
 - The concept of this bot is designed by [@grokify](https://github.com/grokify)
-- [@tylerlong](https://github.com/tylerlong) Wrote the core bot logic
+- [@tylerlong](https://github.com/tylerlong) wrote the token management logic
+- [@zxdong262](https://github.com/zxdong262) implemented everything else
 
 ## Documents & Reference
 - https://developer.ringcentral.com/legacy-api-reference/index.html#!#Overview.html
@@ -155,4 +156,3 @@ You can edit `docs/tutorial/index.jade`, docs will auto update `docs/index.html`
 ## License
 
 MIT
-
