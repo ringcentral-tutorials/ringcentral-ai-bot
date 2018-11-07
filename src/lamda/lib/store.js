@@ -217,10 +217,12 @@ export const User = new Subx({
       await this.rc.refresh()
       this.token = this.rc.token()
       await this.writeToDb()
+      return true
     } catch(e) {
       handleRCError('User refresh token', e)
       await store.removeUser(this.id)
-      log(`User ${this.token.owner_id} refresh token has expired`)
+      log(`User ${this.id} refresh token has expired`)
+      return false
     }
   },
   async renewWebHooks () {
@@ -318,6 +320,15 @@ export const User = new Subx({
         groupId,
         { text: processedMailInfo }
       )
+    }
+  },
+  async validate () {
+    try {
+      await this.rc.get('/restapi/v1.0/account/~/extension/~')
+      return true
+    } catch (e) {
+      handleRCError('User validate', e)
+      return this.refresh()
     }
   }
 })

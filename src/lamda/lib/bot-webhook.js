@@ -77,7 +77,7 @@ Please reply "![:Person](${botId})" if you want to talk to me.`
       // user monit voicemail
       else if (/\bmonitor\b/i.test(body.text)) {
         const user = await store.getUser(body.creatorId)
-        if (user) {
+        if (user && await user.validate()) {
           await user.addGroup(body.groupId, botId)
           await bot.sendMessage(body.groupId, { text: `![:Person](${body.creatorId}), now your voicemail is monitored!\nIf you want me to **stop monitor** your voicemail, please reply "![:Person](${botId}) unmonitor"` })
         } else {
