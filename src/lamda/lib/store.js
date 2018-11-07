@@ -216,6 +216,7 @@ export const User = new Subx({
     try {
       await this.rc.refresh()
       this.token = this.rc.token()
+      await this.writeToDb()
     } catch(e) {
       handleRCError('User refresh token', e)
       await store.removeUser(this.id)
