@@ -43,7 +43,7 @@ export async function processMail (mail, headers) {
   let cached = await store.getCache(md5)
   if (cached) {
     log('use cache for', url, md5)
-    return cached
+    return cached.result
   }
   let text = await speech2text(
     url, headers
