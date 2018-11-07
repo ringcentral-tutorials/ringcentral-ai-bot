@@ -8,8 +8,8 @@ Read Glip user's new voicemail, transcribe the voice to text, analyze the text w
 ## Prerequisites
 
 - Node.js >= 8.10
-- Create a bot app in [RingCentral developer site](https://developers.ringcentral.com), with permissions: `ReadContacts ReadMessages ReadPresence Contacts ReadAccounts SMS InternalMessages ReadCallLog ReadCallRecording SubscriptionWebhook Glip`
-- Create a browser based app in RingCentral developer site, with all permissions.
+- Create a **public** bot app in [RingCentral developer site](https://developers.ringcentral.com), with permissions: `ReadContacts ReadMessages ReadPresence Contacts ReadAccounts SMS InternalMessages ReadCallLog ReadCallRecording SubscriptionWebhook Glip`
+- Create a browser based **public** app in RingCentral developer site, with all permissions.
 
 ## Prepare the development env
 
