@@ -66,7 +66,8 @@ yarn proxy
 <li>Goto your ringcentral developer site, in bot app&#39;s bot page, click <code>Add to glip</code>, do remember the bot name you specified, we will need it in next section.</li>
 </ul>
 </div><div data-title="Test the bot" data-file="../README.md" data-highlight="37-38" class="step"><h2 id="test-the-bot">Test the bot</h2>
-<p>Login to <a href="https://glip-app.devtest.ringcentral.com">https://glip-app.devtest.ringcentral.com</a>, click bot&#39;s name from people list to start the chat, just follow the bot&#39;s instructions. It works, then we can see how it works.</p>
+<p>Login to <a href="https://glip-app.devtest.ringcentral.com">https://glip-app.devtest.ringcentral.com</a>, click bot&#39;s name from people list to start the chat, just follow the bot&#39;s instructions. It works, then we can see how it works. The chat would be like this:</p>
+<p><img src="https://user-images.githubusercontent.com/1641949/48102986-77d93580-e268-11e8-8934-921ab7b8f21d.png" alt="chat content screeshot"></p>
 </div><div data-title="Bot auth" data-file="../src/lamda/lib/bot-oauth.js" data-highlight="10-13" class="step"><h2 id="bot-authentication">Bot Authentication</h2>
 <p>Since we set the redirect URL in bot app&#39;s setting page, when click the <code>Add to glip</code> Button, ringcentral will send request to the redirect URL, proxied by ngrok, finallly get to our local server.</p>
 <p>We will use the code(<code>event.queryStringParameters.code</code>) provided by the request to do authorize, and store the fetched accessToken/user id etc to database.</p>
