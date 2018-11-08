@@ -23,7 +23,7 @@ When a voicemail is received, the bot will post a transcript of the voicemail to
 
 ### Framework
 
-This bot is included as part of a larger Glip bot framework that seeks to eliminate the need to develop a lot of the mundane capabilities to enable to bot to easily deployed, and authorized to access a user's account. Here are some of the functions this framework provides to developers:
+This bot is included as part of a larger Glip bot framework that seeks to eliminate the need to develop a lot of the mundane functions necessary to support a bot that is easily deployed, and authorized to access a user's account. Here are some of the functions this framework provides to developers:
 
 * Implements an OAuth flow for adding bots to a Glip organization.
 * Implements an OAuth flow for prompting users to grant the bot permission to access their RingCentral account data.
