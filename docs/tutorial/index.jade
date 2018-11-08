@@ -159,7 +159,7 @@
 
       Since it is a external service, we put it in a seprate module: https://github.com/zxdong262/audio-analysis-service
 
-      You may noticed by default we get a fake result for demo, if you want to use real google service to handle it, you should follow the instruction in [README#Build and Run in production env](https://github.com/ringcentral-tutorials/ringcentral-ai-bot#build-and-run-in-production-env) to set your `GOOGLE_APPLICATION_CREDENTIALS` in `.env` then you will get real result.
+      You may noticed by default we get a fake result for demo, if you want to use real google service to handle it, you should follow the instruction in [README#Build and Run in production env](https://github.com/ringcentral-tutorials/ringcentral-ai-bot#build-and-run-in-production-env) to set your `GOOGLE_APPLICATION_CREDENTIALS` in `.env` then you will get real result. Should be like `GOOGLE_APPLICATION_CREDENTIALS=path/to/your-google-credential.json`.
 
       That is the whole process. Hope you know how it works now. If so, let's do some practice, write some code.
  .step(data-title='Support unmonitor command', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='63-75')
