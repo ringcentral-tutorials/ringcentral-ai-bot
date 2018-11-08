@@ -10,7 +10,8 @@ jspm_packages
 *.wav
 *.pcm
 *.mp3
-
+# emacs tmp files
+*~
 # Logs
 *.log
 .DS_Store

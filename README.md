@@ -1,47 +1,120 @@
 # RingCentral Voicemail AI Bot
 
-RingCentral Glip Voicemail AI Bot POC.
+This project contains the code and resources needed for developers to build and deploy a voicemail 
+assistant bot on top of the RingCentral Glip messaging platform. The bot contained within this 
+framework can, with a user's permission, monitor a user's voicemail for incoming messages, and 
+then alert the user via a Glip message of a new voicemail. In addition, it can interface with 
+Google's speech-to-text APIs to transcribe the incoming message and post that to the user as well. 
+
+The bot contained within is meant to be used in conjunction with a 
+[detailed tutorial](https://ringcentral-tutorials.github.io/ringcentral-ai-bot/) on building bots 
+on Glip. As a result, the bot intentionally lacks some functionality that ideally developers 
+would implement by completing the corresponding tutorial.
 
 ## Features
-Read Glip user's new Voicemail, transcribe the voice to text, analyze the text with Google AI, and send the results to user's authorized chat group.
 
-## Prerequisites
+### Bot
+
+The bot provided by this project is capable of responding to the following command:
+
+* `monitor` - enable monitoring of the current user's voicemail messages.
+
+When a voicemail is received, the bot will post a transcript of the voicemail to the user, along with some high-level analysis of the contents of the voicemail. 
+
+### Framework
+
+This bot is included as part of a larger Glip bot framework that seeks to eliminate the need to develop a lot of the mundane functions necessary to support a bot that is easily deployed, and authorized to access a user's account. Here are some of the functions this framework provides to developers:
+
+* Implements an OAuth flow for adding bots to a Glip organization.
+* Implements an OAuth flow for prompting users to grant the bot permission to access their RingCentral account data.
+* Automatically refreshes event subscriptions before they expire. 
+* Provides a simple framework for developers to implement new commands and functionality. 
+* Persists and manages authentication tokens for users of the bot. 
+
+## Setup and Installation
+
+A detailed guide for getting the bot up and running is provided in the [bot's tutorial](https://ringcentral-tutorials.github.io/ringcentral-ai-bot/). For those developers more familiar with RingCentral wishing to dive right in, the following instructions will help:
+
+**Prerequisites**
 
 - Node.js >= 8.10
-- Create a **public** bot app (Platform Type = `Server/Bot`) in [RingCentral developer site](https://developers.ringcentral.com), with permissions: `ReadContacts ReadMessages ReadPresence Contacts ReadAccounts SMS InternalMessages ReadCallLog ReadCallRecording SubscriptionWebhook Glip`
-- Create a **public** browser-based app (Platform Type = `Browser-based`) in RingCentral developer site, with all permissions.
+- Yarn
+- ngrok, or another publically addressable endpoint on the web to receive webhooks
+- a Google API account with a [saved Google credentials file](https://cloud.google.com/docs/authentication/getting-started)
 
-## Prepare the development env
+### Setup the Project
 
-```bash
-git clone git@github.com:ringcentral-tutorials/ringcentral-ai-bot.git
-# or git clone https://github.com/ringcentral-tutorials/ringcentral-ai-bot.git
-cd ringcentral-ai-bot
-yarn
-
-# create config
-cp .sample.env .env
-# then edit .env, specify credentials and other environment variables
-
-## start local server
-yarn dev
-
-## start a ngrok proxy to local port
-yarn proxy
-# https://xxxxxx.ngrok.io ---> http://localhost:7867
-# you can check ngrok status from http://localhost:4040
 ```
-- After starting the ngrok server, you can set your RingCentral app's redirect URL to Lambda's API Gateway URL, `https://xxxxxx.ngrok.io/bot-oauth` for bot app, `https://xxxxxx.ngrok.io/user-oauth` for user app, ngrok will proxy the request to your local server.
-- Go to your RingCentral developer site, in bot app's bot page, click `Add to glip`, do remember the bot name you specified, we will need it in next section.
+git clone git@github.com:ringcentral-tutorials/ringcentral-ai-bot.git
+cd ringcentral-ai-bot
+yarn install
+```
 
-## Test the bot
-- Login to https://glip-app.devtest.ringcentral.com, find the bot by searching its name. Talk to the bot, follow the its instructions.
+### Create Your Proxy
 
-## Build and Run in production env
-- In local development, by default we use fake data to simulate the voicemail transcript and analysis, in production we use the real thing.
-- Register Google cloud account and set payment method, create an project and create an credential, download your credential json.
-- Set `GOOGLE_APPLICATION_CREDENTIALS=your/google/credential/path` in `.env`
-- Restart server
+If you are developing on your local machine, you may need to create a proxy/tunnel to the outside world so that your bot can receive webhooks properly. You can do this easily by executing the following command in a separate terminal:
+
+```
+cd ringcentral-ai-bot
+yarn proxy
+```
+
+*Make note of the ngrok HTTPS URL for use later.*
+
+### Create the Apps
+
+Login to [developer.ringcentral.com](https://developer.ringcentral.com) and create two different apps using the parameters below.
+
+#### Server/Bot App
+
+* General Settings
+  * Choose a name and description you prefer.
+* App Type and Platform
+  * **Application Type**: Public
+  * **Platform Type**: Server/Bot
+  * **Carrier**: *accept the default values*
+* OAuth Settings
+  * **Permissions Needed**: All of them (ReadContacts, ReadMessages, ReadPresence, Contacts, ReadAccounts, SMS, InternalMessages, ReadCallLog, ReadCallRecording, WebhookSubscrip\
+tions, Glip)
+       * **OAuth Redirect URI**: Using your ngrok HTTPS URL from above, enter in the following value:
+          `https://1234abcd.ngrok.io/oauth-bot`
+
+#### Web-based App
+
+* General Settings
+  * Choose a name and description you prefer. 
+* App Type and Platform
+  * **Application Type**: Public
+  * **Platform Type:** Browser-based
+  * **Carrier**: *accept the default values*
+* OAuth Settings
+  * **Permissions Needed**: All of them (ReadContacts, ReadMessages, ReadPresence, Contacts, ReadAccounts, SMS, InternalMessages, ReadCallLog, ReadCallRecording, WebhookSubscriptions, Glip)
+  * **OAuth Redirect URI**: Using your ngrok HTTPS URL from above, enter in the following value:
+    `https://1234abcd.ngrok.io/oauth-user`
+
+### Edit Your Config File
+
+Make a copy of the sample `.env` file. 
+
+```
+cp .sample.env .env
+```
+
+Then edit the `.env` file and populate it with the parameters unique to your install. 
+
+### Start the Server
+
+Finally, start the server:
+
+```
+yarn dev
+```
+
+### Test the Bot
+
+Login to https://glip-app.devtest.ringcentral.com, find the bot by searching its name. Talk to the bot, and follow the its instructions.
+
+## Building and Running Your Bot in Production
 
 ```bash
 # install pm2 first if you wanna use pm2
@@ -58,13 +131,13 @@ yarn prod-server
 pm2 start bin/pm2.yml
 ```
 
-## Build and deploy to AWS Lambda
+## Building and Deploying to AWS Lambda
 
-AWS Lamda with API Gateway and DynamoDB would give us a flexible way to deploy bot.
+AWS Lambda with API Gateway and DynamoDB would give us a flexible way to deploy the bot.
 
-- **ONLY works in linux**, AWS Lambda is in Linux x64, some dependencies need to be prebuilt and upload to Lambda, so need the build process in Linux x64, you could do it in CI or any Linux server/destop env.
+*Be aware that AWS Lambda **ONLY works in linux** on an x64 architecture. Therefore, some dependencies will need to be prebuilt and uploaded to Lambda on a linux x64 instance. You could do this in ci or any linux server/destop env.*
 
-- Get an AWS account, create `aws_access_key_id` and `aws_secret_access_key`, put it in `~/.aws/credentials`, like this:
+Get an AWS account, create `aws_access_key_id` and `aws_secret_access_key` and place them in `~/.aws/credentials`, like this:
 
 ```bash
 [default]
@@ -72,14 +145,13 @@ aws_access_key_id = <your aws_access_key_id>
 aws_secret_access_key = <your aws_secret_access_key>
 ```
 
-Refer to: https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
-
+For more information, refer to https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
 
 ```bash
 cp lamda/serverless.sample.yml lamda/serverless.yml
 ```
 
-Edit `lamda/serverless.yml`, make sure you set proper name and required env
+Edit `lamda/serverless.yml`, and make sure you set the proper name and required env.
 
 ```yml
 # you can define service wide environment variables here
@@ -127,13 +199,13 @@ npm run u
 ```
 
 - Create API Gateway for your Lambda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
-- Make sure your Lambda function role has permission to read/write dynamodb(Set this from aws IAM roles, could simply attach `AmazonDynamoDBFullAccess` policy to Lambda function's role)
+- Make sure your Lambda function role has permission to read/write dynamodb(Set this from AWS IAM roles, could simply attach `AmazonDynamoDBFullAccess` policy to Lambda function's role)
 - Make sure your Lambda function's timeout more than 5 minutes
 - Do not forget to set your RingCentral app's redirect URL to Lambda's API Gateway URL, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/bot-oauth` for bot app, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/user-oauth` for user app.
 
-## Edit tutorial
+## Editing This Tutorial
 
-This repo also serves as a tutorial in https://ringcentral-tutorials.github.io/ringcentral-ai-bot.
+This repo also serves as a tutorial that can be viewed online at https://ringcentral-tutorials.github.io/ringcentral-ai-bot. If you would like to contribute to the documentation effort, clone this repository and run the documentation server locally via the following commands:
 
 ```
 # install deps
@@ -148,11 +220,14 @@ Then visit http://localhost:8888 to check the tutorial
 You can edit `docs/tutorial/index.jade`, docs will auto update `docs/index.html`, refresh http://localhost:8888 to see the change.
 
 ## Credits
+
 - The concept of this bot is designed by [@grokify](https://github.com/grokify)
 - [@tylerlong](https://github.com/tylerlong) wrote the token management logic
 - [@zxdong262](https://github.com/zxdong262) implemented everything else
+- [@byrnereese](https://github.com/byrnereese) contributed to the documentation effort
 
 ## Documents & Reference
+
 - https://developer.ringcentral.com/legacy-api-reference/index.html#!#Overview.html
 - https://ringcentral-api-docs.readthedocs.io/en/latest/glip_bots/
 - https://github.com/grokify/ringcentral-polling-and-syncing
@@ -165,3 +240,7 @@ You can edit `docs/tutorial/index.jade`, docs will auto update `docs/index.html`
 ## License
 
 MIT
+
+## Copyright
+
+(c) 2018 RingCentral, Inc. 
