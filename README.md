@@ -1,8 +1,15 @@
 # RingCentral Voicemail AI Bot
 
-This project contains the code and resources needed for developers to build and deploy a voicemail assistant bot on top of the RingCentral Glip messaging platform. The bot contained within this framework can, with a user's permission, monitor a user's voicemail for incoming messages, and then alert the user via a Glip message of a new voicemail. In addition, it can interface with Google's speech-to-text APIs to transcribe the incoming message and post that to the user as well. 
+This project contains the code and resources needed for developers to build and deploy a voicemail 
+assistant bot on top of the RingCentral Glip messaging platform. The bot contained within this 
+framework can, with a user's permission, monitor a user's voicemail for incoming messages, and 
+then alert the user via a Glip message of a new voicemail. In addition, it can interface with 
+Google's speech-to-text APIs to transcribe the incoming message and post that to the user as well. 
 
-The bot contained within is meant to be used in conjunction with a [detailed tutorial](https://ringcentral-tutorials.github.io/ringcentral-ai-bot/) on building bots on Glip. As a result, the bot intentionally lacks some functionality that ideally developers would implement by completing the corresponding tutorial.
+The bot contained within is meant to be used in conjunction with a 
+[detailed tutorial](https://ringcentral-tutorials.github.io/ringcentral-ai-bot/) on building bots 
+on Glip. As a result, the bot intentionally lacks some functionality that ideally developers 
+would implement by completing the corresponding tutorial.
 
 ## Features
 
