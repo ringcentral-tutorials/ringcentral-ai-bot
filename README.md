@@ -243,4 +243,4 @@ MIT
 
 ## Copyright
 
-(c) 2018 RingCentral, Inc. 
+&copy; 2018 RingCentral, Inc. 
