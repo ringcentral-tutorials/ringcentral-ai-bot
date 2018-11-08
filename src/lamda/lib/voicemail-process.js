@@ -25,6 +25,7 @@ let textAnalysis = () => {
 if (GOOGLE_APPLICATION_CREDENTIALS) {
   speech2text = require('audio-analysis-service/dist/url2text').speech2text
   textAnalysis = require('audio-analysis-service/dist/text-analysis').textAnalysis
+  log('Using GOOGLE_APPLICATION_CREDENTIALS:', GOOGLE_APPLICATION_CREDENTIALS)
 } else {
   log('no GOOGLE_APPLICATION_CREDENTIALS in .env, so use fake data for demo')
 }
