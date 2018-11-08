@@ -126,9 +126,9 @@ pm2 start bin/pm2.yml
 
 ## Building and Deploying to AWS Lambda
 
-AWS lamda with an api gateway and dynamodb would give us a flexible way to deploy the bot.
+AWS lamda with API Gateway and DynamoDB would give us a flexible way to deploy the bot.
 
-*Be aware: AWS lamba **ONLY works in linux** on x64 architecture. Therefore, some dependencies will need to be prebuilt and uploaded to lamda on a linux x64 instance. You could do this in ci or any linux server/destop env.*
+*Be aware that AWS lamba **ONLY works in linux** on an x64 architecture. Therefore, some dependencies will need to be prebuilt and uploaded to lamda on a linux x64 instance. You could do this in ci or any linux server/destop env.*
 
 Get a aws account, create `aws_access_key_id` and `aws_secret_access_key` and place them in `~/.aws/credentials`, like this:
 
@@ -139,7 +139,6 @@ aws_secret_access_key = <your aws_secret_access_key>
 ```
 
 For more information, refer to https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
-
 
 ```bash
 cp lamda/serverless.sample.yml lamda/serverless.yml
@@ -175,14 +174,14 @@ Edit `lamda/serverless.yml`, and make sure you set the proper name and required 
 
 ```
 
-Deploy to aws lamda with `npm run deploy`
+Deploy to AWS Lambda with `npm run deploy`
 
 ```bash
 # make sure you have yarn, could use `npm i -g yarn to install`
-# then run this cmd to deploy to aws lamda, full build, may take more time
+# then run this cmd to deploy to AWS Lambda, full build, may take more time
 npm run deploy
 
-## watch lamda server log
+## watch Lambda server log
 npm run watch
 
 ## update function
@@ -192,10 +191,10 @@ npm run update
 npm run u
 ```
 
-- Create api gateway for your lamda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
-- Make sure your lamda function role has permission to read/write dynamodb(Set this from aws IAM roles, could simply attach `AmazonDynamoDBFullAccess` policy to lamda function's role)
-- Make sure your lamda function's timeout more than 5 minutes
-- Do not forget to set your ringcentral app's redirect URL to lamda's api gateway url, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/bot-oauth` for bot app, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/user-oauth` for user app.
+- Create API Gateway for your Lambda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
+- Make sure your Lambda function role has permission to read/write dynamodb(Set this from aws IAM roles, could simply attach `AmazonDynamoDBFullAccess` policy to Lambda function's role)
+- Make sure your Lambda function's timeout more than 5 minutes
+- Do not forget to set your RingCentral app's redirect URL to Lambda's API Gateway URL, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/bot-oauth` for bot app, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/user-oauth` for user app.
 
 ## Editing This Tutorial
 
