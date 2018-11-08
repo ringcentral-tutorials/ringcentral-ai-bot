@@ -1,6 +1,6 @@
 {
     "title": "Building a RingCentral AI Chatbot",
     "repo": "ringcentral-tutorials/ringcentral-ai-bot",
-    "description": "Welcome to RingCentral AI Chatbot tutorial! This tutorial will guide you through building a complete, public chatbot including user auth to third party services, subscribing to notifications, processing events and posting messages.\n\nClick the \"Start\" button below to see how Viewsaurus works.",
+    "description": "Welcome to the RingCentral AI Chatbot tutorial! In this tutorial you will be guided through the process of setting up and deploying a public bot on the RingCentral Glip messaging platform. The bot you will create will intercept your RingCentral voicemail messages and notify you via Glip along with a transcription and high-level analytics of the voicemail (e.g. sentiment analysis, etc). The bot you will build is provided on top of a comprehensive framework that proactively addresses many of the challenges developers face when they are done prototyping, and ready to move their bot to a production environment. These challenges include:\n\n* user auth to third party services\n* notification subscriptions\n* event processing\n* message posting\n\nTo get started, click the \"Start Tutorial\" button below.",
     "heroku": false
 }
