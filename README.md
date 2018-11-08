@@ -31,7 +31,7 @@ yarn proxy
 # https://xxxxxx.ngrok.io ---> http://localhost:7867
 # you can check ngrok status from http://localhost:4040
 ```
-- After starting the ngrok server, you can set your RingCentral app's redirect URL to lamda's api gateway url, `https://xxxxxx.ngrok.io/bot-oauth` for bot app, `https://xxxxxx.ngrok.io/user-oauth` for user app, ngrok will proxy the request to your local server.
+- After starting the ngrok server, you can set your RingCentral app's redirect URL to Lambda's API Gateway URL, `https://xxxxxx.ngrok.io/bot-oauth` for bot app, `https://xxxxxx.ngrok.io/user-oauth` for user app, ngrok will proxy the request to your local server.
 - Go to your RingCentral developer site, in bot app's bot page, click `Add to glip`, do remember the bot name you specified, we will need it in next section.
 
 ## Test the bot
@@ -62,7 +62,7 @@ pm2 start bin/pm2.yml
 
 AWS Lamda with API Gateway and DynamoDB would give us a flexible way to deploy bot.
 
-- **ONLY works in linux**, AWS Lambda is in linux x64, some dependencies need to be prebuilt and upload to Lambda, so need the build process in linux x64, you could do it in CI or any linux server/destop env.
+- **ONLY works in linux**, AWS Lambda is in Linux x64, some dependencies need to be prebuilt and upload to Lambda, so need the build process in Linux x64, you could do it in CI or any Linux server/destop env.
 
 - Get an AWS account, create `aws_access_key_id` and `aws_secret_access_key`, put it in `~/.aws/credentials`, like this:
 
@@ -113,10 +113,10 @@ Deploy to AWS Lambda with `npm run deploy`
 
 ```bash
 # make sure you have yarn, could use `npm i -g yarn to install`
-# then run this cmd to deploy to aws lamda, full build, may take more time
+# then run this cmd to deploy to AWS Lambda, full build, may take more time
 npm run deploy
 
-## watch lamda server log
+## watch Lambda server log
 npm run watch
 
 ## update function
@@ -126,10 +126,10 @@ npm run update
 npm run u
 ```
 
-- Create api gateway for your lamda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
-- Make sure your lamda function role has permission to read/write dynamodb(Set this from aws IAM roles, could simply attach `AmazonDynamoDBFullAccess` policy to lamda function's role)
-- Make sure your lamda function's timeout more than 5 minutes
-- Do not forget to set your ringcentral app's redirect URL to lamda's api gateway url, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/bot-oauth` for bot app, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/user-oauth` for user app.
+- Create API Gateway for your Lambda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
+- Make sure your Lambda function role has permission to read/write dynamodb(Set this from aws IAM roles, could simply attach `AmazonDynamoDBFullAccess` policy to Lambda function's role)
+- Make sure your Lambda function's timeout more than 5 minutes
+- Do not forget to set your RingCentral app's redirect URL to Lambda's API Gateway URL, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/bot-oauth` for bot app, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/user-oauth` for user app.
 
 ## Edit tutorial
 
