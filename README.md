@@ -21,9 +21,9 @@ The bot provided by this project is capable of responding to the following comma
 
 When a voicemail is received, the bot will post a transcript of the voicemail to the user, along with some high-level analysis of the contents of the voicemail. 
 
-### Framework
+### Future Framework
 
-This bot is included as part of a larger Glip bot framework that seeks to eliminate the need to develop a lot of the mundane functions necessary to support a bot that is easily deployed, and authorized to access a user's account. Here are some of the functions this framework provides to developers:
+This bot is includes core bot features that are intended to be extracted to a Glip bot framework that seeks to eliminate the need to develop a lot of the mundane functions necessary to support a bot that is easily deployed, and authorized to access a user's account. Here are some of the functions this framework will provide to developers:
 
 * Implements an OAuth flow for adding bots to a Glip organization.
 * Implements an OAuth flow for prompting users to grant the bot permission to access their RingCentral account data.
@@ -71,12 +71,12 @@ Login to [developer.ringcentral.com](https://developer.ringcentral.com) and crea
   * Choose a name and description you prefer.
 * App Type and Platform
   * **Application Type**: Public
-  * **Platform Type**: Server/Bot
+  * **Platform Type**: `Server/Bot`
   * **Carrier**: *accept the default values*
 * OAuth Settings
   * **Permissions Needed**: All of them (ReadContacts, ReadMessages, ReadPresence, Contacts, ReadAccounts, SMS, InternalMessages, ReadCallLog, ReadCallRecording, WebhookSubscrip\
 tions, Glip)
-       * **OAuth Redirect URI**: Using your ngrok HTTPS URL from above, enter in the following value:
+  * **OAuth Redirect URI**: Using your ngrok HTTPS URL from above, enter in the following value:
           `https://1234abcd.ngrok.io/oauth-bot`
 
 #### Web-based App
@@ -85,7 +85,7 @@ tions, Glip)
   * Choose a name and description you prefer. 
 * App Type and Platform
   * **Application Type**: Public
-  * **Platform Type:** Browser-based
+  * **Platform Type:** `Browser-based`
   * **Carrier**: *accept the default values*
 * OAuth Settings
   * **Permissions Needed**: All of them (ReadContacts, ReadMessages, ReadPresence, Contacts, ReadAccounts, SMS, InternalMessages, ReadCallLog, ReadCallRecording, WebhookSubscriptions, Glip)
