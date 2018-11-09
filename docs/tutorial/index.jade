@@ -7,6 +7,9 @@ style.
     list-style-type: decimal;
     list-style-position: inside;
   }
+  #viewsaurus menu, #viewsaurus ol, #viewsaurus ul {
+      padding: 0 0 0 15px;
+  }
 script.
   window.addEventListener('load', function() {
     document.querySelectorAll('.saurus-content a').forEach(function(dom) {
@@ -62,11 +65,13 @@ script.
 
       ### Sign-up for Google Cloud APIs
 
+      **Note** If you want to see how it work quickly, you do can skip this part, bot will still work, just with fake demo data.
+
       This demo relies on Google's Cloud Speech API for transcription, and its Natural Language API for analysis. This will require you to [create and activate a Google Cloud API account](https://cloud.google.com/speech-to-text/), and download access credentials to your local machine. 
 
       Accounts are free, and to access the APIs required by this guide you will need to enter in a valid credit card. Your credit card **will not** be charged unless you manually upgrade to a paid account. 
 
-      Google will prompt you to download your GOOGLE_APPLICATION_CREDENTIALS file. Save this file as `google_cloud.json` and save it to the root of the git repository you cloned above. 
+      Google will prompt you to download your GOOGLE_APPLICATION_CREDENTIALS file. Save this file as `google_cloud.json` and save it to the root of the git repository you cloned above.
 
       ### Setup Your Proxy
 
@@ -149,7 +154,7 @@ script.
       * `RINGCENTRAL_USER_CLIENT_SECRET`
       * `GOOGLE_APPLICATION_CREDENTIALS`
 
-      For the Google credentials, enter in the path to the `google_cloud.json` file you downloaded and saved earlier. 
+      For the Google credentials, enter in the path to the `google_cloud.json` file you downloaded and saved earlier, or leave empty, then bot will use fake demo data to demo the process.
 
       ### Start the Server
 
