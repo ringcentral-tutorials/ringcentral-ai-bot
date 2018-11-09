@@ -27,7 +27,7 @@ export default async (event) => {
       await user.processVoiceMail(newMailCount)
     }
 
-    // replace line34-36 with this section, which will only tell chat group how many new voicemail we get
+    // replace line26-28 with this section, which will only tell chat group how many new voicemail we get
     // else if (user) {
     //   for (const groupId of Object.keys(user.groups)) {
     //     const botId = user.groups[groupId]
