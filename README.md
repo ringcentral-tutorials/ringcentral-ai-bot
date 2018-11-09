@@ -39,7 +39,7 @@ A detailed guide for getting the bot up and running is provided in the [bot's tu
 
 - Node.js >= 8.10
 - Yarn
-- a Google API account with a [saved Google credentials file](https://cloud.google.com/docs/authentication/getting-started)
+- a Google API account with a [saved Google credentials file](https://cloud.google.com/docs/authentication/getting-started), note that you can still run local demo to see how it works without Google account/credential, but with fake demo data.
 
 ### Setup the Project
 
