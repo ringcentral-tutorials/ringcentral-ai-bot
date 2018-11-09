@@ -211,12 +211,10 @@ cp .sample.env .env
   &#39;/restapi/v1.0/account/~/extension/~/message-store&#39;,
   &#39;/restapi/v1.0/subscription/~?threshold=59&amp;interval=15&#39;
 ]
-</code></pre><ol>
-<li><p>The <code>message-store</code> event will be triggered when a new voicemail is received.</p>
-</li>
-<li><p>The <code>/restapi/v1.0/subscription/~?threshold=59&amp;interval=15</code> event will be triggered whenever the <code>message-store</code> event is about to expire. This ensures that as long as the bot is running, we will continually renew our subscription to voicemail events. In the event that the bot server is taken down, then the subscription will be permitted to expire gracefully. </p>
-</li>
-</ol>
+</code></pre><ul>
+<li>The <code>message-store</code> event will be triggered when a new voicemail is received.</li>
+<li>The <code>/restapi/v1.0/subscription/~?threshold=59&amp;interval=15</code> event will be triggered whenever the <code>message-store</code> event is about to expire. This ensures that as long as the bot is running, we will continually renew our subscription to voicemail events. In the event that the bot server is taken down, then the subscription will be permitted to expire gracefully.</li>
+</ul>
 <p>Learn more about <a href="https://github.com/ringcentral/ringcentral-api-docs/blob/master/docs/notifications_webhooks.md">reminder hooks</a> from RingCentral&#39;s github repository. </p>
 <p>Next, we will see how to respond to a voicemail event. </p>
 </div><div data-title="Responding to User Webhooks" data-file="../src/lamda/lib/user-webhook.js" data-highlight="10-47" class="step"><h2 id="responding-to-user-webhooks">Responding to User Webhooks</h2>

@@ -309,9 +309,8 @@ script.
       ]
       ```
 
-      1. The `message-store` event will be triggered when a new voicemail is received.
-
-      2. The `/restapi/v1.0/subscription/~?threshold=59&interval=15` event will be triggered whenever the `message-store` event is about to expire. This ensures that as long as the bot is running, we will continually renew our subscription to voicemail events. In the event that the bot server is taken down, then the subscription will be permitted to expire gracefully. 
+      - The `message-store` event will be triggered when a new voicemail is received.
+      - The `/restapi/v1.0/subscription/~?threshold=59&interval=15` event will be triggered whenever the `message-store` event is about to expire. This ensures that as long as the bot is running, we will continually renew our subscription to voicemail events. In the event that the bot server is taken down, then the subscription will be permitted to expire gracefully.
 
       Learn more about [reminder hooks](https://github.com/ringcentral/ringcentral-api-docs/blob/master/docs/notifications_webhooks.md) from RingCentral's github repository. 
 
@@ -334,7 +333,7 @@ script.
     :markdown
       ## Processing Incoming Voicemails
 
-      To process an incoming voicemail, we interface with a 3rd party service: Google's voice transcription and analysis APIs. 
+      To process an incoming voicemail, we interface with a 3rd party service: Google's voice transcription and Google's cloud AI(Cloud Natural Language API).
 
       When you receive the new voicemail event, process the voicemail by transcribing it to text and then analyzing the text. To help keep our code clean and modular, we place the code that interfaces with this external service in a [separate module](https://github.com/zxdong262/audio-analysis-service). 
 
