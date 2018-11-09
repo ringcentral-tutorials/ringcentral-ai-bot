@@ -69,7 +69,7 @@ script.
 
       This demo relies on Google's Cloud Speech API for transcription, and its Natural Language API for analysis. This will require you to [create and activate a Google Cloud API account](https://cloud.google.com/speech-to-text/), and download access credentials to your local machine. 
 
-      Accounts are free, and to access the APIs required by this guide you will need to enter in a valid credit card. Your credit card **will not** be charged unless you manually upgrade to a paid account. 
+      Accounts are free, and to access the APIs required by this guide you will need to enter in a valid credit card. Your credit card **will not** be charged unless you manually upgrade to a paid account.
 
       Google will prompt you to download your GOOGLE_APPLICATION_CREDENTIALS file. Save this file as `google_cloud.json` and save it to the root of the git repository you cloned above.
 
@@ -352,11 +352,11 @@ script.
       * Customize the response sent to the user when a new voicemail is received. 
       * Add a custom command of your design and choosing. 
 
- .step(data-title='Support the "unmonitor" command', data-file='../src/lambda/lib/bot-webhook.js', data-highlight='63-75')
+ .step(data-title='Support the "unmonitor" command', data-file='../src/lambda/lib/bot-webhook.js', data-highlight='64-83')
     :markdown
       ## Support the "unmonitor" command
 
-      We left the "unmonitor" command unimplemented. All you have to do is uncomment lines 65-74, and restart your server.
+      We left the "unmonitor" command unimplemented. All you have to do is ncomment line s74-82 and comment out lines 68-72, and restart your server.
 
       Ask yourself, what are the two states we must account for when processing an unmonitor command?
 
@@ -364,7 +364,7 @@ script.
     :markdown
       ## Show the number of new voicemails received
 
-      Some people may find the transcription posted by the bot to be cumbersome. So let's simplify the response by simply notifying the user they received a new voicemail, and by telling them how many voicemails they have waiting. 
+      Some people may find the transcription posted by the bot to be cumbersome. So let's simplify the response by simply notifying the user they received a new voicemail, and by telling them how many voicemails they have waiting.
 
       Do that by commenting out lines 26-28, and uncommenting lines 31-40.
 
@@ -378,7 +378,7 @@ script.
 
       Replace lines 26-28, write you own process function, and send some custom response about new voicemail.
 
- .step(data-title='Add a custom command', data-file='../src/lambda/lib/bot-webhook.js', data-highlight='92-93')
+ .step(data-title='Add a custom command', data-file='../src/lambda/lib/bot-webhook.js', data-highlight='101-101')
     :markdown
       ## Add a custom command
 

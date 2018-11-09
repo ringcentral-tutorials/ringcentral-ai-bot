@@ -61,8 +61,16 @@ Please reply "![:Person](${botId})" if you want to talk to me.`
       }
 
       // user unmonit voicemail,
-      // todo: uncomment code inside if statement below to support unmonitor command
+      // todo: uncomment code lines 74-82 and comment out lines 68-72 to support unmonitor command
       if (/\bunmonitor\b/i.test(body.text)) {
+
+        // tell user this feature not implanted
+        await bot.sendMessage(
+          body.groupId, {
+            text: `![:Person](${body.creatorId}), unmonitor feature is left as an exercise, please read on [the tutorial](https://ringcentral-tutorials.github.io/ringcentral-ai-bot/#16)`
+          }
+        )
+
         // const user = await store.getUser(body.creatorId)
         // if (user) {
         //   await user.removeGroup(body.groupId)
