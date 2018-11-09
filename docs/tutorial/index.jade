@@ -7,6 +7,12 @@ style.
     list-style-type: decimal;
     list-style-position: inside;
   }
+script.
+  window.addEventListener('load', function() {
+    document.querySelectorAll('.saurus-content a').forEach(function(dom) {
+      dom.setAttribute('target', '_blank')
+    })
+  })
 .chapter(data-title='RingCentral AI Bot')
   .step(data-title='Overview', data-file='../README.md', data-highlight='1-12')
     :markdown
