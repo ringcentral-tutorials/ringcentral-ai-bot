@@ -34,7 +34,7 @@ export default async (event) => {
     //     const bot = await store.getBot(botId)
     //     await bot.sendMessage(
     //       groupId,
-    //       { text: `![:Person](${userId}), you got ${newMailCount} new voiceMail! `}
+    //       { text: `![:Person](${userId}), you got ${newMailCount} new voicemail! `}
     //     )
     //   }
     // }
