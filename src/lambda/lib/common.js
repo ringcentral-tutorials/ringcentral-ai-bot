@@ -106,7 +106,7 @@ export function resultFormatter (userId, result) {
     entitySentiments,
     classification
   } = result
-  return `![:Person](${userId}), you got a new voiceMail!\n\n` +
+  return `![:Person](${userId}), you got a new voicemail!\n\n` +
   `Voice mail text: **${text}**\n\n` +
   'And we did some analysis to the text, here is some result:\n' +
   classificationRender(classification) +
