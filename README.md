@@ -39,7 +39,6 @@ A detailed guide for getting the bot up and running is provided in the [bot's tu
 
 - Node.js >= 8.10
 - Yarn
-- ngrok, or another publically addressable endpoint on the web to receive webhooks
 - a Google API account with a [saved Google credentials file](https://cloud.google.com/docs/authentication/getting-started)
 
 ### Setup the Project
