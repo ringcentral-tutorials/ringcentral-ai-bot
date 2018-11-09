@@ -4,7 +4,7 @@ This project contains the code and resources needed for developers to build and 
 assistant bot on top of the RingCentral Glip messaging platform. The bot contained within this 
 framework can, with a user's permission, monitor a user's voicemail for incoming messages, and 
 then alert the user via a Glip message of a new voicemail. In addition, it can interface with 
-Google's speech-to-text APIs to transcribe the incoming message and post that to the user as well. 
+Google's speech-to-text APIs to transcribe the incoming message, analysis with Google's cloud AI(Cloud Natural Language API) and post the text and result to user as well.
 
 The bot contained within is meant to be used in conjunction with a 
 [detailed tutorial](https://ringcentral-tutorials.github.io/ringcentral-ai-bot/) on building bots 
@@ -181,21 +181,20 @@ Edit `lamda/serverless.yml`, and make sure you set the proper name and required 
 
 ```
 
-Deploy to AWS Lambda with `npm run deploy`
+Deploy to AWS Lambda with `yarn deploy`
 
 ```bash
-# make sure you have yarn, could use `npm i -g yarn to install`
-# then run this cmd to deploy to AWS Lambda, full build, may take more time
-npm run deploy
+# Run this cmd to deploy to AWS Lambda, full build, may take more time
+yarn deploy
 
 ## watch Lambda server log
-npm run watch
+yarn watch
 
 ## update function
-npm run update
+yarn update
 
 ## update without build, fast update, no rebuild
-npm run u
+yarn u
 ```
 
 - Create API Gateway for your Lambda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
