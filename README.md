@@ -147,10 +147,10 @@ aws_secret_access_key = <your aws_secret_access_key>
 For more information, refer to https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
 
 ```bash
-cp lamda/serverless.sample.yml lamda/serverless.yml
+cp lambda/serverless.sample.yml lambda/serverless.yml
 ```
 
-Edit `lamda/serverless.yml`, and make sure you set the proper name and required env.
+Edit `lambda/serverless.yml`, and make sure you set the proper name and required env.
 
 ```yml
 # you can define service wide environment variables here

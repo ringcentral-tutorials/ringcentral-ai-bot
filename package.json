@@ -2,7 +2,7 @@
   "name": "ringcentral-ai-bot",
   "version": "0.8.0",
   "description": "POC of ringcentral glip ai bot",
-  "main": "lamda/handler.js",
+  "main": "lambda/handler.js",
   "scripts": {
     "test": "npm run test",
     "build": "node bin/build",
@@ -12,11 +12,11 @@
     "prod-server": "NODE_ENV=production node server/run-dev-server.js",
     "proxy": "ngrok http 7867",
     "docs": "cd docs && npx saurus author",
-    "watch": "cd lamda && serverless logs -f bot -t",
+    "watch": "cd lambda && serverless logs -f bot -t",
     "deploy-to-aws": "node bin/deploy-to-aws",
     "update-to-aws": "node bin/update-to-aws",
     "u": "npm run update-to-aws",
-    "s:watch": "cd lamda && ../node_modules/.bin/serverless logs -f hello -t",
+    "s:watch": "cd lambda && ../node_modules/.bin/serverless logs -f hello -t",
     "lint": "./node_modules/.bin/eslint --max-warnings 0 --ext .js  src",
     "start": "npm run dev",
     "dev": "node ./src/server/run-dev-server"

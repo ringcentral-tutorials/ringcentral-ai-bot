@@ -1,9 +1,9 @@
 const {exec, echo, cp, rm} = require('shelljs')
-echo('compiling lamda files')
+echo('compiling lambda files')
 cp('-rf', [
-  'src/lamda/*.js'
-], 'lamda/')
-rm('-rf', 'lamda/lib')
-rm('-rf', 'lamda/common')
-exec('./node_modules/.bin/babel src/lamda/lib --out-dir lamda/lib')
+  'src/lambda/*.js'
+], 'lambda/')
+rm('-rf', 'lambda/lib')
+rm('-rf', 'lambda/common')
+exec('./node_modules/.bin/babel src/lambda/lib --out-dir lambda/lib')
 

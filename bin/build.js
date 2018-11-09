@@ -8,13 +8,13 @@ let pkg = require(
 )
 delete pkg.scripts.postinstall
 fs.writeFileSync(
-  resolve(__dirname, '../lamda/package.json'),
+  resolve(__dirname, '../lambda/package.json'),
   JSON.stringify(pkg, null, 2)
 )
 cp('-r', [
   'bin/.yarnclean'
-], 'lamda/')
-exec('cd lamda && rm -rf node_modules && npm i --production')
+], 'lambda/')
+exec('cd lambda && rm -rf node_modules && npm i --production')
 exec('yarn compile-server')
-exec('cd lamda && yarn generate-lock-entry > yarn.lock && yarn autoclean --force && rm -rf package* && rm -rf .yarnclean && rm -rf yarn.lock')
+exec('cd lambda && yarn generate-lock-entry > yarn.lock && yarn autoclean --force && rm -rf package* && rm -rf .yarnclean && rm -rf yarn.lock')
 echo('build done')

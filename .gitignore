@@ -33,13 +33,13 @@ test/e2e/reports
 /pm2
 /package-bak.json
 package-lock.json
-/lamda/config.js
-/lamda/lib/
-/lamda/common/
-/lamda/serverless.yml
-/lamda/*.js
-/lamda/*.json
-/lamda/.yarnclean
+/lambda/config.js
+/lambda/lib/
+/lambda/common/
+/lambda/serverless.yml
+/lambda/*.js
+/lambda/*.json
+/lambda/.yarnclean
 # Runtime data
 #pids
 

@@ -8,8 +8,8 @@ import conditional from 'koa-conditional-get'
 import etag from 'koa-etag'
 import compress from 'koa-compress'
 import Router from 'koa-router'
-import {bot} from '../lamda/handler'
-import {log} from '../lamda/lib/common'
+import {bot} from '../lambda/handler'
+import {log} from '../lambda/lib/common'
 import http from 'http'
 import {resolve} from 'path'
 
@@ -61,7 +61,7 @@ const start = function () {
       }
     }
   })
-  //lamda handler wrapper
+  //lambda handler wrapper
   let handler = async (ctx) => {
     let event = {
       headers: ctx.headers,

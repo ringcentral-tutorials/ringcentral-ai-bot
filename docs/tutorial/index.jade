@@ -185,7 +185,7 @@ script.
 
       ![chat content screeshot](https://user-images.githubusercontent.com/1641949/48107596-34d48d80-e27b-11e8-8150-48b1fcf912c6.png)
 
-  .step(data-title='Code Walk-through', data-file='../src/lamda/lib/bot-oauth.js')
+  .step(data-title='Code Walk-through', data-file='../src/lambda/lib/bot-oauth.js')
     :markdown
       ## Code Walk-through
 
@@ -199,7 +199,7 @@ script.
       * Responding to User Webhooks
       * Processing Incoming Voicemails
 
-  .step(data-title='Bot Authentication', data-file='../src/lamda/lib/bot-oauth.js', data-highlight='10-13')
+  .step(data-title='Bot Authentication', data-file='../src/lambda/lib/bot-oauth.js', data-highlight='10-13')
     :markdown
       ## Bot Authentication
 
@@ -218,7 +218,7 @@ script.
 
       We will dive into how we subscribe to these events next. 
 
-  .step(data-title='Subscribing to Bot Events', data-file='../src/lamda/lib/store.js', data-highlight='94-118')
+  .step(data-title='Subscribing to Bot Events', data-file='../src/lambda/lib/store.js', data-highlight='94-118')
     :markdown
       ## Subscribing to Bot Events
 
@@ -245,7 +245,7 @@ script.
 
       Next we will show how to receive an event notification and respond to it. 
 
-  .step(data-title='Responding to Bot Webhooks', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='31-51')
+  .step(data-title='Responding to Bot Webhooks', data-file='../src/lambda/lib/bot-webhook.js', data-highlight='31-51')
     :markdown
       ## Responding to Bot Webhooks
 
@@ -258,7 +258,7 @@ script.
 
       Next we will show how to post a message back to the user. 
 
-  .step(data-title='Posting a Bot Message', data-file='../src/lamda/lib/store.js', data-highlight='144-150')
+  .step(data-title='Posting a Bot Message', data-file='../src/lambda/lib/store.js', data-highlight='144-150')
     :markdown
       ## Posting a Bot Message
 
@@ -274,7 +274,7 @@ script.
 
       This bot requires a user to grant the bot permission to access their voicemail. Next, we will review how this authorization flow is enabled. 
 
-  .step(data-title='User Authorization of the Bot (Step 1)', data-file='../src/lamda/lib/store.js', data-highlight='192-197')
+  .step(data-title='User Authorization of the Bot (Step 1)', data-file='../src/lambda/lib/store.js', data-highlight='192-197')
     :markdown
       ## User Authorization of the Bot (step 1)
 
@@ -284,7 +284,7 @@ script.
 
       Next, we will send it to the user when necessary. 
 
-  .step(data-title='User Authorization of the Bot (step 2)', data-file='../src/lamda/lib/user-oauth.js', data-highlight='9-21')
+  .step(data-title='User Authorization of the Bot (step 2)', data-file='../src/lambda/lib/user-oauth.js', data-highlight='9-21')
     :markdown
       ## User Authorization of the Bot (step 2)
 
@@ -294,7 +294,7 @@ script.
 
       Next, we will subscribe to voicemail events. 
 
-  .step(data-title='Subscribing to Voicemail Events', data-file='../src/lamda/lib/store.js', data-highlight='251-264')
+  .step(data-title='Subscribing to Voicemail Events', data-file='../src/lambda/lib/store.js', data-highlight='251-264')
     :markdown
       ## Subscribing to Voicemail Events
 
@@ -316,7 +316,7 @@ script.
 
       Next, we will see how to respond to a voicemail event. 
 
-  .step(data-title='Responding to User Webhooks', data-file='../src/lamda/lib/user-webhook.js', data-highlight='10-47')
+  .step(data-title='Responding to User Webhooks', data-file='../src/lambda/lib/user-webhook.js', data-highlight='10-47')
     :markdown
       ## Responding to User Webhooks
 
@@ -329,19 +329,19 @@ script.
 
       Next, we will process the voicemail. 
 
- .step(data-title='Processing Incoming Voicemails', data-file='../src/lamda/lib/voicemail-process.js', data-highlight='37-62')
+ .step(data-title='Processing Incoming Voicemails', data-file='../src/lambda/lib/voicemail-process.js', data-highlight='37-62')
     :markdown
       ## Processing Incoming Voicemails
 
       To process an incoming voicemail, we interface with a 3rd party service: Google's voice transcription and Google's cloud AI(Cloud Natural Language API).
 
-      When you receive the new voicemail event, process the voicemail by transcribing it to text and then analyzing the text. To help keep our code clean and modular, we place the code that interfaces with this external service in a [separate module](https://github.com/zxdong262/audio-analysis-service). 
+      When you receive the new voicemail event, process the voicemail by transcribing it to text and then analyzing the text. To help keep our code clean and modular, we place the code that interfaces with this external service in a [separate module](https://github.com/zxdong262/audio-analysis-service).
 
-      You may have noticed that by default we utilize fake voicemail data to handle the case where the developer next configured their `GOOGLE_APPLICATION_CREDENTIALS` in their `.env` file. Otherwise, the voicemail is processed using through the library/module above, and the results output to the user via a Glip message. 
+      You may have noticed that by default we utilize fake voicemail data to handle the case where the developer next configured their `GOOGLE_APPLICATION_CREDENTIALS` in their `.env` file. Otherwise, the voicemail is processed using through the library/module above, and the results output to the user via a Glip message.
 
       That is the whole process, from start to finish. With this knowledge, we invite you to challenge yourself by adding additional functionality to your bot. 
 
- .step(data-title='Test Your Knowledge', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='63-75')
+ .step(data-title='Test Your Knowledge', data-file='../src/lambda/lib/bot-webhook.js', data-highlight='63-75')
     :markdown
       ## Test Your Knowledge
 
@@ -352,7 +352,7 @@ script.
       * Customize the response sent to the user when a new voicemail is received. 
       * Add a custom command of your design and choosing. 
 
- .step(data-title='Support the "unmonitor" command', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='63-75')
+ .step(data-title='Support the "unmonitor" command', data-file='../src/lambda/lib/bot-webhook.js', data-highlight='63-75')
     :markdown
       ## Support the "unmonitor" command
 
@@ -360,7 +360,7 @@ script.
 
       Ask yourself, what are the two states we must account for when processing an unmonitor command?
 
- .step(data-title='Show the number of new voicemails received', data-file='../src/lamda/lib/user-webhook.js', data-highlight='24-40')
+ .step(data-title='Show the number of new voicemails received', data-file='../src/lambda/lib/user-webhook.js', data-highlight='24-40')
     :markdown
       ## Show the number of new voicemails received
 
@@ -368,7 +368,7 @@ script.
 
       Do that by commenting out lines 26-28, and uncommenting lines 31-40.
 
- .step(data-title='Customize the voicemail response', data-file='../src/lamda/lib/user-webhook.js', data-highlight='24-40')
+ .step(data-title='Customize the voicemail response', data-file='../src/lambda/lib/user-webhook.js', data-highlight='24-40')
     :markdown
       ## Customize the voicemail response
 
@@ -378,7 +378,7 @@ script.
 
       Replace lines 26-28, write you own process function, and send some custom response about new voicemail.
 
- .step(data-title='Add a custom command', data-file='../src/lamda/lib/bot-webhook.js', data-highlight='92-93')
+ .step(data-title='Add a custom command', data-file='../src/lambda/lib/bot-webhook.js', data-highlight='92-93')
     :markdown
       ## Add a custom command
 
