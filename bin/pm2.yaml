@@ -1,6 +1,6 @@
 apps:
     name: ringcentral-ai-bot
-    script: ./server/run-dev-server.js
+    script: ./server/run-prod-server.js
     exec_mode : cluster
     error_file: ./logs/rc-bot_err.log
     out_file: ./logs/rc-bot_out.log
