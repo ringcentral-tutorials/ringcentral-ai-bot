@@ -161,7 +161,7 @@ export function delay(time) {
 }
 
 export async function selfTrigger(event) {
-  console.log(event, 'selftrigger event')
+  log(event, 'selftrigger event')
   const Lambda = require('aws-sdk/clients/lambda')
   const lambda = new Lambda({ region: process.env.AWS_REGION })
   let opts = {
@@ -169,7 +169,9 @@ export async function selfTrigger(event) {
     InvocationType: 'Event', // so `lambda.invoke` is async
     Payload: JSON.stringify(event)
   }
-  lambda.invoke(opts)
+  lambda.invoke(opts, function(...args) {
+    log(...args)
+  })
   await delay(2000)
 }
 
