@@ -7,7 +7,7 @@ import userauth from './user-oauth'
 import bothook from './bot-webhook'
 import userhook from './user-webhook'
 import _ from 'lodash'
-import {handleEvent, debug} from './common'
+import {handleEvent, log} from './common'
 
 const mapper = {
   'bot-oauth': botauth,
@@ -18,9 +18,9 @@ const mapper = {
 }
 
 export default event => {
-  debug('----------event get--------------')
-  debug(event)
-  debug('-----------event get-------------')
+  log('----------event get--------------')
+  log(event)
+  log('-----------event get-------------')
   let { action = 'alien' } = event.pathParameters || {}
   let handler = mapper[action] || handleEvent
   event.body = event.body || {}
