@@ -18,8 +18,6 @@ export default async (event) => {
  * @param {object} event
  */
 export async function renewBot (event) {
-  console.log('renew bot event')
-  console.log(event)
   if(event.wait) {
     await delay(event.wait)
   }
@@ -27,6 +25,6 @@ export async function renewBot (event) {
   bot.id = event.botId
   bot.token = event.token
   await bot.writeToDb()
-  await bot.renewWebHooks()
+  await bot.renewWebHooks(event)
   return result('Bot renew done')
 }

@@ -161,7 +161,9 @@ export function delay(time) {
 }
 
 export async function selfTrigger(event) {
-  log(event, 'selftrigger event')
+  if (!process.env.AWS_REGION) {
+    return require('./bot-oauth').renewBot(event)
+  }
   const Lambda = require('aws-sdk/clients/lambda')
   const lambda = new Lambda({ region: process.env.AWS_REGION })
   let opts = {
