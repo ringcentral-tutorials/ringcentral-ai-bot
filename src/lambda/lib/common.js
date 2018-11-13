@@ -150,3 +150,30 @@ export function handleRCError(type, e) {
     _.get(e, 'response.data') || e.stack
   )
 }
+
+/**
+ * wait async
+ */
+export function delay(time) {
+  return new Promise(resolve => {
+    setTimeout(resolve, time)
+  })
+}
+
+export async function selfTrigger(event) {
+  if (!process.env.AWS_REGION) {
+    return require('./bot-oauth').renewBot(event)
+  }
+  const Lambda = require('aws-sdk/clients/lambda')
+  const lambda = new Lambda({ region: process.env.AWS_REGION })
+  let opts = {
+    FunctionName: process.env.AWS_LAMBDA_FUNCTION_NAME,
+    InvocationType: 'Event', // so `lambda.invoke` is async
+    Payload: JSON.stringify(event)
+  }
+  lambda.invoke(opts, function(...args) {
+    log(...args)
+  })
+  await delay(2000)
+}
+
