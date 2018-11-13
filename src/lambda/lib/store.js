@@ -93,7 +93,7 @@ export const Bot = new Subx({
       token
     })
   },
-  async setupWebHook () {
+  async setupWebHook (event) {
     log('bot subscribe fail, will do subscribe one minutes later')
     event.wait = 50 * 1000
     event.botId = this.id
