@@ -161,6 +161,7 @@ export function delay(time) {
 }
 
 export async function selfTrigger(event) {
+  console.log(event, 'selftrigger event')
   const Lambda = require('aws-sdk/clients/lambda')
   const lambda = new Lambda({ region: process.env.AWS_REGION })
   let opts = {
