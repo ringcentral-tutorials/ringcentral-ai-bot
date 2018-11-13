@@ -27,7 +27,7 @@ This bot is includes core bot features that are intended to be extracted to a Gl
 
 * Implements an OAuth flow for adding bots to a Glip organization.
 * Implements an OAuth flow for prompting users to grant the bot permission to access their RingCentral account data.
-* Automatically refreshes event subscriptions before they expire. 
+* Automatically refreshes event subscriptions before they expire.
 * Provides a simple framework for developers to implement new commands and functionality. 
 * Persists and manages authentication tokens for users of the bot. 
 
@@ -197,7 +197,7 @@ yarn u
 ```
 
 - Create API Gateway for your Lambda function, shape as `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/{action+}`
-- Make sure your Lambda function role has permission to read/write dynamodb(Set this from AWS IAM roles, could simply attach `AmazonDynamoDBFullAccess` policy to Lambda function's role)
+- Make sure your Lambda function role has permission to read/write dynamodb(Set this from AWS IAM roles, could simply attach `AmazonDynamoDBFullAccess` and `AWSLambdaRole` policies to Lambda function's role)
 - Make sure your Lambda function's timeout more than 5 minutes
 - Do not forget to set your RingCentral app's redirect URL to Lambda's API Gateway URL, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/bot-oauth` for bot app, `https://xxxx.execute-api.us-east-1.amazonaws.com/default/poc-your-bot-name-dev-bot/user-oauth` for user app.
 
