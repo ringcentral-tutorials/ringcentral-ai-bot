@@ -5,7 +5,8 @@ import {processMail} from './voicemail-process'
 import db from './db'
 import {
   log, tables, resultFormatter, debug,
-  subscribeInterval, expiresIn, handleRCError
+  subscribeInterval, expiresIn, handleRCError,
+  selfTrigger
 } from './common'
 import _ from 'lodash'
 
@@ -93,31 +94,38 @@ export const Bot = new Subx({
     })
   },
   async setupWebHook () {
-    try {
-      await this.rc.post('/restapi/v1.0/subscription', {
-        eventFilters: botEventFilters(),
-        expiresIn: 500000000,
-        deliveryMode: {
-          transportType: 'WebHook',
-          address: process.env.RINGCENTRAL_BOT_SERVER + '/bot-webhook'
-        }
-      })
-    } catch (e) {
-      let data = _.get(e, 'response.data') || {}
-      let str = JSON.stringify(data)
-      if (str.includes('SUB-406')) {
-        log('bot subscribe fail, will do subscribe one minutes later')
-        setTimeout(
-          () => this.renewWebHooks(),
-          60 * 1000
-        )
-      } else {
-        handleRCError('Bot setupWebHook', e)
-        throw e
-      }
-    }
+    log('bot subscribe fail, will do subscribe one minutes later')
+    event.wait = 50 * 1000
+    event.botId = this.id
+    event.token = this.token
+    event.pathParameters.action = 'renew-bot'
+    await selfTrigger(event)
+    // try {
+    //   await this.rc.post('/restapi/v1.0/subscription', {
+    //     eventFilters: botEventFilters(),
+    //     expiresIn: 500000000,
+    //     deliveryMode: {
+    //       transportType: 'WebHook',
+    //       address: process.env.RINGCENTRAL_BOT_SERVER + '/bot-webhook'
+    //     }
+    //   })
+    // } catch (e) {
+    //   let data = _.get(e, 'response.data') || {}
+    //   let str = JSON.stringify(data)
+    //   if (str.includes('SUB-406')) {
+    //     log('bot subscribe fail, will do subscribe one minutes later')
+    //     event.wait = 50 * 1000
+    //     event.botId = this.id
+    //     event.token = this.token
+    //     event.pathParameters.action = 'renew-bot'
+    //     await selfTrigger(event)
+    //   } else {
+    //     handleRCError('Bot setupWebHook', e)
+    //     throw e
+    //   }
+    // }
   },
-  async renewWebHooks () {
+  async renewWebHooks (event) {
     try {
       const r = await this.rc.get('/restapi/v1.0/subscription')
       let filtered = r.data.records.filter(
@@ -126,7 +134,7 @@ export const Bot = new Subx({
         }
       )
       debug('bot subs list', filtered.map(g => g.id).join(','))
-      await this.setupWebHook()
+      await this.setupWebHook(event)
       for (let sub of filtered) {
         await this.delSubscription(sub.id)
       }

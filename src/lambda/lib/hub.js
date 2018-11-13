@@ -2,7 +2,7 @@
  * check event type, send event to different event handler
  */
 
-import botauth from './bot-oauth'
+import botauth, {renewBot} from './bot-oauth'
 import userauth from './user-oauth'
 import bothook from './bot-webhook'
 import userhook from './user-webhook'
@@ -13,7 +13,8 @@ const mapper = {
   'bot-oauth': botauth,
   'user-oauth': userauth,
   'bot-webhook': bothook,
-  'user-webhook': userhook
+  'user-webhook': userhook,
+  'renew-bot': renewBot
 }
 
 export default event => {
