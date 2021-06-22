@@ -111,7 +111,7 @@ yarn dev
 
 ### Test the Bot
 
-Login to https://glip-app.devtest.ringcentral.com, find the bot by searching its name. Talk to the bot, and follow the its instructions.
+Login to https://app.devtest.ringcentral.com, find the bot by searching its name. Talk to the bot, and follow the its instructions.
 
 ## Building and Running Your Bot in Production
 
