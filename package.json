@@ -83,7 +83,7 @@
     "audio-analysis-service": "0.1.2",
     "aws-sdk": "^2.342.0",
     "bluebird": "3.5.2",
-    "lodash": "4.17.11",
+    "lodash": "4.17.21",
     "ringcentral-js-concise": "0.6.2",
     "subx": "0.7.0"
   }
